@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticketing-auth
+  template:
+    metadata:
+      labels:
+        app: ticketing-auth
+    spec:
+      containers:
+        - name: ticketing-auth
+          image: ajayjb/ticketing-auth
