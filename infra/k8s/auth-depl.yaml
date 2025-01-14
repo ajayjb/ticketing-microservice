@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-deployment
+  name: ticketing-auth-deployment
 spec:
   replicas: 1
   selector:
@@ -15,3 +15,19 @@ spec:
       containers:
         - name: ticketing-auth
           image: ajayjb/ticketing-auth
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticketing-auth-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: ticketing-auth
+  ports:
+    - name: ticketing-auth-srv-port
+      protocol: TCP
+      port: 6000
+      targetPort: 6000
