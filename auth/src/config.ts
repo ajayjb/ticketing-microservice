@@ -1,16 +1,16 @@
 import "dotenv/config";
 
-interface ENV {
-  PORT: number | undefined;
+interface Env {
+  PORT: number;
 }
 
-const getConfig = (): ENV => {
+const getConfig = (): Env => {
   return {
-    PORT: process.env?.PORT ? Number(process.env.PORT) : undefined,
+    PORT: Number(process.env.PORT),
   };
 };
 
-const getSanitizedConfig = (config: ENV): ENV => {
+const getSanitizedConfig = (config: Env): Env => {
   for (const [key, value] of Object.entries(config)) {
     if (!value) {
       throw new Error(`Missing key ${key} in config.env`);

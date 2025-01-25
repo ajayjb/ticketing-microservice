@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ticketing-auth-deployment
+  name: ticketing-auth-depl
 spec:
   replicas: 1
   selector:
