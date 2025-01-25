@@ -34,16 +34,3 @@ class App {
 const app = new App();
 app.init();
 
-// function getFirst<T>(a: T[]) {
-//   return a[0];
-// }
-
-const getFirst = <T>(a: T[]): T => {
-  return a[0];
-};
-
-const nums = [1, 2, 3, 4];
-getFirst(nums);
-
-const strs = ["1", "2", "3", "4"];
-getFirst(strs);
