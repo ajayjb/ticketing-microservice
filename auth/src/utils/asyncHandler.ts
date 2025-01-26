@@ -11,8 +11,8 @@ const asyncHandler =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       return await execution(req, res, next);
-    } catch (error) {
-      return next(error);
+    } catch (err) {
+      return next(err);
     }
   };
 

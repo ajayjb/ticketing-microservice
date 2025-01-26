@@ -2,21 +2,26 @@ import express, { Request, Response } from "express";
 
 import { sanitizedConfig } from "./config.js";
 import { userRouter } from "./routes/index.js";
+import { ResponseStatusCode } from "./core/ApiResponse.js";
 
 class App {
   public server: express.Express;
 
   constructor() {
     this.server = express();
-    this.server.use(express.json());
 
-    this.server.get("/auth/health", this.healthCheck);
+    this.server.use(express.json());
+    this.server.use(this.errorHandler);
+
+    this.server.get("/auth/health", this.healthCheck);  
     this.registerRoutes();
   }
 
-  healthCheck(req: Request, res: Response): void {
-    res.send({
-      message: "Auth is alive!!!",
+  errorHandler(err: Error, req: Request, res: Response) {}
+
+  healthCheck(req: Request, res: Response): Response {
+    return res.status(ResponseStatusCode.SUCCESS).json({
+      message: "Auth is alive!",
     });
   }
 
@@ -33,4 +38,3 @@ class App {
 
 const app = new App();
 app.init();
-

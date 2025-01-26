@@ -2,11 +2,13 @@ import "dotenv/config";
 
 interface Env {
   PORT: number;
+  environment: string;
 }
 
 const getConfig = (): Env => {
   return {
     PORT: Number(process.env.PORT),
+    environment: process.env.environment,
   };
 };
 
