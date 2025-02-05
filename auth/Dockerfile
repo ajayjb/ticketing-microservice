@@ -4,8 +4,8 @@ WORKDIR /usr/app
 
 COPY package.json .
 
-RUN npm install
+RUN npm i
 
-COPY . .
+COPY  . .
 
 CMD ["npm", "run", "dev"]

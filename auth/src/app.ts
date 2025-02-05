@@ -1,33 +1,34 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, Express } from "express";
 
 import { sanitizedConfig } from "./config.js";
 import { userRouter } from "./routes/index.js";
 import { ResponseStatusCode } from "./core/ApiResponse.js";
 
 class App {
-  public server: express.Express;
+  public server: Express;
 
   constructor() {
     this.server = express();
 
     this.server.use(express.json());
-    this.server.use(this.errorHandler);
 
-    this.server.get("/auth/health", this.healthCheck);  
+    this.server.get("/auth/health", this.healthCheck);
     this.registerRoutes();
   }
 
   errorHandler(err: Error, req: Request, res: Response) {}
 
-  healthCheck(req: Request, res: Response): Response {
-    return res.status(ResponseStatusCode.SUCCESS).json({
+  healthCheck(req: Request, res: Response): void {
+    res.status(ResponseStatusCode.SUCCESS).json({
       message: "Auth is alive!",
     });
   }
 
   public init() {
     this.server.listen(sanitizedConfig.PORT, () => {
-      console.log(`Auth microservice listning on port ${sanitizedConfig.PORT}`);
+      console.log(
+        `Auth microservice listening on port ${sanitizedConfig.PORT}`
+      );
     });
   }
 

@@ -1,7 +1,7 @@
-import express from "express";
+import { Router } from "express";
 
 import UserRouter from "./user/index.js";
 
-const userRouter: express.Router = new UserRouter().router;
+const userRouter: Router = new UserRouter().router;
 
 export { userRouter };

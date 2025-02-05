@@ -1,12 +1,12 @@
-import express from "express";
+import { Router } from "express";
 import UserController from "../../controllers/user.controller.js";
 
 class UserRouter {
-  public router: express.Router;
+  public router: Router;
   public userController: UserController;
 
   constructor() {
-    this.router = express.Router();
+    this.router = Router();
     this.userController = new UserController();
 
     this.init();
@@ -14,8 +14,8 @@ class UserRouter {
 
   private init() {
     this.router.get("/user/signUp", this.userController.signUp);
-    this.router.get("/user/signIn", this.userController.signUp);
-    this.router.get("/user/signOut", this.userController.signUp);
+    this.router.get("/user/signIn", this.userController.signIn);
+    this.router.get("/user/signOut", this.userController.signOut);
     this.router.get("/user/currentUser", this.userController.currentUser);
   }
 }

@@ -1,9 +1,9 @@
 import "dotenv/config";
 
-interface Env {
+type Env = {
   PORT: number;
   environment: string;
-}
+};
 
 const getConfig = (): Env => {
   return {
