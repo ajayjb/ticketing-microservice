@@ -2,13 +2,19 @@ import "dotenv/config";
 
 type Env = {
   PORT: number;
-  environment: string;
+  ENVIRONMENT: string;
+  LOG_DIR: string;
+  LOG_LEVEL: string;
+  VERSION: string;
 };
 
 const getConfig = (): Env => {
   return {
     PORT: Number(process.env.PORT),
-    environment: process.env.environment,
+    ENVIRONMENT: process.env.ENVIRONMENT,
+    LOG_DIR: process.env.LOG_DIR,
+    LOG_LEVEL: process.env.LOG_LEVEL,
+    VERSION: process.env.VERSION,
   };
 };
 

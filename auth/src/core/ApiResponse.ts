@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { ErrorDetailType } from "./ApiError.js";
 
 export enum StatusCode {
   SUCCESS = "10000",
@@ -57,18 +58,15 @@ export abstract class ApiResponse {
     res: Response,
     response: T,
     headers: { [key: string]: string } = {}
-  ): Response {
+  ) {
     for (const [key, value] of Object.entries(headers)) {
       res.append(key, value);
     }
-    return res.status(this.status).json(this.sanitize(response));
+    res.status(this.status).send(this.sanitize(response));
   }
 
-  public send(
-    res: Response,
-    headers: { [key: string]: string } = {}
-  ): Response {
-    return this.prepare<ApiResponse>(res, this, headers);
+  public send(res: Response, headers: { [key: string]: string } = {}) {
+    this.prepare<ApiResponse>(res, this, headers);
   }
 
   private sanitize<T extends ApiResponse>(response: T) {
@@ -95,60 +93,77 @@ export class SuccessResponse<T> extends ApiResponse {
       | ResponseStatusCode.ACCEPTED
       | ResponseStatusCode.NO_CONTENT,
     message: string,
-    protected data: T
+    public data: T
   ) {
     super(responseStatusCode, message, StatusCode.SUCCESS);
     this.data = data;
   }
 
-  send(res: Response): Response {
-    return this.prepare<SuccessResponse<T>>(res, this, {});
+  send(res: Response) {
+    this.prepare<SuccessResponse<T>>(res, this, {});
   }
 }
 
 export class AccessTokenErrorResponse extends ApiResponse {
-  private instruction: string = "refresh_token";
+  protected instruction: string = "refresh_token";
+  public errors: ErrorDetailType[];
 
-  constructor(message: string) {
+  constructor(message: string, errors: ErrorDetailType[]) {
     super(
       ResponseStatusCode.UNAUTHORIZED,
       message,
       StatusCode.IN_VALID_ACCESS_TOKEN
     );
+    this.errors = errors || [];
   }
 
-  send(res: Response, headers: { [key: string]: string } = {}): Response {
+  send(res: Response, headers: { [key: string]: string } = {}) {
     headers.instruction = this.instruction;
-    return this.prepare<AccessTokenErrorResponse>(res, this, {});
+    this.prepare<AccessTokenErrorResponse>(res, this, headers);
   }
 }
 
 export class BadTokenResponse extends ApiResponse {
-  constructor(message: string) {
+  public errors: ErrorDetailType[];
+
+  constructor(message: string, errors: ErrorDetailType[]) {
     super(ResponseStatusCode.UNAUTHORIZED, message, StatusCode.FAILURE);
+    this.errors = errors || [];
   }
 }
 
 export class BadRequestResponse extends ApiResponse {
-  constructor(message: string) {
+  public errors: ErrorDetailType[];
+
+  constructor(message: string, errors: ErrorDetailType[]) {
     super(ResponseStatusCode.BAD_REQUEST, message, StatusCode.FAILURE);
+    this.errors = errors || [];
   }
 }
 
 export class InternalErrorResponse extends ApiResponse {
-  constructor(message: string) {
+  public errors: ErrorDetailType[];
+
+  constructor(message: string, errors: ErrorDetailType[]) {
     super(ResponseStatusCode.INTERNAL_ERROR, message, StatusCode.FAILURE);
+    this.errors = errors || [];
   }
 }
 
 export class NoFoundResponse extends ApiResponse {
-  constructor(message: string) {
+  public errors: ErrorDetailType[];
+
+  constructor(message: string, errors: ErrorDetailType[]) {
     super(ResponseStatusCode.NOT_FOUND, message, StatusCode.FAILURE);
+    this.errors = errors || [];
   }
 }
 
 export class ForbiddenResponse extends ApiResponse {
-  constructor(message: string) {
+  public errors: ErrorDetailType[];
+
+  constructor(message: string, errors: ErrorDetailType[]) {
     super(ResponseStatusCode.FORBIDDEN, message, StatusCode.FAILURE);
+    this.errors = errors || [];
   }
 }

@@ -10,8 +10,8 @@ spec:
     - host: tickets.com
       http:
         paths:
-          - path: "/auth/health"
-            pathType: Exact
+          - path: "/auth"
+            pathType: Prefix
             backend:
               service:
                 name: ticketing-auth-srv

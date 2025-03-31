@@ -10,9 +10,9 @@ const asyncHandler =
   (execution: AsyncFunction) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      return await execution(req, res, next);
+      await execution(req, res, next);
     } catch (err) {
-      return next(err);
+      next(err);
     }
   };
 
