@@ -9,7 +9,7 @@ When you create a Kubernetes **Service** of type `LoadBalancer`, it does the fol
 - It gets an internal **ClusterIP** and a node-wide **NodePort**.
 
 #### **b. Selects the Ingress Controller Pods**
-- The Service uses **label selectors** to match the **Ingress NGINX Controller** pods.
+- The Service uses **label selectors** to match the **Ingress NGINX Controller** pods.dk
 - These are the pods that will handle incoming HTTP/HTTPS traffic.
 
 #### **c. Opens a NodePort (Internally)**

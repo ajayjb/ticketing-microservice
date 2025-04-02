@@ -18,7 +18,7 @@ class UserRouter {
   }
 
   private init() {
-    this.router.get(
+    this.router.post(
       "/signUp",
       schemaValidator(BODY, userValidators.signUp()),
       asyncHandler(this.userController.signUp)

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodSchema } from "zod";
-import { BadRequestResponse } from "../core/ApiResponse.js";
-import { BadRequestError, ErrorDetailType } from "../core/ApiError.js";
+
+import { BadRequestError } from "../core/ApiError.js";
 
 export type BODY = "body";
 export type QUERY = "query";
