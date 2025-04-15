@@ -2,9 +2,9 @@ import { Router } from "express";
 
 import UserController from "../../controllers/user.controller.js";
 import { schemaValidator } from "../../middlewares/schemaValidator.js";
-import { BODY } from "../../utils/constants.js";
-import { userValidators } from "../../validators/index.js";
 import asyncHandler from "../../utils/asyncHandler.js";
+import userValidators from "./schema.js";
+import { ValidationSource } from "../../utils/validators.js";
 
 class UserRouter {
   public router: Router;
@@ -20,7 +20,7 @@ class UserRouter {
   private init() {
     this.router.post(
       "/signUp",
-      schemaValidator(BODY, userValidators.signUp()),
+      schemaValidator(ValidationSource.BODY, userValidators.signUp()),
       asyncHandler(this.userController.signUp)
     );
     this.router.get("/signIn", this.userController.signIn);

@@ -2,11 +2,9 @@ import { Request, Response, NextFunction } from "express";
 import { ZodSchema } from "zod";
 
 import { BadRequestError } from "../core/ApiError.js";
+import { ValidationSource } from "../utils/validators.js";
 
-export type BODY = "body";
-export type QUERY = "query";
-
-export const schemaValidator = (type: BODY | QUERY, schema: ZodSchema) => {
+export const schemaValidator = (type: ValidationSource, schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse(req[type]);
 

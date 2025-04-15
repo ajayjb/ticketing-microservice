@@ -9,7 +9,7 @@ import {
   NoFoundResponse,
 } from "./ApiResponse.js";
 import { sanitizedConfig } from "../config/config.js";
-import { ENVIRONMENTS } from "../utils/constants.js";
+import { ENVIRONMENTS } from "../constants/environments.js";
 
 export enum ErrorType {
   BAD_TOKEN = "BadTokenError",
@@ -78,13 +78,19 @@ export abstract class ApiError extends Error {
 }
 
 export class BadTokenError extends ApiError {
-  constructor(message: string = "Invalid token", errors: ErrorDetailType[]) {
+  constructor(
+    message: string = "Invalid token",
+    errors: ErrorDetailType[] = []
+  ) {
     super(ErrorType.BAD_TOKEN, message, errors);
   }
 }
 
 export class TokenExpiredError extends ApiError {
-  constructor(message: string = "Token expired", errors: ErrorDetailType[]) {
+  constructor(
+    message: string = "Token expired",
+    errors: ErrorDetailType[] = []
+  ) {
     super(ErrorType.TOKEN_EXPIRED, message, errors);
   }
 }
@@ -92,7 +98,7 @@ export class TokenExpiredError extends ApiError {
 export class AuthFailureError extends ApiError {
   constructor(
     message: string = "Invalid Credentials",
-    errors: ErrorDetailType[]
+    errors: ErrorDetailType[] = []
   ) {
     super(ErrorType.UNAUTHORIZED, message, errors);
   }
@@ -101,13 +107,16 @@ export class AuthFailureError extends ApiError {
 export class AccessTokenError extends ApiError {
   constructor(
     message: string = "Invalid access token",
-    errors: ErrorDetailType[]
+    errors: ErrorDetailType[] = []
   ) {
     super(ErrorType.ACCESS_TOKEN, message, errors);
   }
 }
 export class InternalError extends ApiError {
-  constructor(message: string = "Internal error", errors: ErrorDetailType[]) {
+  constructor(
+    message: string = "Internal error",
+    errors: ErrorDetailType[] = []
+  ) {
     message =
       sanitizedConfig.ENVIRONMENT !== ENVIRONMENTS.production
         ? message
@@ -117,7 +126,7 @@ export class InternalError extends ApiError {
 }
 
 export class NotFoundError extends ApiError {
-  constructor(message: string = "Not found", errors: ErrorDetailType[]) {
+  constructor(message: string = "Not found", errors: ErrorDetailType[] = []) {
     super(ErrorType.NOT_FOUND, message, errors);
   }
 }
@@ -125,20 +134,20 @@ export class NotFoundError extends ApiError {
 export class NoEntryError extends ApiError {
   constructor(
     message: string = "Entry don't exists",
-    errors: ErrorDetailType[]
+    errors: ErrorDetailType[] = []
   ) {
     super(ErrorType.NO_ENTRY, message, errors);
   }
 }
 
 export class NoDataError extends ApiError {
-  constructor(message: string = "No data", errors: ErrorDetailType[]) {
+  constructor(message: string = "No data", errors: ErrorDetailType[] = []) {
     super(ErrorType.NO_DATA, message, errors);
   }
 }
 
 export class BadRequestError extends ApiError {
-  constructor(message: string = "Bad request", errors: ErrorDetailType[]) {
+  constructor(message: string = "Bad request", errors: ErrorDetailType[] = []) {
     super(ErrorType.BAD_REQUEST, message, errors);
   }
 }
@@ -146,7 +155,7 @@ export class BadRequestError extends ApiError {
 export class ForbiddenError extends ApiError {
   constructor(
     message: string = "Permission denied",
-    errors: ErrorDetailType[]
+    errors: ErrorDetailType[] = []
   ) {
     super(ErrorType.FORBIDDEN, message, errors);
   }

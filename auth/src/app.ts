@@ -4,20 +4,20 @@ import { sanitizedConfig } from "./config/config.js";
 import { userRouter } from "./routes/index.js";
 import { ResponseStatusCode, SuccessResponse } from "./core/ApiResponse.js";
 import { ApiError, InternalError, NotFoundError } from "./core/ApiError.js";
-import { ENVIRONMENTS } from "./utils/constants.js";
 import logger from "./core/Logger.js";
+import "./database/index.js";
+import { ENVIRONMENTS } from "./constants/environments.js";
+import User from "./database/models/User.js";
 
 class App {
   public server: Express;
+  public apiPrefix: string;
 
   constructor() {
+    this.apiPrefix = `/auth/api/${sanitizedConfig.VERSION}`;
     this.server = express();
     this.server.use(express.json());
 
-    this.server.get(
-      `/auth/api/${sanitizedConfig.VERSION}/health`,
-      this.healthCheck
-    );
     this.registerRoutes();
 
     this.server.use((req: Request, res: Response) => {
@@ -39,7 +39,7 @@ class App {
     }
   }
 
-  healthCheck(req: Request, res: Response) {
+  async healthCheck(req: Request, res: Response) {
     return new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       "Auth is alive!",
@@ -59,7 +59,8 @@ class App {
   }
 
   private registerRoutes() {
-    this.server.use(`/auth/api/${sanitizedConfig.VERSION}/user`, userRouter);
+    this.server.get(`${this.apiPrefix}/health`, this.healthCheck);
+    this.server.use(`${this.apiPrefix}/user`, userRouter);
   }
 }
 
