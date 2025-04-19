@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodSchema } from "zod";
 
-import { BadRequestError } from "../core/ApiError.js";
-import { ValidationSource } from "../utils/validators.js";
+import { BadRequestError } from "@/core/ApiError.js";
+import { ValidationSource } from "@/utils/validators.js";
 
 export const schemaValidator = (type: ValidationSource, schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {

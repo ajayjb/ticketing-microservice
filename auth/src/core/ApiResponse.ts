@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { ErrorDetailType } from "./ApiError.js";
+import { ErrorDetailType } from "@/core/ApiError.js";
 
 export enum StatusCode {
   SUCCESS = "10000",

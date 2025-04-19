@@ -1,10 +1,11 @@
-import { Document, Model, Schema, model } from "mongoose";
-import Password from "../../services/password.js";
+import { Document, Model, Schema, Types, model } from "mongoose";
+
+import Password from "@/services/password.service.js";
 
 export const DOCUMENT_NAME = "User";
 export const COLLECTION_NAME = "users";
 
-type UserAttr = {
+export type UserAttr = {
   first_name: string;
   middle_name?: string;
   last_name?: string;
@@ -12,7 +13,8 @@ type UserAttr = {
   password: string;
 };
 
-interface UserDocType extends Document {
+export interface UserDocType extends Document {
+  _id: Types.ObjectId;
   first_name: string;
   middle_name?: string;
   last_name?: string;
@@ -46,6 +48,16 @@ const schema = new Schema<UserDocType>(
   },
   {
     timestamps: true,
+    autoIndex: true,
+    toJSON: {
+      transform: (doc, ret: Record<string, any>) => {
+        ret.id = ret._id;
+        delete ret.password;
+        delete ret.__v;
+        delete ret._id;
+        return ret;
+      },
+    },
   }
 );
 

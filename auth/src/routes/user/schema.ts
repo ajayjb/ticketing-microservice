@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 class UserValidators {
-  signUp() {
+  static signUp() {
     return z.object({
       first_name: z.string().min(5).max(30),
       middle_name: z.string().min(5).max(30).optional(),
@@ -26,19 +26,12 @@ class UserValidators {
         }),
     });
   }
-  signIn() {
+  static signIn() {
     return z.object({
       email: z.string().email(),
       password: z.string(),
     });
   }
-  signOut() {
-    return z.object({
-      email: z.string().email(),
-    });
-  }
 }
 
-const userValidators = new UserValidators();
-
-export default userValidators;
+export default UserValidators;

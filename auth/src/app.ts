@@ -1,13 +1,13 @@
 import express, { Request, Response, Express, NextFunction } from "express";
+import cookieSession from "cookie-session";
 
-import { sanitizedConfig } from "./config/config.js";
-import { userRouter } from "./routes/index.js";
-import { ResponseStatusCode, SuccessResponse } from "./core/ApiResponse.js";
-import { ApiError, InternalError, NotFoundError } from "./core/ApiError.js";
-import logger from "./core/Logger.js";
-import "./database/index.js";
-import { ENVIRONMENTS } from "./constants/environments.js";
-import User from "./database/models/User.js";
+import { sanitizedConfig } from "@/config/config.js";
+import { userRouter } from "@/routes/index.js";
+import { ResponseStatusCode, SuccessResponse } from "@/core/ApiResponse.js";
+import { ApiError, InternalError, NotFoundError } from "@/core/ApiError.js";
+import logger from "@/core/Logger.js";
+import "@/database/index.js";
+import { ENVIRONMENTS } from "@/constants/environments.js";
 
 class App {
   public server: Express;
@@ -16,10 +16,17 @@ class App {
   constructor() {
     this.apiPrefix = `/auth/api/${sanitizedConfig.VERSION}`;
     this.server = express();
+    this.server.set("trust proxy", 1);
+    this.server.use(
+      cookieSession({
+        secure: sanitizedConfig.ENVIRONMENT === ENVIRONMENTS.production,
+        httpOnly: true,
+        signed: false,
+      })
+    );
     this.server.use(express.json());
 
     this.registerRoutes();
-
     this.server.use((req: Request, res: Response) => {
       throw new NotFoundError("Not found", []);
     });

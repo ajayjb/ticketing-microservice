@@ -2,7 +2,8 @@ import winston, { format } from "winston";
 import fs from "fs";
 import path from "path";
 import DailyRotateFile from "winston-daily-rotate-file";
-import { sanitizedConfig } from "../config/config.js";
+
+import { sanitizedConfig } from "@/config/config.js";
 
 let dir = sanitizedConfig.LOG_DIR;
 if (!dir) {
