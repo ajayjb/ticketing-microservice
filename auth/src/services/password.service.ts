@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { sanitizedConfig } from "@/config/config.js";
+import { sanitizedConfig } from "@/config/config";
 
 class Password {
   static hashPassword(password: string): Promise<string> {

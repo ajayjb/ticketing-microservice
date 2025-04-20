@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 
-import User from "@/database/models/User.model.js";
-import { ResponseStatusCode, SuccessResponse } from "@/core/ApiResponse.js";
-import { BadRequestError } from "@/core/ApiError.js";
-import { MESSAGES } from "@/constants/messages.js";
-import JwtService from "@/services/jwt.service.js";
-import Password from "@/services/password.service.js";
+import User from "@/database/models/User.model";
+import { ResponseStatusCode, SuccessResponse } from "@/core/ApiResponse";
+import { AuthFailureError, BadRequestError } from "@/core/ApiError";
+import { MESSAGES } from "@/constants/messages";
+import JwtService from "@/services/jwt.service";
+import Password from "@/services/password.service";
 import { Types } from "mongoose";
 
 class UserController {
   constructor() {}
 
-  async signUp(req: Request, res: Response) {
+  async signup(req: Request, res: Response) {
     const { first_name, middle_name, last_name, email, password } = req.body;
 
     const userExists = await User.findOne({ email: email });
@@ -42,16 +42,16 @@ class UserController {
     ).send(res);
   }
 
-  async signIn(req: Request, res: Response) {
+  async signin(req: Request, res: Response) {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email: email });
 
     if (!user) {
-      throw new BadRequestError(MESSAGES.USER.USER_NOT_EXISTS);
+      throw new AuthFailureError(MESSAGES.USER.USER_NOT_EXISTS);
     }
     if (!(await Password.comparePassword(password, user.password))) {
-      throw new BadRequestError(MESSAGES.USER.INVALID_USER_PASSWORD);
+      throw new AuthFailureError(MESSAGES.USER.INVALID_USER_PASSWORD);
     }
 
     const payload = JwtService.generatePayload(user);
@@ -66,7 +66,7 @@ class UserController {
     ).send(res);
   }
 
-  async signOut(req: Request, res: Response) {
+  async signout(req: Request, res: Response) {
     res.clearCookie("session", { maxAge: 0 }); // No need for this in session-cookie, used in express-cookie
     req.session = null; // If null cookie-session knows to remove session-cookie in client
 

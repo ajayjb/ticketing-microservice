@@ -1,11 +1,11 @@
 import { Router } from "express";
 
-import UserController from "@/controllers/user.controller.js";
-import { schemaValidator } from "@/middlewares/schemaValidator.js";
-import asyncHandler from "@/utils/asyncHandler.js";
-import UserValidators from "@/routes/user/schema.js";
-import { ValidationSource } from "@/utils/validators.js";
-import { verifyToken } from "@/middlewares/verifyToken.js";
+import UserController from "@/controllers/user.controller";
+import { schemaValidator } from "@/middlewares/schemaValidator";
+import asyncHandler from "@/utils/asyncHandler";
+import UserValidators from "@/routes/user/schema";
+import { ValidationSource } from "@/utils/validators";
+import { verifyToken } from "@/middlewares/verifyToken";
 
 class UserRouter {
   public router: Router;
@@ -20,16 +20,16 @@ class UserRouter {
 
   private init() {
     this.router.post(
-      "/signUp",
-      schemaValidator(ValidationSource.BODY, UserValidators.signUp()),
-      asyncHandler(this.userController.signUp)
+      "/signup",
+      schemaValidator(ValidationSource.BODY, UserValidators.signup()),
+      asyncHandler(this.userController.signup)
     );
     this.router.post(
-      "/signIn",
-      schemaValidator(ValidationSource.BODY, UserValidators.signIn()),
-      asyncHandler(this.userController.signIn)
+      "/signin",
+      schemaValidator(ValidationSource.BODY, UserValidators.signin()),
+      asyncHandler(this.userController.signin)
     );
-    this.router.post("/signOut", asyncHandler(this.userController.signOut));
+    this.router.post("/signout", asyncHandler(this.userController.signout));
     this.router.get(
       "/currentUser",
       verifyToken,

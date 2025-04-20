@@ -1,8 +1,8 @@
 import jsonwebtoken, { SignOptions } from "jsonwebtoken";
 
-import { sanitizedConfig } from "@/config/config.js";
-import { UserDocType } from "@/database/models/User.model.js";
-import { JwtPayload } from "@/types/user.js";
+import { sanitizedConfig } from "@/config/config";
+import { UserDocType } from "@/database/models/User.model";
+import { JwtPayload } from "@/types/user";
 
 class JwtService {
   static sign(

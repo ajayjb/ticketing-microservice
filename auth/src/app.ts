@@ -1,13 +1,13 @@
 import express, { Request, Response, Express, NextFunction } from "express";
 import cookieSession from "cookie-session";
+import cookieParser from "cookie-parser";
 
-import { sanitizedConfig } from "@/config/config.js";
-import { userRouter } from "@/routes/index.js";
-import { ResponseStatusCode, SuccessResponse } from "@/core/ApiResponse.js";
-import { ApiError, InternalError, NotFoundError } from "@/core/ApiError.js";
-import logger from "@/core/Logger.js";
-import "@/database/index.js";
-import { ENVIRONMENTS } from "@/constants/environments.js";
+import { sanitizedConfig } from "@/config/config";
+import { userRouter } from "@/routes/index";
+import { ResponseStatusCode, SuccessResponse } from "@/core/ApiResponse";
+import { ApiError, InternalError, NotFoundError } from "@/core/ApiError";
+import logger from "@/core/Logger";
+import { ENVIRONMENTS } from "@/constants/environments";
 
 class App {
   public server: Express;
@@ -16,6 +16,9 @@ class App {
   constructor() {
     this.apiPrefix = `/auth/api/${sanitizedConfig.VERSION}`;
     this.server = express();
+
+    this.server.use(cookieParser()); // No need to use this, since cookies sent in req.headers.cookie. To populate req.cookie we can use this.
+
     this.server.set("trust proxy", 1);
     this.server.use(
       cookieSession({
@@ -27,7 +30,7 @@ class App {
     this.server.use(express.json());
 
     this.registerRoutes();
-    this.server.use((req: Request, res: Response) => {
+    this.server.all("/*", (req: Request, res: Response) => {
       throw new NotFoundError("Not found", []);
     });
     this.server.use(this.errorHandler);
@@ -54,14 +57,10 @@ class App {
     ).send(res);
   }
 
-  public init() {
-    this.server.listen(sanitizedConfig.PORT, () => {
-      logger.info(
-        `Auth microservice listening on port ${sanitizedConfig.PORT}`
-      );
-      console.log(
-        `Auth microservice listening on port ${sanitizedConfig.PORT}`
-      );
+  public init(port: number) {
+    this.server.listen(port, () => {
+      logger.info(`Auth microservice listening on port ${port}`);
+      console.log(`Auth microservice listening on port ${port}`);
     });
   }
 
@@ -72,4 +71,5 @@ class App {
 }
 
 const app = new App();
-app.init();
+
+export default app;

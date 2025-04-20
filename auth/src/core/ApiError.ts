@@ -7,9 +7,9 @@ import {
   ForbiddenResponse,
   InternalErrorResponse,
   NoFoundResponse,
-} from "@/core/ApiResponse.js";
-import { sanitizedConfig } from "@/config/config.js";
-import { ENVIRONMENTS } from "@/constants/environments.js";
+} from "@/core/ApiResponse";
+import { sanitizedConfig } from "@/config/config";
+import { ENVIRONMENTS } from "@/constants/environments";
 
 export enum ErrorType {
   BAD_TOKEN = "BadTokenError",

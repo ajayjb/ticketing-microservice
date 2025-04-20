@@ -1,14 +1,10 @@
 import jsonwebtoken from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
-import {
-  AccessTokenError,
-  BadTokenError,
-  TokenExpiredError,
-} from "@/core/ApiError.js";
-import User from "@/database/models/User.model.js";
-import JwtService from "@/services/jwt.service.js";
-import { JwtPayload } from "@/types/user.js";
+import { BadTokenError, TokenExpiredError } from "@/core/ApiError";
+import User from "@/database/models/User.model";
+import JwtService from "@/services/jwt.service";
+import { JwtPayload } from "@/types/user";
 
 export const verifyToken = async (
   req: Request,
@@ -16,16 +12,16 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   try {
-    const { token } = req.session;
+    const { token } = req?.session;
     if (!token) {
-      next(new BadTokenError());
+      next(new BadTokenError("Authentication token is missing"));
     }
 
     const decoded = JwtService.verify(token) as JwtPayload;
 
     const user = await User.findById(decoded._id);
     if (!user) {
-      next(new AccessTokenError());
+      next(new BadTokenError());
     }
 
     req.user = user;
@@ -34,9 +30,9 @@ export const verifyToken = async (
     if (error instanceof jsonwebtoken.TokenExpiredError) {
       next(new TokenExpiredError());
     } else if (error instanceof jsonwebtoken.JsonWebTokenError) {
-      next(new AccessTokenError());
+      next(new BadTokenError());
     } else {
-      next(new AccessTokenError());
+      next(new BadTokenError());
     }
   }
 };

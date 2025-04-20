@@ -1,7 +1,7 @@
 import mongoose, { Mongoose, Query } from "mongoose";
 
-import { db } from "@/config/config.js";
-import logger from "@/core/Logger.js";
+import { db } from "@/config/config";
+import logger from "@/core/Logger";
 
 class DbConnection {
   public dbURI: string;
