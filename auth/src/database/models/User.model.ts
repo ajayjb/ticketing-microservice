@@ -6,18 +6,18 @@ export const DOCUMENT_NAME = "User";
 export const COLLECTION_NAME = "users";
 
 export type UserAttr = {
-  first_name: string;
-  middle_name?: string;
-  last_name?: string;
+  firstName: string;
+  middleName?: string;
+  lastName?: string;
   email: string;
   password: string;
 };
 
 export interface UserDocType extends Document {
   _id: Types.ObjectId;
-  first_name: string;
-  middle_name?: string;
-  last_name?: string;
+  firstName: string;
+  middleName?: string;
+  lastName?: string;
   email: string;
   password: string;
   createdAt: string;
@@ -30,14 +30,14 @@ interface UserModel extends Model<UserDocType> {
 
 const schema = new Schema<UserDocType>(
   {
-    first_name: {
+    firstName: {
       type: Schema.Types.String,
       required: true,
     },
-    middle_name: {
+    middleName: {
       type: Schema.Types.String,
     },
-    last_name: {
+    lastName: {
       type: Schema.Types.String,
     },
     email: {

@@ -14,7 +14,7 @@ class App {
   public apiPrefix: string;
 
   constructor() {
-    this.apiPrefix = `/auth/api/${sanitizedConfig.VERSION}`;
+    this.apiPrefix = `/api/auth/${sanitizedConfig.VERSION}`;
     this.server = express();
 
     this.server.use(cookieParser()); // No need to use this, since cookies sent in req.headers.cookie. To populate req.cookie we can use this.

@@ -3,26 +3,32 @@ import { z } from "zod";
 class UserValidators {
   static signup() {
     return z.object({
-      first_name: z.string().min(5).max(30),
-      middle_name: z.string().min(5).max(30).optional(),
-      last_name: z.string().min(5).max(30).optional(),
+      firstName: z
+        .string()
+        .min(4)
+        .max(30)
+        .refine((password) => !/\d+/.test(password), {
+          message: "First name must contain letters only",
+        }),
+      middleName: z.string().min(4).max(30).optional().or(z.literal("")),
+      lastName: z.string().min(4).max(30).optional().or(z.literal("")),
       email: z.string().email(),
       password: z
         .string()
         .min(8)
         .max(20)
         .refine((password) => /[A-Z]/.test(password), {
-          message: "Password must contain at least one uppercase letter",
+          message: "Must contain at least one uppercase letter",
         })
         .refine((password) => /[a-z]/.test(password), {
-          message: "Password must contain at least one lowercase letter",
+          message: "Must contain at least one lowercase letter",
         })
         .refine((password) => /[0-9]/.test(password), {
-          message: "Password must contain at least one digit",
+          message: "Must contain at least one digit",
         })
         .refine((password) => /[!@#$%^&*]/.test(password), {
           message:
-            "Password must contain at least one special character (!@#$%^&*)",
+            "Must contain at least one special character (!@#$%^&*)",
         }),
     });
   }

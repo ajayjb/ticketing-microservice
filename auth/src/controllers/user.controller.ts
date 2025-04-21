@@ -12,7 +12,7 @@ class UserController {
   constructor() {}
 
   async signup(req: Request, res: Response) {
-    const { first_name, middle_name, last_name, email, password } = req.body;
+    const { firstName, middleName, lastName, email, password } = req.body;
 
     const userExists = await User.findOne({ email: email });
 
@@ -21,9 +21,9 @@ class UserController {
     }
 
     const user = await User.build({
-      first_name,
-      middle_name,
-      last_name,
+      firstName,
+      middleName,
+      lastName,
       email,
       password,
     }).save();
