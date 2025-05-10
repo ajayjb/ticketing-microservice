@@ -6,7 +6,6 @@ import { AuthFailureError, BadRequestError } from "@/core/ApiError";
 import { MESSAGES } from "@/constants/messages";
 import JwtService from "@/services/jwt.service";
 import Password from "@/services/password.service";
-import { Types } from "mongoose";
 
 class UserController {
   constructor() {}

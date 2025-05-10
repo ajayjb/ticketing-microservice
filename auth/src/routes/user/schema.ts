@@ -10,8 +10,8 @@ class UserValidators {
         .refine((password) => !/\d+/.test(password), {
           message: "First name must contain letters only",
         }),
-      middleName: z.string().min(4).max(30).optional().or(z.literal("")),
-      lastName: z.string().min(4).max(30).optional().or(z.literal("")),
+      middleName: z.string().max(30).optional().or(z.literal("")),
+      lastName: z.string().max(30).optional().or(z.literal("")),
       email: z.string().email(),
       password: z
         .string()

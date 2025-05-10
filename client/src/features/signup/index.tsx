@@ -3,6 +3,8 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
 import Errors from "@/components/errors";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { API_ENDPOINT } from "@/constants/apiEndpoint";
 import { ROUTES } from "@/constants/routes";
 import useRequest, { RequestMethod } from "@/hooks/useRequest";
+
 
 type IFormInput = {
   firstName: string;
@@ -46,7 +49,7 @@ const Signup = () => {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl">Sign In</CardTitle>
+        <CardTitle className="text-2xl">Sign Up</CardTitle>
         <CardDescription>
           Create an account to start using our services
         </CardDescription>
@@ -112,17 +115,17 @@ const Signup = () => {
               {...register("password", { required: true })}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign In"}
+          <Button type="submit" className="w-full cursor-pointer" disabled={isLoading}>
+            {isLoading ? "Signing in..." : "Sign Up"}
           </Button>
         </form>
       </CardContent>
       <CardFooter className="flex justify-center">
         <p className="text-sm text-gray-500">
           Have an account?{" "}
-          <a href="/signin" className="text-blue-600 hover:underline">
+          <Link href="/signin" className="text-blue-600 hover:underline">
             Sign in
-          </a>
+          </Link>
         </p>
       </CardFooter>
     </Card>

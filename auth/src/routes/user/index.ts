@@ -14,7 +14,6 @@ class UserRouter {
   constructor() {
     this.router = Router();
     this.userController = new UserController();
-
     this.init();
   }
 

@@ -19,7 +19,7 @@ class App {
 
     this.server.use(cookieParser()); // No need to use this, since cookies sent in req.headers.cookie. To populate req.cookie we can use this.
 
-    this.server.set("trust proxy", 1);
+    this.server.set("trust proxy", 1); // Trust first proxy
     this.server.use(
       cookieSession({
         secure: sanitizedConfig.ENVIRONMENT === ENVIRONMENTS.production,

@@ -18,7 +18,11 @@ const Errors = ({ isError = false, error }: ErrorsProps) => {
               key={index}
               className="p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm"
             >
-              <strong>{item.label}</strong>:&nbsp;
+              {item.label && (
+                <>
+                  <strong>{item.label}</strong>:&nbsp;
+                </>
+              )}
               {item.message}
             </li>
           ))}

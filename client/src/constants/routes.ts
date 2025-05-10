@@ -3,3 +3,5 @@ export const ROUTES ={
   SIGNIN: "/signin",
   SIGNUP: "/signup",
 }
+
+export const PUBLIC_ROUTES = ["/signin", "/signup"];

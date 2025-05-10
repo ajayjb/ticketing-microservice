@@ -1,7 +1,10 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,6 +18,7 @@ import {
 import useRequest, { RequestMethod } from "@/hooks/useRequest";
 import Errors from "@/components/errors";
 import { ROUTES } from "@/constants/routes";
+import { API_ENDPOINT } from "@/constants/apiEndpoint";
 
 type IFormInput = {
   email: string;
@@ -22,7 +26,7 @@ type IFormInput = {
 };
 
 const Signin = () => {
-  const router = useRouter()
+  const router = useRouter();
   const { register, handleSubmit } = useForm<IFormInput>();
   const { isLoading, error, isError, request } = useRequest({
     onSuccess: () => {
@@ -32,7 +36,7 @@ const Signin = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     request({
-      url: "/api/auth/v1/user/signin",
+      url: API_ENDPOINT.USER.SIGNIN,
       method: RequestMethod.POST,
       data,
     });
@@ -74,7 +78,7 @@ const Signin = () => {
               disabled={isLoading}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full cursor-pointer" disabled={isLoading}>
             {isLoading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
@@ -82,9 +86,9 @@ const Signin = () => {
       <CardFooter className="flex justify-center">
         <p className="text-sm text-gray-500">
           Don&apos;t have an account?{" "}
-          <a href="/signup" className="text-blue-600 hover:underline">
+          <Link href="/signup" className="text-blue-600 hover:underline">
             Sign up
-          </a>
+          </Link>
         </p>
       </CardFooter>
     </Card>
