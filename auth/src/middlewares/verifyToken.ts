@@ -19,7 +19,8 @@ export const verifyToken = async (
 
     const decoded = JwtService.verify(token) as JwtPayload;
 
-    const user = await User.findById(decoded._id);
+    const user = await User.findById(decoded._id).lean();
+    
     if (!user) {
       next(new BadTokenError());
     }

@@ -106,3 +106,17 @@ export async function getServerSideProps(context) {
 | ---------------- | ---------------------------------------------------------------------------- |
 | Browser (client) | `http://tickets.com/api/...` (via Ingress + /etc/hosts)                      |
 | Server-side      | `http://auth-svc.default.svc.cluster.local:3000/api/...` (K8s DNS + service) |
+
+# Publising packages to npm
+
+### Private packages
+npm login
+npm publish
+
+### Public packages
+npm login
+npm publish --access public
+
+### Patch version
+npm version patch
+npm publish
