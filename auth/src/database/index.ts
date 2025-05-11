@@ -1,7 +1,7 @@
 import mongoose, { Mongoose, Query } from "mongoose";
+import { logger } from "@ajayjbtickets/common";
 
 import { db } from "@/config/config";
-import { logger } from "@ajayjbtickets/common";
 
 class DbConnection {
   public dbURI: string;
