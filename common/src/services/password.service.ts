@@ -1,9 +1,10 @@
+import { sanitizedConfig } from "@/config/config";
 import bcrypt from "bcrypt";
 
 export class Password {
-  static hashPassword(password: string, salesRounds: number): Promise<string> {
+  static hashPassword(password: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      bcrypt.hash(password, salesRounds, function (err, hash) {
+      bcrypt.hash(password, sanitizedConfig.SALT_ROUNDS, function (err, hash) {
         if (err) {
           reject(err.message);
         }
