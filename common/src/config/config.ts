@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-interface Env  {
+interface Env {
   ENVIRONMENT: string;
   LOG_DIR: string;
   LOG_LEVEL: string;
@@ -29,6 +29,4 @@ const getSanitizedConfig = (config: Env): Env => {
 };
 
 const config = getConfig();
-const sanitizedConfig = getSanitizedConfig(config);
-
-export { sanitizedConfig };
+export const sanitizedConfig = getSanitizedConfig(config);

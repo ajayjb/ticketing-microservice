@@ -2,9 +2,9 @@ import jsonwebtoken from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 
 import { BadTokenError, TokenExpiredError } from "@/core/ApiError";
-import JwtService, { JwtPayload } from "@/services/jwt.service";
+import { JwtPayload, JwtService } from "@/services/jwt.service";
 
- const verifyToken = async (
+export const verifyToken = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -29,5 +29,3 @@ import JwtService, { JwtPayload } from "@/services/jwt.service";
     }
   }
 };
-
-export default verifyToken;

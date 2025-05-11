@@ -6,7 +6,7 @@ export interface JwtPayload {
   email: string;
 }
 
-class JwtService {
+export class JwtService {
   static sign(
     payload: string | Buffer | object,
     signOptions: SignOptions = {}
@@ -35,5 +35,3 @@ class JwtService {
     } as T;
   }
 }
-
-export default JwtService;

@@ -6,7 +6,7 @@ type AsyncFunction = (
   next: NextFunction
 ) => Promise<any>;
 
-const asyncHandler =
+export const asyncHandler =
   (execution: AsyncFunction) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -15,5 +15,3 @@ const asyncHandler =
       next(err);
     }
   };
-
-export default asyncHandler;

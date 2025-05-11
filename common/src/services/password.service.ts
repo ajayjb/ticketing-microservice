@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-class Password {
+export class Password {
   static hashPassword(password: string, salesRounds: number): Promise<string> {
     return new Promise((resolve, reject) => {
       bcrypt.hash(password, salesRounds, function (err, hash) {
@@ -27,4 +27,3 @@ class Password {
   }
 }
 
-export default Password;

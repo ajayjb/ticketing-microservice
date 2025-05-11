@@ -44,10 +44,8 @@ const consoleTransport = new winston.transports.Console({
   ),
 });
 
-const logger = winston.createLogger({
+export const logger = winston.createLogger({
   transports: [consoleTransport, logfileRotateTransport],
   exceptionHandlers: [logfileRotateTransport],
   exitOnError: false,
 });
-
-export default logger;

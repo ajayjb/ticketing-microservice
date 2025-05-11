@@ -4,7 +4,7 @@ import { ZodSchema } from "zod";
 import { BadRequestError } from "@/core/ApiError";
 import { ValidationSource } from "@/types/validation";
 
-const schemaValidator = (type: ValidationSource, schema: ZodSchema) => {
+export const schemaValidator = (type: ValidationSource, schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const result = schema.safeParse(req[type]);
 
@@ -22,4 +22,3 @@ const schemaValidator = (type: ValidationSource, schema: ZodSchema) => {
   };
 };
 
-export default schemaValidator;
