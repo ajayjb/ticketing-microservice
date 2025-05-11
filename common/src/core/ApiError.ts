@@ -9,7 +9,7 @@ import {
   NoFoundResponse,
 } from "@/core/ApiResponse";
 import { sanitizedConfig } from "@/config/config";
-import ENVIRONMENTS from "@/constants/environments";
+import { ENVIRONMENTS } from "@/constants/environments";
 
 export enum ErrorType {
   BAD_TOKEN = "BadTokenError",
