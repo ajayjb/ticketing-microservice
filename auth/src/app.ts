@@ -1,13 +1,18 @@
 import express, { Request, Response, Express, NextFunction } from "express";
 import cookieSession from "cookie-session";
 import cookieParser from "cookie-parser";
+import {
+  ApiError,
+  ENVIRONMENTS,
+  InternalError,
+  logger,
+  NotFoundError,
+  ResponseStatusCode,
+  SuccessResponse,
+} from "@ajayjbtickets/common";
 
 import { sanitizedConfig } from "@/config/config";
 import { userRouter } from "@/routes/index";
-import { ResponseStatusCode, SuccessResponse } from "@/core/ApiResponse";
-import { ApiError, InternalError, NotFoundError } from "@/core/ApiError";
-import logger from "@/core/Logger";
-import { ENVIRONMENTS } from "@/constants/environments";
 
 class App {
   public server: Express;
@@ -44,7 +49,7 @@ class App {
         sanitizedConfig.ENVIRONMENT !== ENVIRONMENTS.production
           ? err.message
           : "Something went wrong!";
-      const unknownError = new InternalError(message, []);
+      const unknownError = new InternalError(message);
       ApiError.handle(unknownError, res);
     }
   }

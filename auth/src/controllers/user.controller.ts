@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
+import {
+  AuthFailureError,
+  BadRequestError,
+  JwtService,
+  Password,
+  ResponseStatusCode,
+  SuccessResponse,
+} from "@ajayjbtickets/common";
 
 import User from "@/database/models/User.model";
-import { ResponseStatusCode, SuccessResponse } from "@/core/ApiResponse";
-import { AuthFailureError, BadRequestError } from "@/core/ApiError";
 import { MESSAGES } from "@/constants/messages";
-import JwtService from "@/services/jwt.service";
-import Password from "@/services/password.service";
 
 class UserController {
   constructor() {}
@@ -27,7 +31,10 @@ class UserController {
       password,
     }).save();
 
-    const payload = JwtService.generatePayload(user);
+    const payload = JwtService.generatePayload({
+      _id: user._id.toString(),
+      email: user.email,
+    });
     const token = JwtService.sign(payload);
 
     req.session = {
@@ -53,7 +60,10 @@ class UserController {
       throw new AuthFailureError(MESSAGES.USER.INVALID_USER_PASSWORD);
     }
 
-    const payload = JwtService.generatePayload(user);
+    const payload = JwtService.generatePayload({
+      _id: user._id.toString(),
+      email: user.email,
+    });
     const token = JwtService.sign(payload);
 
     req.session.token = token;

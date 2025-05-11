@@ -1,11 +1,13 @@
 import { Router } from "express";
+import {
+  asyncHandler,
+  schemaValidator,
+  ValidationSource,
+  verifyToken,
+} from "@ajayjbtickets/common";
 
 import UserController from "@/controllers/user.controller";
-import { schemaValidator } from "@/middlewares/schemaValidator";
-import asyncHandler from "@/utils/asyncHandler";
 import UserValidators from "@/routes/user/schema";
-import { ValidationSource } from "@/utils/validators";
-import { verifyToken } from "@/middlewares/verifyToken";
 
 class UserRouter {
   public router: Router;

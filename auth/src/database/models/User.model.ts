@@ -1,6 +1,6 @@
+import { Password } from "@ajayjbtickets/common";
 import { Document, Model, Schema, Types, model } from "mongoose";
 
-import Password from "@/services/password.service";
 
 export const DOCUMENT_NAME = "User";
 export const COLLECTION_NAME = "users";
