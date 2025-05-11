@@ -2,16 +2,22 @@
   "name": "@ajayjbtickets/common",
   "version": "1.0.9",
   "description": "",
-  "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/**/*"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
     "clean": "del ./dist/*",
-    "build": "npm run clean && tsc",
-    "pub": "git add . && git commit -m \"updates\" && npm version patch && npm run build &&  npm publish"
+    "build": "npm run clean && tsup",
+    "pub": "git add . && git commit -m \"updates\" && npm version patch && npm run build && npm publish"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +28,7 @@
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "del-cli": "^6.0.0",
+    "tsup": "^8.4.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {
