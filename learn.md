@@ -120,3 +120,42 @@ npm publish --access public
 ### Patch version
 npm version patch
 npm publish
+
+### Using tsc to build
+- Why we use TSUP instead of TSC:
+  TypeScript (tsc) does not handle import aliases correctly — it doesn’t throw an error, but simply leaves the alias unchanged in the compiled output.
+  To solve this, we use tsup for building. It offers several advantages:
+
+  Supports path aliases
+  Faster compilation
+  Bundles the entire codebase into a single output file (or multiple formats if needed)
+
+- Module and resolution settings in tsconfig.json:
+  If you set "module": "node18" and "moduleResolution": "node18", Node.js expects all import paths to include file extensions (e.g., import './test.js').
+  To avoid this strict behavior, it’s often more practical to use:
+
+  "module": "commonjs",
+  "moduleResolution": "node"
+  However, this distinction becomes less important when using tools like tsx for development and tsup for builds, since they handle much of this automatically.
+
+- Impact of package.json > type field:
+  When running .cjs or .mjs files, Node.js ignores the "type" field — the file extension alone determines the module system:
+  
+  If type is commonjs tsup produces .js as commonjs and .mjs so if wont conflict with our type we can run node .js or .mjs without worrying about type. since
+  type is commonjs it can run using node .js file. For .mjs node will understand its commonjs file.
+
+  If type is module tsup produces .js as modulejs and .cjs so if wont conflict with our type we can run node .js or .cjs without worrying about type. since type is module it can run using node .js file. For .cjs node will understand its commonjs file.
+
+ .mjs → treated as ESM
+ .cjs → treated as CommonJS
+
+ But for .js files, the "type" field does matter:
+ "type": "module" → .js is treated as ESM
+ "type": "commonjs" → .js is treated as CommonJS
+
+ we can explicitly distinguish formats in tsup config:
+  outExtension({ format }) {
+    return {
+      js: format === 'esm' ? '.mjs' : '.cjs',
+    };
+  }

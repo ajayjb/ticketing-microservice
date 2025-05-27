@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/server.ts",
-    "start": "node dist/server.mjs",
+    "start": "node dist/server.js",
     "test": "jest --watchAll --no-cache",
     "clean": "del ./dist/*",
     "build": "npm run clean && tsup"
