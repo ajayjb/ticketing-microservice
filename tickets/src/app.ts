@@ -12,14 +12,13 @@ import {
 } from "@ajayjbtickets/common";
 
 import { sanitizedConfig } from "@/config/config";
-import { userRouter } from "@/routes/index";
 
 class App {
   public server: Express;
   public apiPrefix: string;
 
   constructor() {
-    this.apiPrefix = `/api/auth/${sanitizedConfig.VERSION}`;
+    this.apiPrefix = `/api/tickets/${sanitizedConfig.VERSION}`;
     this.server = express();
 
     this.server.use(cookieParser()); // No need to use this, since cookies sent in req.headers.cookie. To populate req.cookie we can use this.
@@ -57,21 +56,20 @@ class App {
   async healthCheck(req: Request, res: Response) {
     return new SuccessResponse(
       ResponseStatusCode.SUCCESS,
-      "Auth service is alive!",
+      "Tickets service is alive!",
       null
     ).send(res);
   }
 
   public init(port: number) {
     this.server.listen(port, () => {
-      logger.info(`Auth microservice listening on port ${port}`);
-      console.log(`Auth microservice listening on port ${port}`);
+      logger.info(`Tickets microservice listening on port ${port}`);
+      console.log(`Tickets microservice listening on port ${port}`);
     });
   }
 
   private registerRoutes() {
     this.server.get(`${this.apiPrefix}/health`, this.healthCheck);
-    this.server.use(`${this.apiPrefix}/user`, userRouter);
   }
 }
 

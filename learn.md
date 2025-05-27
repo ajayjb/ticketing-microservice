@@ -57,7 +57,7 @@ fetch('http://tickets.com/api/auth/v1/user/currentUser');
 Use Kubernetes internal DNS to call services from within the cluster:
 
 ```
-http://<service-name>.<namespace>.svc.cluster.local:<port>/<path>
+http://<service-name>.<namespace>.svc.cluster.local/<path>
 ```
 
 ### 🔧 Example
@@ -66,7 +66,7 @@ http://<service-name>.<namespace>.svc.cluster.local:<port>/<path>
 // Inside getServerSideProps
 export async function getServerSideProps(context) {
   const response = await fetch(
-    'http://auth-svc.default.svc.cluster.local:3000/api/auth/v1/user/currentUser',
+    'http://auth-svc.default.svc.cluster.local/api/auth/v1/user/currentUser',
     {
       headers: {
         cookie: context.req.headers.cookie || "", // Forward auth cookies

@@ -1,5 +1,5 @@
 interface Env {
-  NEXT_PUBLIC_API_URL: string;
+  NEXT_PUBLIC_API_URL: string | undefined;
 }
 
 const getConfig = (): Env => {

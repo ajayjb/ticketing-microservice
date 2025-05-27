@@ -1,13 +1,14 @@
 import request from "supertest";
 import app from "@/app";
 import ROUTES from "@/config/routes";
+import { ResponseStatusCode } from "@ajayjbtickets/common";
 
 const server = app.server;
 
 it("clears cookie after signout", async () => {
   await global.signin();
 
-  const response = await request(server).post(ROUTES.USER.SIGNOUT).expect(200);
+  const response = await request(server).post(ROUTES.USER.SIGNOUT).expect(ResponseStatusCode.SUCCESS);
 
   const cookie = response.get("Set-Cookie");
 

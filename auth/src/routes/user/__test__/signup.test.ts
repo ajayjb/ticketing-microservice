@@ -1,10 +1,11 @@
 import request from "supertest";
 import app from "@/app";
 import ROUTES from "@/config/routes";
+import { ResponseStatusCode } from "@ajayjbtickets/common";
 
 const server = app.server;
 
-it("return 201 on successful sign up", async () => {
+it(`return ${ResponseStatusCode.CREATED} on successful sign up`, async () => {
   return request(server)
     .post(ROUTES.USER.SIGNUP)
     .send({
@@ -12,10 +13,10 @@ it("return 201 on successful sign up", async () => {
       email: "ajayjb11@gmail.com",
       password: "Admin@123",
     })
-    .expect(201);
+    .expect(ResponseStatusCode.CREATED);
 });
 
-it("return 400 on invaild email", async () => {
+it(`return ${ResponseStatusCode.BAD_REQUEST} on invaild email`, async () => {
   return request(server)
     .post(ROUTES.USER.SIGNUP)
     .send({
@@ -23,10 +24,10 @@ it("return 400 on invaild email", async () => {
       email: "ajayjb11.com",
       password: "Admin@123",
     })
-    .expect(400);
+    .expect(ResponseStatusCode.BAD_REQUEST);
 });
 
-it("return 400 on invaild password", async () => {
+it(`return ${ResponseStatusCode.BAD_REQUEST} on invaild password`, async () => {
   return request(server)
     .post(ROUTES.USER.SIGNUP)
     .send({
@@ -34,22 +35,22 @@ it("return 400 on invaild password", async () => {
       email: "ajayjb11@gmail.com",
       password: "Admin",
     })
-    .expect(400);
+    .expect(ResponseStatusCode.BAD_REQUEST);
 });
 
-it("return 400 with missing first_name, email and password", async () => {
+it(`return ${ResponseStatusCode.BAD_REQUEST} with missing first_name, email and password`, async () => {
   await request(server)
     .post(ROUTES.USER.SIGNUP)
     .send({ first_name: "Ajay J B" })
-    .expect(400);
+    .expect(ResponseStatusCode.BAD_REQUEST);
   await request(server)
     .post(ROUTES.USER.SIGNUP)
     .send({ email: "ajayjb11@gmail.com" })
-    .expect(400);
+    .expect(ResponseStatusCode.BAD_REQUEST);
   await request(server)
     .post(ROUTES.USER.SIGNUP)
     .send({ password: "Admin@123" })
-    .expect(400);
+    .expect(ResponseStatusCode.BAD_REQUEST);
 });
 
 it("disallows duplicate emails", async () => {
@@ -60,7 +61,7 @@ it("disallows duplicate emails", async () => {
       email: "ajayjb11@gmail.com",
       password: "Admin@123",
     })
-    .expect(201);
+    .expect(ResponseStatusCode.CREATED);
   await request(server)
     .post(ROUTES.USER.SIGNUP)
     .send({
@@ -68,7 +69,7 @@ it("disallows duplicate emails", async () => {
       email: "ajayjb11@gmail.com",
       password: "Admin@123",
     })
-    .expect(400);
+    .expect(ResponseStatusCode.BAD_REQUEST);
 });
 
 it("sets a cookie after successful signup", async () => {
@@ -79,7 +80,7 @@ it("sets a cookie after successful signup", async () => {
       email: "ajayjb11@gmail.com",
       password: "Admin@123",
     })
-    .expect(201);
+    .expect(ResponseStatusCode.CREATED);
 
   expect(response.get("Set-Cookie")).toBeDefined();
 });
