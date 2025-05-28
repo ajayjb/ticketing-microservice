@@ -8,3 +8,4 @@ export * from "@/services/jwt.service";
 export * from "@/services/password.service";
 export * from "@/types/validation";
 export * from "@/utils/asyncHandler";
+export * from "@/utils/sanitizeObject"

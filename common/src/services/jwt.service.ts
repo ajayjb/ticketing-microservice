@@ -19,7 +19,7 @@ export class JwtService {
     return token;
   }
 
-  static verify(token: string, verifyOptions?: VerifyOptions) {
+  static verify(token: string, verifyOptions: VerifyOptions = {}) {
     const decoded = jsonwebtoken.verify(
       token,
       sanitizedConfig.JWT_KEY,
