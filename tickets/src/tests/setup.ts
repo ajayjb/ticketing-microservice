@@ -1,11 +1,8 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
-import mongoose from "mongoose";
-import request from "supertest";
+import mongoose, { Types } from "mongoose";
 
-import app from "@/app";
-import ROUTES from "@/config/routes";
+import {  JwtService } from "@ajayjbtickets/common";
 
-const server = app.server;
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
@@ -30,3 +27,19 @@ afterAll(async () => {
   }
   await mongoose.connection.close();
 });
+
+declare global {
+  var signin: () => string[]; // or function signin(): string[];
+}
+
+global.signin = () => {
+  const payload = JwtService.generatePayload({
+    _id: new Types.ObjectId().toString(),
+    email: "ajayjb11@gmail.com",
+  });
+
+  const token = JwtService.sign(payload);
+  const base64 = btoa(JSON.stringify({ token }));
+
+  return [`session=${base64}; path=/; httponly`]; // In supertest all cookies sent from backend will be in a array;
+};

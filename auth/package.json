@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.ts",
-  "type": "module",
   "scripts": {
     "dev": "tsx src/server.ts",
     "start": "node dist/server.js",
@@ -14,7 +13,7 @@
   "author": "Ajay J B",
   "license": "ISC",
   "dependencies": {
-    "@ajayjbtickets/common": "^1.0.13",
+    "@ajayjbtickets/common": "^1.0.14",
     "cookie-parser": "^1.4.7",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",

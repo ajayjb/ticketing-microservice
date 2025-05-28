@@ -5,21 +5,23 @@ import { ResponseStatusCode } from "@ajayjbtickets/common";
 
 const server = app.server;
 
-it("responds with details about current user", async () => {
-  const cookie = await global.signin();
+describe("Current User", () => {
+  it("responds with details about current user", async () => {
+    const cookie = await global.signin();
 
-  const currentUserResponse = await request(server)
-    .get(ROUTES.USER.CURRENT_USER)
-    .set("Cookie", cookie)
-    .send()
-    .expect(ResponseStatusCode.SUCCESS);
+    const currentUserResponse = await request(server)
+      .get(ROUTES.USER.CURRENT_USER)
+      .set("Cookie", cookie)
+      .send()
+      .expect(ResponseStatusCode.SUCCESS);
 
-  expect(currentUserResponse.body.data.email).toEqual("ajayjb11@gmail.com");
-});
+    expect(currentUserResponse.body.data.email).toEqual("ajayjb11@gmail.com");
+  });
 
-it("responds with unauthorized if not authenticated", async () => {
-  await request(server)
-    .get(ROUTES.USER.CURRENT_USER)
-    .send()
-    .expect(ResponseStatusCode.UNAUTHORIZED);
+  it("responds with unauthorized if not authenticated", async () => {
+    await request(server)
+      .get(ROUTES.USER.CURRENT_USER)
+      .send()
+      .expect(ResponseStatusCode.UNAUTHORIZED);
+  });
 });

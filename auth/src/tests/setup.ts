@@ -32,14 +32,14 @@ afterAll(async () => {
 });
 
 declare global {
-  var signin: () => Promise<string[]>; // function signin(): Promise<string[]>;
+  var signin: () => Promise<string[]>; // or function signin(): Promise<string[]>;
 }
 
 global.signin = async () => {
   await request(server)
     .post(ROUTES.USER.SIGNUP)
     .send({
-      first_name: "Ajay J B",
+      firstName: "Ajay J B",
       email: "ajayjb11@gmail.com",
       password: "Admin@123",
     })

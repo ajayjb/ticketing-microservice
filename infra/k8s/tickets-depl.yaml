@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketing-tickets-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticketing-tickets
+  template:
+    metadata:
+      labels:
+        app: ticketing-tickets
+    spec:
+      containers:
+        - name: ticketing-tickets
+          image: ajayjb/ticketing-tickets:latest
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ticketing-tickets-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: ticketing-tickets
+  ports:
+    - name: ticketing-tickets-srv-port
+      protocol: TCP
+      port: 6001
+      targetPort: 6001

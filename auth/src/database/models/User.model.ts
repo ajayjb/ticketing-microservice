@@ -1,7 +1,6 @@
 import { Password } from "@ajayjbtickets/common";
 import { Document, Model, Schema, Types, model } from "mongoose";
 
-
 export const DOCUMENT_NAME = "User";
 export const COLLECTION_NAME = "users";
 
@@ -13,7 +12,7 @@ export type UserAttr = {
   password: string;
 };
 
-export interface UserDocType extends Document {
+export interface UserDoc extends Document {
   _id: Types.ObjectId;
   firstName: string;
   middleName?: string;
@@ -24,11 +23,11 @@ export interface UserDocType extends Document {
   updatedAt: string;
 }
 
-interface UserModel extends Model<UserDocType> {
-  build: (attrs: UserAttr) => UserDocType;
+interface UserModel extends Model<UserDoc> {
+  build: (attrs: UserAttr) => UserDoc;
 }
 
-const schema = new Schema<UserDocType>(
+const schema = new Schema<UserDoc>(
   {
     firstName: {
       type: Schema.Types.String,
@@ -61,9 +60,7 @@ const schema = new Schema<UserDocType>(
   }
 );
 
-schema.statics.build = (attrs: UserAttr) => {
-  return new User(attrs);
-};
+schema.statics.build = (attrs: UserAttr) => new User(attrs);
 
 schema.pre("save", async function (next) {
   if (this.isDirectModified("password")) {
@@ -72,10 +69,6 @@ schema.pre("save", async function (next) {
   next();
 });
 
-const User = model<UserDocType, UserModel>(
-  DOCUMENT_NAME,
-  schema,
-  COLLECTION_NAME
-);
+const User = model<UserDoc, UserModel>(DOCUMENT_NAME, schema, COLLECTION_NAME);
 
 export default User;

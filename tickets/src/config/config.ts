@@ -16,6 +16,8 @@ interface Env extends Db {
   LOG_DIR: string;
   LOG_LEVEL: string;
   VERSION: string;
+  SALT_ROUNDS: number;
+  JWT_KEY: string;
 }
 
 const getConfig = (): Env => {
@@ -32,6 +34,8 @@ const getConfig = (): Env => {
     DB_USER_PWD: process.env.DB_USER_PWD,
     DB_MIN_POOL_SIZE: parseInt(process.env.DB_MIN_POOL_SIZE),
     DB_MAX_POOL_SIZE: parseInt(process.env.DB_MAX_POOL_SIZE),
+    SALT_ROUNDS: parseInt(process.env.SALT_ROUNDS),
+    JWT_KEY: process.env.JWT_KEY,
   };
 };
 

@@ -2,16 +2,17 @@
 # yarn lockfile v1
 
 
-"@ajayjbtickets/common@^1.0.13":
-  version "1.0.13"
-  resolved "https://registry.npmjs.org/@ajayjbtickets/common/-/common-1.0.13.tgz"
-  integrity sha512-zDESfa2yhX5O+xVdKbAX1b4cCRUB2UYsBHlS3uV4xLP7ma/+h1HYanOBXjOYk82g7nSd8UdqxvuM10qnbY2Jow==
+"@ajayjbtickets/common@^1.0.14":
+  version "1.0.14"
+  resolved "https://registry.npmjs.org/@ajayjbtickets/common/-/common-1.0.14.tgz"
+  integrity sha512-HL4WMuw4GXCV+4WtZ3Wcb42sNfGKjRRNz7HgMdvoOmXoq7/Y4T/Czn/T+6yYzbXtAnTVesa0fPAjvksM3RkOBA==
   dependencies:
     bcrypt "^5.1.1"
     cookie-session "^2.1.0"
     dotenv "^16.5.0"
     express "^5.1.0"
     jsonwebtoken "^9.0.2"
+    lodash "^4.17.21"
     winston "^3.17.0"
     winston-daily-rotate-file "^5.0.0"
     zod "^3.24.4"
@@ -3932,6 +3933,11 @@ slash@^5.1.0:
   version "5.1.0"
   resolved "https://registry.npmjs.org/slash/-/slash-5.1.0.tgz"
   integrity sha512-ZA6oR3T/pEyuqwMgAKT0/hAv8oAXckzbkmR0UkUosQ+Mc4RxGoJkRmwHgHufaenlyAgE1Mxgpdcrf75y6XcnDg==
+
+slugify@^1.6.6:
+  version "1.6.6"
+  resolved "https://registry.npmjs.org/slugify/-/slugify-1.6.6.tgz"
+  integrity sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==
 
 source-map-support@0.5.13:
   version "0.5.13"
