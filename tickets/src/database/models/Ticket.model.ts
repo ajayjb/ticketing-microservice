@@ -15,6 +15,7 @@ export interface TicketDoc extends Document {
   slug: string;
   price: number;
   userId: Types.ObjectId;
+  isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -29,6 +30,7 @@ const schema = new Schema<TicketDoc>(
     slug: { type: Schema.Types.String, unique: true },
     price: { type: Schema.Types.Number, required: true },
     userId: { type: Schema.Types.ObjectId, required: true },
+    isDeleted: { type: Schema.Types.Boolean, default: false },
   },
   {
     timestamps: true,

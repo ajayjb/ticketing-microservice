@@ -1,13 +1,16 @@
 import { MESSAGES } from "@/constants/messages";
-import Ticket from "@/database/models/Ticket.model";
+import Ticket, { TicketDoc } from "@/database/models/Ticket.model";
 import {
   BadRequestError,
+  ForbiddenError,
   JwtPayload,
+  Pagination,
   ResponseStatusCode,
   SuccessResponse,
   sanitizeObject,
 } from "@ajayjbtickets/common";
 import { Request, Response } from "express";
+import { Types } from "mongoose";
 
 class TicketsController {
   constructor() {}
@@ -31,10 +34,29 @@ class TicketsController {
 
   async update(req: Request, res: Response) {
     const { id } = req.params as { id: string };
+    const user = req.user;
+
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestError(MESSAGES.GENERAL.ID_MUST_BE_HEXADECIMAL);
+    }
+
     const { name, price } = req.body as { name: string; price: number };
 
-    const ticket = await Ticket.findByIdAndUpdate(
-      id,
+    const ticket = await Ticket.findOne({
+      _id: new Types.ObjectId(id),
+      isDeleted: false,
+    });
+
+    if (!ticket) {
+      throw new BadRequestError(MESSAGES.TICKETS.NOT_FOUND);
+    }
+
+    if (ticket.userId.toString() !== user.id) {
+      throw new ForbiddenError();
+    }
+
+    const updatedTicket = await Ticket.findByIdAndUpdate(
+      ticket._id,
       sanitizeObject({
         name,
         price,
@@ -42,34 +64,92 @@ class TicketsController {
       { new: true }
     );
 
+    new SuccessResponse(
+      ResponseStatusCode.SUCCESS,
+      MESSAGES.TICKETS.UPDATED,
+      updatedTicket
+    ).send(res);
+  }
+
+  async findAll(req: Request, res: Response) {
+    const { currentPage = 1, itemsPerPage = 10 } = req.query as unknown as {
+      currentPage: number;
+      itemsPerPage: number;
+    };
+
+    const baseMatch: Record<string, any> = {
+      isDeleted: false,
+    };
+
+    const [tickets, totalItems] = await Promise.all([
+      Ticket.find(baseMatch)
+        .skip((currentPage - 1) * itemsPerPage)
+        .limit(itemsPerPage)
+        .lean(),
+      Ticket.countDocuments(baseMatch),
+    ]);
+
+    const pagination: Pagination = {
+      currentPage,
+      itemsPerPage,
+      totalItems,
+    };
+
+    new SuccessResponse(
+      ResponseStatusCode.SUCCESS,
+      MESSAGES.GENERAL.SUCCESS,
+      tickets,
+      pagination
+    ).send(res);
+  }
+
+  async findById(req: Request, res: Response) {
+    const { id } = req.params as { id: string };
+
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestError(MESSAGES.GENERAL.ID_MUST_BE_HEXADECIMAL);
+    }
+
+    const ticket = await Ticket.findOne({
+      _id: new Types.ObjectId(id),
+      isDeleted: false,
+    }).lean();
+
     if (!ticket) {
       throw new BadRequestError(MESSAGES.TICKETS.NOT_FOUND);
     }
 
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
-      MESSAGES.TICKETS.UPDATED,
+      MESSAGES.GENERAL.SUCCESS,
       ticket
     ).send(res);
   }
 
-  async findAll(req: Request, res: Response) {
-    new SuccessResponse(
-      ResponseStatusCode.SUCCESS,
-      MESSAGES.GENERAL.SUCCESS,
-      null
-    ).send(res);
-  }
-
-  async findById(req: Request, res: Response) {
-    new SuccessResponse(
-      ResponseStatusCode.SUCCESS,
-      MESSAGES.GENERAL.SUCCESS,
-      null
-    ).send(res);
-  }
-
   async remove(req: Request, res: Response) {
+    const { id } = req.params as { id: string };
+    const user = req.user as JwtPayload;
+
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestError(MESSAGES.GENERAL.ID_MUST_BE_HEXADECIMAL);
+    }
+
+    const ticket = await Ticket.findOne({
+      _id: new Types.ObjectId(id),
+      isDeleted: false,
+    });
+
+    if (!ticket) {
+      throw new BadRequestError(MESSAGES.TICKETS.NOT_FOUND);
+    }
+
+    if (ticket.userId.toString() !== user.id) {
+      throw new ForbiddenError();
+    }
+
+    ticket.isDeleted = true;
+    await ticket.save();
+
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.TICKETS.REMOVED,
