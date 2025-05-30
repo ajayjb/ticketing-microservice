@@ -1,6 +1,6 @@
 {
   "name": "@ajayjbtickets/common",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -25,7 +25,7 @@
     "dev": "tsx ./src/index.ts",
     "clean": "del ./dist/*",
     "build": "npm run clean && tsup",
-    "publish": "git add . && git commit -m \"updates\" && npm version patch && npm run build && npm publish"
+    "release": "git add . && git commit -m \"updates\" && npm version patch && npm run build && npm publish"
   },
   "keywords": [],
   "author": "",
