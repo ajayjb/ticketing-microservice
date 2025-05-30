@@ -34,7 +34,7 @@ declare global {
 
 global.signin = () => {
   const payload = JwtService.generatePayload({
-    _id: new Types.ObjectId().toString(),
+    id: new Types.ObjectId().toString(),
     email: "ajayjb11@gmail.com",
   });
 

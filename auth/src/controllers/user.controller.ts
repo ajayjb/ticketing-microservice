@@ -32,7 +32,7 @@ class UserController {
     }).save();
 
     const payload = JwtService.generatePayload({
-      _id: user._id.toString(),
+      id: user._id.toString(),
       email: user.email,
     });
     const token = JwtService.sign(payload);
@@ -61,7 +61,7 @@ class UserController {
     }
 
     const payload = JwtService.generatePayload({
-      _id: user._id.toString(),
+      id: user._id.toString(),
       email: user.email,
     });
     const token = JwtService.sign(payload);

@@ -19,7 +19,7 @@ class TicketsController {
     const ticket = await Ticket.build({
       name,
       price,
-      userId: user._id,
+      userId: user.id,
     }).save();
 
     new SuccessResponse(
