@@ -67,6 +67,11 @@ export abstract class ApiError extends Error {
         break;
       default:
         let messsage = err.message;
+
+        if (!sanitizedConfig.ENVIRONMENT) {
+          throw new Error("Missing required environment variable: ENVIRONMENT");
+        }
+
         messsage =
           sanitizedConfig.ENVIRONMENT !== ENVIRONMENTS.production
             ? messsage

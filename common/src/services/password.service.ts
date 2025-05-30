@@ -4,6 +4,10 @@ import bcrypt from "bcrypt";
 export class Password {
   static hashPassword(password: string): Promise<string> {
     return new Promise((resolve, reject) => {
+      if (!sanitizedConfig.SALT_ROUNDS) {
+        reject("Missing required environment variable: SALT_ROUNDS");
+      }
+
       bcrypt.hash(password, sanitizedConfig.SALT_ROUNDS, function (err, hash) {
         if (err) {
           reject(err.message);
@@ -27,4 +31,3 @@ export class Password {
     });
   }
 }
-

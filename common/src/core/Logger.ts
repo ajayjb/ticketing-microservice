@@ -1,13 +1,9 @@
 import winston, { format } from "winston";
 import fs from "fs";
-import path from "path";
 import DailyRotateFile from "winston-daily-rotate-file";
 import { sanitizedConfig } from "@/config/config";
 
-let dir = sanitizedConfig.LOG_DIR;
-if (!dir) {
-  dir = path.resolve("logs");
-}
+const dir = sanitizedConfig.LOG_DIR;
 
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);

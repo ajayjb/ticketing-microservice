@@ -11,6 +11,10 @@ export class JwtService {
     payload: string | Buffer | object,
     signOptions: SignOptions = {}
   ): string {
+    if (!sanitizedConfig.JWT_KEY) {
+      throw new Error("Missing required environment variable: JWT_KEY");
+    }
+
     const token = jsonwebtoken.sign(
       payload,
       sanitizedConfig.JWT_KEY,

@@ -11,20 +11,14 @@ interface Env {
 const getConfig = (): Env => {
   return {
     ENVIRONMENT: process.env.ENVIRONMENT,
-    LOG_DIR: process.env.LOG_DIR,
-    LOG_LEVEL: process.env.LOG_LEVEL,
+    LOG_DIR: process.env.LOG_DIR || "logs",
+    LOG_LEVEL: process.env.LOG_LEVEL || "info",
     SALT_ROUNDS: parseInt(process.env.SALT_ROUNDS),
     JWT_KEY: process.env.JWT_KEY,
   };
 };
 
 const getSanitizedConfig = (config: Env): Env => {
-  for (const [key, value] of Object.entries(config)) {
-    if (!value) {
-      throw new Error(`Missing key ${key} in config.env`);
-    }
-  }
-
   return config;
 };
 
