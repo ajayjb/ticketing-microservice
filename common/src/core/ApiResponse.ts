@@ -41,6 +41,12 @@ export enum ResponseStatusCode {
   GATEWAY_TIMEOUT = 504,
 }
 
+export type Pagination = {
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+};
+
 export abstract class ApiResponse {
   public message: string;
   public statusCode: string | undefined;
@@ -86,6 +92,9 @@ export abstract class ApiResponse {
 }
 
 export class SuccessResponse<T> extends ApiResponse {
+  public data;
+  public pagination;
+
   constructor(
     responseStatusCode:
       | ResponseStatusCode.SUCCESS
@@ -93,10 +102,14 @@ export class SuccessResponse<T> extends ApiResponse {
       | ResponseStatusCode.ACCEPTED
       | ResponseStatusCode.NO_CONTENT,
     message: string,
-    public data: T
+    data: T,
+    pagination?: Pagination
   ) {
     super(responseStatusCode, message, StatusCode.SUCCESS);
     this.data = data;
+    if (pagination) {
+      this.pagination = pagination;
+    }
   }
 
   send(res: Response) {
