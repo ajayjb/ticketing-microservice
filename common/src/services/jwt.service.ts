@@ -2,7 +2,7 @@ import { sanitizedConfig } from "@/config/config";
 import jsonwebtoken, { SignOptions, VerifyOptions } from "jsonwebtoken";
 
 export interface JwtPayload {
-  _id: string;
+  id: string;
   email: string;
 }
 
@@ -28,10 +28,10 @@ export class JwtService {
     return decoded;
   }
 
-  static generatePayload<T extends JwtPayload>(user: T): T {
+  static generatePayload<T extends JwtPayload>(payload: T): T {
     return {
-      _id: user._id.toString(),
-      email: user.email,
+      id: payload.id,
+      email: payload.email,
     } as T;
   }
 }
