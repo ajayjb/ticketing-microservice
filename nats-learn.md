@@ -145,5 +145,3 @@ js.subscribe("events.login", { deliverPolicy: "all" });
 * Use **JetStream** if you need **persistence, message replay, or reliable delivery**.
 
 ---
-
-Let me know if you'd like a sample project using NATS or JetStream!

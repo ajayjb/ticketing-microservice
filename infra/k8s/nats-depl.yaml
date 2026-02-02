@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nats-deployment
+  name: nats-depl
 spec:
   replicas: 1
   selector:
@@ -23,7 +23,7 @@ spec:
               "-hbt", "5s",
               "-hbf", "2",
               "-SD",
-              "-cid", "ticketing"
+              "-cid", "tickets"
             ]
 
 ---
