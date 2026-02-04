@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "publish": "tsx ./src/publisher.ts",
-    "listen": "tsx ./src/listener.ts"
+    "publish": "tsx watch src/publisher.ts",
+    "listen": "tsx watch src/listener.ts"
   },
   "keywords": [],
   "author": "",

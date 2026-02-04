@@ -22,8 +22,8 @@
     }
   },
   "scripts": {
-    "dev": "tsx ./src/index.ts",
-    "clean": "del ./dist/*",
+    "dev": "tsx watch src/index.ts",
+    "clean": "del dist/*",
     "build": "npm run clean && tsup",
     "release": "git add . && git commit -m \"updates\" && npm version patch && npm run build && npm publish"
   },

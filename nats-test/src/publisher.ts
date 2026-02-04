@@ -1,11 +1,37 @@
 import nats from "node-nats-streaming";
 
+console.clear()
+
 const stan = nats.connect("tickets", `publisher-${process.pid}`, {
   url: "http://localhost:4222",
 });
 
 stan.on("connect", () => {
   console.log("Publisher connected to STAN");
+
+  stan.publish(
+    "ticket:created",
+    JSON.stringify({
+      id: 1,
+      title: "concert",
+      price: 20,
+    }),
+    () => {
+      console.log("Ticket published");
+    }
+  );
+
+  stan.publish(
+    "ticket:created",
+    JSON.stringify({
+      id: 2,
+      title: "ipl",
+      price: 30,
+    }),
+    () => {
+      console.log("Ticket published");
+    }
+  );
 });
 
 stan.on("error", (err) => {

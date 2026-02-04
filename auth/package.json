@@ -4,10 +4,10 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "dev": "tsx src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
     "test": "jest --watchAll --no-cache",
-    "clean": "del ./dist/*",
+    "clean": "del dist/*",
     "build": "npm run clean && tsup"
   },
   "author": "Ajay J B",
