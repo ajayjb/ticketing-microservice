@@ -1,6 +1,6 @@
 import { Subjects } from "./subjects";
 
-export interface Ticket {
+interface Ticket {
   id: number;
   name: string;
   price: number;
