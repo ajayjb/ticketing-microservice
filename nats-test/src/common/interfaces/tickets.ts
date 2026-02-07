@@ -2,7 +2,7 @@ import { Subjects } from "../enums/subjects";
 
 export interface Ticket {
   id: number;
-  title: string;
+  name: string;
   price: number;
 }
 

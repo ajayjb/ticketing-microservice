@@ -12,7 +12,7 @@ stan.on("connect", async () => {
 
   await new TicketCreatedPublisher(stan).publish({
     id: 3,
-    title: "concert",
+    name: "concert",
     price: 20,
   });
 });
