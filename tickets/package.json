@@ -13,7 +13,7 @@
   "author": "Ajay J B",
   "license": "ISC",
   "dependencies": {
-    "@ajayjbtickets/common": "^1.0.32",
+    "@ajayjbtickets/common": "^1.0.33",
     "cookie-parser": "^1.4.7",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
