@@ -1,7 +1,7 @@
 import { Subjects } from "./subjects";
 
 interface Ticket {
-  id: number;
+  id: string;
   name: string;
   price: number;
   userId: string;
