@@ -21,18 +21,18 @@ class UserRouter {
 
   private init() {
     this.router.post(
-      "/signup",
+      "/user/signup",
       schemaValidator(ValidationSource.BODY, UserValidators.signup()),
       asyncHandler(this.userController.signup)
     );
     this.router.post(
-      "/signin",
+      "/user/signin",
       schemaValidator(ValidationSource.BODY, UserValidators.signin()),
       asyncHandler(this.userController.signin)
     );
-    this.router.post("/signout", asyncHandler(this.userController.signout));
+    this.router.post("/user/signout", asyncHandler(this.userController.signout));
     this.router.get(
-      "/currentUser",
+      "/user/currentUser",
       verifyToken,
       asyncHandler(this.userController.currentUser)
     );

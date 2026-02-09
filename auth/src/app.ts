@@ -19,7 +19,7 @@ class App {
   public apiPrefix: string;
 
   constructor() {
-    this.apiPrefix = `/api/auth/${sanitizedConfig.VERSION}`;
+    this.apiPrefix = `/api/${sanitizedConfig.VERSION}/auth`;
     this.server = express();
 
     this.server.use(cookieParser()); // No need to use this, since cookies sent in req.headers.cookie. To populate req.cookie we can use this.
@@ -71,7 +71,7 @@ class App {
 
   private registerRoutes() {
     this.server.get(`${this.apiPrefix}/health`, this.healthCheck);
-    this.server.use(`${this.apiPrefix}/user`, userRouter);
+    this.server.use(`${this.apiPrefix}`, userRouter);
   }
 }
 

@@ -1,9 +1,9 @@
 export const API_ENDPOINT = {
   USER: {
-    SIGNIN: "/api/auth/v1/user/signin",
-    SIGNUP: "/api/auth/v1/user/signup",
-    SIGNOUT: "/api/auth/v1/user/signout",
-    CURRENT_USER: "/api/auth/v1/user/currentUser",
+    SIGNIN: "/api/v1/auth/user/signin",
+    SIGNUP: "/api/v1/auth/user/signup",
+    SIGNOUT: "/api/v1/auth/user/signout",
+    CURRENT_USER: "/api/v1/auth/user/currentUser",
   },
 };
 

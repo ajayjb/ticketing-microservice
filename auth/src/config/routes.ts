@@ -1,10 +1,10 @@
 const ROUTES = {
   USER: {
-    SIGNUP: "/api/auth/v1/user/signup",
-    SIGNIN: "/api/auth/v1/user/signin",
-    SIGNOUT: "/api/auth/v1/user/signout",
-    LOGIN: "/api/auth/v1/user/signout",
-    CURRENT_USER: "/api/auth/v1/user/currentUser",
+    SIGNUP: "/api/v1/auth/user/signup",
+    SIGNIN: "/api/v1/auth/user/signin",
+    SIGNOUT: "/api/v1/auth/user/signout",
+    LOGIN: "/api/v1/auth/user/signout",
+    CURRENT_USER: "/api/v1/auth/user/currentUser",
   },
 };
 

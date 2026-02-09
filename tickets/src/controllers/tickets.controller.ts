@@ -1,5 +1,8 @@
 import { MESSAGES } from "@/constants/messages";
 import Ticket, { TicketDoc } from "@/database/models/Ticket.model";
+import { TicketCreatedPublisher } from "@/events/publishers/ticketCreatedPublisher";
+import { TicketUpdatedPublisher } from "@/events/publishers/ticketUpdatedPublisher";
+import { natsWrapper } from "@/services/nats.service";
 import {
   BadRequestError,
   ForbiddenError,
@@ -24,6 +27,13 @@ class TicketsController {
       price,
       userId: user.id,
     }).save();
+
+    await new TicketCreatedPublisher(natsWrapper.client).publish({
+      id: ticket._id.toString(),
+      name: ticket.name,
+      price: ticket.price,
+      userId: ticket.userId.toString(),
+    });
 
     new SuccessResponse(
       ResponseStatusCode.CREATED,
@@ -62,7 +72,16 @@ class TicketsController {
         price,
       }),
       { new: true }
-    );
+    ).lean();
+
+    if (updatedTicket) {
+      await new TicketUpdatedPublisher(natsWrapper.client).publish({
+        id: updatedTicket?._id.toString(),
+        name: updatedTicket.name,
+        price: updatedTicket.price,
+        userId: updatedTicket.userId.toString(),
+      });
+    }
 
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
