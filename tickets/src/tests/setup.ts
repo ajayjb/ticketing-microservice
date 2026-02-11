@@ -1,7 +1,9 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose, { Types } from "mongoose";
 
-import {  JwtService } from "@ajayjbtickets/common";
+import { JwtService } from "@ajayjbtickets/common";
+
+jest.mock("@/services/nats.service");
 
 let mongo: MongoMemoryServer;
 

@@ -1,5 +1,5 @@
 import { MESSAGES } from "@/constants/messages";
-import Ticket, { TicketDoc } from "@/database/models/Ticket.model";
+import Ticket from "@/database/models/Ticket.model";
 import { TicketCreatedPublisher } from "@/events/publishers/ticketCreatedPublisher";
 import { TicketUpdatedPublisher } from "@/events/publishers/ticketUpdatedPublisher";
 import { natsWrapper } from "@/services/nats.service";

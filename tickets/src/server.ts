@@ -5,9 +5,9 @@ import { natsWrapper } from "./services/nats.service";
 
 const startApp = async () => {
   await natsWrapper.connect(
-    "tickets",
-    String(process.pid),
-    "http://nats-srv:4222"
+    sanitizedConfig.NATS_CLUSTER_ID,
+    sanitizedConfig.NATS_CLIENT_ID,
+    sanitizedConfig.NATS_URL
   );
 
   natsWrapper.client.on("close", () => {

@@ -5,6 +5,7 @@ import { randomUUID } from "crypto";
 import app from "@/app";
 import ROUTES from "@/config/routes";
 import { ResponseStatusCode } from "@ajayjbtickets/common";
+import { natsWrapper } from "@/services/nats.service";
 
 const server = app.server;
 
@@ -344,5 +345,46 @@ describe("Get Tickets", () => {
       .set("Cookie", cookie)
       .send()
       .expect(ResponseStatusCode.BAD_REQUEST);
+  });
+});
+
+describe("Publish Event", () => {
+  it(`publish ticket create event`, async () => {
+    const cookie = global.signin();
+
+    const name = "Mission Impossible";
+    const price = 25;
+
+    const response = await createTicket(cookie, name, price);
+    expect(response.status).toBe(ResponseStatusCode.CREATED);
+
+    const createdTicket = response.body;
+    expect(createdTicket.data.name).toBe(name);
+    expect(createdTicket.data.price).toBe(price);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+  });
+
+  it(`publish ticket update event`, async () => {
+    const cookie = global.signin();
+
+    const response = await createTicket(cookie, "Original", 15);
+    expect(response.status).toBe(ResponseStatusCode.CREATED);
+
+    const createdTicket = response.body;
+
+    const updatedName = "Updated Event";
+    const updatedPrice = 25;
+
+    const updateResponse = await request(server)
+      .put(`${ROUTES.TICKETS.UPDATE}/${createdTicket.data.id}`)
+      .set("Cookie", cookie)
+      .send({ name: updatedName, price: updatedPrice })
+      .expect(ResponseStatusCode.SUCCESS);
+
+    expect(updateResponse.body.data.name).toBe(updatedName);
+    expect(updateResponse.body.data.price).toBe(updatedPrice);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 });

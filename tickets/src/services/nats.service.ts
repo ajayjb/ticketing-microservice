@@ -1,3 +1,4 @@
+import { logger } from "@ajayjbtickets/common";
 import nats, { Stan } from "node-nats-streaming";
 
 class NatsWrapper {
@@ -20,7 +21,7 @@ class NatsWrapper {
       });
 
       client.on("connect", () => {
-        console.log("Connected to Stan");
+        logger.info("Stan connection done");
         this._client = client;
         resolve(client);
       });
@@ -32,6 +33,4 @@ class NatsWrapper {
   }
 }
 
-const natsWrapper = new NatsWrapper();
-
-export { natsWrapper };
+export const natsWrapper = new NatsWrapper();
