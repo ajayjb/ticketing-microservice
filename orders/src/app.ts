@@ -12,7 +12,6 @@ import {
 } from "@ajayjbtickets/common";
 
 import { sanitizedConfig } from "@/config/config";
-import { ticketsRouter } from "./routes";
 
 class App {
   public server: Express;
@@ -57,24 +56,20 @@ class App {
   async healthCheck(req: Request, res: Response) {
     return new SuccessResponse(
       ResponseStatusCode.SUCCESS,
-      "Tickets service is alive!",
+      "Orders service is alive!",
       null
     ).send(res);
   }
 
   public init(port: number) {
     this.server.listen(port, () => {
-      logger.info(`Tickets microservice listening on port ${port}`);
-      console.log(`Tickets microservice listening on port ${port}`);
+      logger.info(`Orders microservice listening on port ${port}`);
+      console.log(`Orders microservice listening on port ${port}`);
     });
   }
 
   private registerRoutes() {
     this.server.get(`${this.apiPrefix}/health`, this.healthCheck);
-    this.server.use(
-      `${this.apiPrefix}/v1/tickets`,
-      ticketsRouter
-    );
   }
 }
 

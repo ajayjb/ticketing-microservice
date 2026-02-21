@@ -15,7 +15,6 @@ interface Env extends Db {
   ENVIRONMENT: string;
   LOG_DIR: string;
   LOG_LEVEL: string;
-  VERSION: string;
   SALT_ROUNDS: number;
   JWT_KEY: string;
 }
@@ -26,7 +25,6 @@ const getConfig = (): Env => {
     ENVIRONMENT: process.env.ENVIRONMENT,
     LOG_DIR: process.env.LOG_DIR,
     LOG_LEVEL: process.env.LOG_LEVEL,
-    VERSION: process.env.VERSION,
     DB_NAME: process.env.DB_NAME,
     DB_HOST: process.env.DB_HOST,
     DB_PORT: parseInt(process.env.DB_PORT),

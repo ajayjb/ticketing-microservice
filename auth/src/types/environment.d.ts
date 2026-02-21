@@ -5,7 +5,6 @@ declare global {
       ENVIRONMENT: string;
       LOG_DIR: string;
       LOG_LEVEL: string;
-      VERSION: string;
       DB_NAME: string;
       DB_HOST: string;
       DB_PORT: string;
