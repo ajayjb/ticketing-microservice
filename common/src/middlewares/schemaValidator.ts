@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ZodSchema } from "zod";
+import { ZodSchema, z } from "zod";
 
 import { BadRequestError } from "@/core/ApiError";
 import { ValidationSource } from "@/types/validation";
@@ -22,3 +22,4 @@ export const schemaValidator = (type: ValidationSource, schema: ZodSchema) => {
   };
 };
 
+export const objectId = z.string().regex(/^[0-9a-fA-F]{24}$/);
