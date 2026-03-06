@@ -12,6 +12,7 @@ import {
 } from "@ajayjbtickets/common";
 
 import { sanitizedConfig } from "@/config/config";
+import { ordersRouter } from "./routes";
 
 class App {
   public server: Express;
@@ -70,6 +71,7 @@ class App {
 
   private registerRoutes() {
     this.server.get(`${this.apiPrefix}/health`, this.healthCheck);
+    this.server.use(`${this.apiPrefix}/v1/orders`, ordersRouter);
   }
 }
 

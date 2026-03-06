@@ -1,16 +1,10 @@
+import { objectId } from "@ajayjbtickets/common";
 import { z } from "zod";
 
-class TicketsValidators {
+class OrdersValidators {
   static create = () => {
     return z.object({
-      name: z.string().min(5).max(50),
-      price: z.number().min(0),
-    });
-  };
-  static update = () => {
-    return z.object({
-      name: z.string().min(5).max(50).optional(),
-      price: z.number().min(0).optional(),
+      ticketId: objectId
     });
   };
 
@@ -36,4 +30,4 @@ class TicketsValidators {
   };
 }
 
-export default TicketsValidators;
+export default OrdersValidators;

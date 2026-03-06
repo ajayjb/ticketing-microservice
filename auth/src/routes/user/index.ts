@@ -11,7 +11,7 @@ import UserValidators from "@/routes/user/schema";
 
 class UserRouter {
   public router: Router;
-  public userController: UserController;
+  private userController: UserController;
 
   constructor() {
     this.router = Router();

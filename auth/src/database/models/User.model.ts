@@ -13,7 +13,6 @@ export type UserAttr = {
 };
 
 export interface UserDoc extends Document {
-  _id: Types.ObjectId;
   firstName: string;
   middleName?: string;
   lastName?: string;
@@ -23,11 +22,11 @@ export interface UserDoc extends Document {
   updatedAt: string;
 }
 
-interface UserModel extends Model<UserDoc> {
+export interface UserModel extends Model<UserDoc> {
   build: (attrs: UserAttr) => UserDoc;
 }
 
-const schema = new Schema<UserDoc>(
+const schema = new Schema<UserDoc, UserModel>(
   {
     firstName: {
       type: Schema.Types.String,

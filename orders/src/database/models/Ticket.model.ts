@@ -1,23 +1,21 @@
-import { Document, Model, Query, Schema, Types, model } from "mongoose";
-import slugify from "slugify";
+import { Document, Model, Schema, model, Types } from "mongoose";
+import Order from "./Order.model";
+import { OrderStatus } from "@ajayjbtickets/common";
 
 export const DOCUMENT_NAME = "Ticket";
 export const COLLECTION_NAME = "tickets";
 
 export interface TicketAttr {
   name: string;
+  slug: string;
   price: number;
-  userId: string;
 }
 
 export interface TicketDoc extends Document {
   name: string;
   slug: string;
   price: number;
-  userId: Types.ObjectId;
-  isDeleted: boolean;
-  createdAt: string;
-  updatedAt: string;
+  isReserved: (userId: Types.ObjectId) => Promise<boolean>;
 }
 
 export interface TicketModel extends Model<TicketDoc> {
@@ -29,8 +27,6 @@ const schema = new Schema<TicketDoc, TicketModel>(
     name: { type: Schema.Types.String, required: true, unique: true },
     slug: { type: Schema.Types.String, unique: true },
     price: { type: Schema.Types.Number, required: true },
-    userId: { type: Schema.Types.ObjectId, required: true },
-    isDeleted: { type: Schema.Types.Boolean, default: false },
   },
   {
     timestamps: true,
@@ -47,39 +43,19 @@ const schema = new Schema<TicketDoc, TicketModel>(
 );
 
 schema.statics.build = (attr: TicketAttr) => new Ticket(attr);
-
-schema.pre("save", function (next) {
-  if (this.isModified("name")) {
-    this.set("slug", slugify(this.get("name"), { lower: true, strict: true }));
-  }
-  next();
-});
-
-function preUpdate(this: Query<any, any>, next: () => void) {
-  const update: any = this.getUpdate();
-
-  const nameToSlug = update?.name || update?.$set?.name;
-
-  if (nameToSlug) {
-    const slug = slugify(nameToSlug, {
-      lower: true,
-      strict: true,
-    });
-
-    if (update?.$set) {
-      update.$set.slug = slug;
-    } else {
-      update.slug = slug;
-    }
-
-    this.setUpdate(update);
-  }
-
-  next();
-}
-
-schema.pre("findOneAndUpdate", preUpdate);
-schema.pre("updateOne", preUpdate);
+schema.methods.isReserved = async function (userId: Types.ObjectId) {
+  return await Order.exists({
+    userId: userId,
+    ticket: this._id,
+    status: {
+      $in: [
+        OrderStatus.Created,
+        OrderStatus.Complete,
+        OrderStatus.AwaitingPayment,
+      ],
+    },
+  });
+};
 
 const Ticket = model<TicketDoc, TicketModel>(
   DOCUMENT_NAME,

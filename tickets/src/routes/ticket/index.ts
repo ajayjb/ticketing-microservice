@@ -11,7 +11,7 @@ import TicketsValidators from "@/routes/ticket/schema";
 
 class TicketsRouter {
   public router: Router;
-  public ticketController: TicketsController;
+  private ticketController: TicketsController;
 
   constructor() {
     this.router = Router();
