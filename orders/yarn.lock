@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ajayjbtickets/common@1.0.38":
-  version "1.0.38"
-  resolved "https://registry.yarnpkg.com/@ajayjbtickets/common/-/common-1.0.38.tgz#ee52d6b167167c3f1d44f94cb02bf92da3b21524"
-  integrity sha512-a9AFW/Z4k1gXtjNLq7JPjsg9tL8KIrR81YQnki9DcRv7rV29q9DYEgtL2TXzQPARBzRXuVDT9rbi5gajbGm9Vw==
+"@ajayjbtickets/common@1.0.40":
+  version "1.0.40"
+  resolved "https://registry.yarnpkg.com/@ajayjbtickets/common/-/common-1.0.40.tgz#a4e672f9e53c13b0fd0cba8ccac4dc25d4e954d2"
+  integrity sha512-dP4tBrdYCPk93Ytv3tVTRh0m8sh2b3RZs7lMXDg7BknjjpoQVELMPMryG0mQPaX8QRHUeA5jB3DOUqKzfAkRGw==
   dependencies:
     bcrypt "^6.0.0"
     cookie-session "^2.1.0"

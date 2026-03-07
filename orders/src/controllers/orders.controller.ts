@@ -1,6 +1,9 @@
 import { MESSAGES } from "@/constants/messages";
 import Order from "@/database/models/Order.model";
 import Ticket from "@/database/models/Ticket.model";
+import { OrderCancelledPublisher } from "@/events/publishers/orderCancelledPublisher";
+import { OrderCreatedPublisher } from "@/events/publishers/orderCreatedPublisher";
+import { natsWrapper } from "@/services/nats.service";
 import {
   BadRequestError,
   ForbiddenError,
@@ -42,6 +45,17 @@ class OrdersController {
       expiresAt,
       ticket: ticket._id,
     }).save();
+
+    await new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order._id.toString(),
+      status: order.status,
+      expiresAt: order.expiresAt.toISOString(),
+      userId: order.userId.toString(),
+      ticket: {
+        id: ticket._id.toString(),
+        price: ticket.price,
+      },
+    });
 
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
@@ -105,6 +119,13 @@ class OrdersController {
     order.status = OrderStatus.Cancelled;
 
     await order.save();
+
+    await new OrderCancelledPublisher(natsWrapper.client).publish({
+      id: order._id.toString(),
+      ticket: {
+        id: order.ticket.toString(),
+      },
+    });
 
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,

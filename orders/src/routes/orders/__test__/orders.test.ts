@@ -112,6 +112,8 @@ describe("Create Order", () => {
 
     expect(orders.length).toBe(1);
     expect(orders[0].ticket.toString()).toBe(ticket._id.toString());
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 
   it("associates the order with the correct user", async () => {
@@ -347,6 +349,8 @@ describe("Cancel Order By Id", () => {
     expect(orderCancelledResponse.body.data.status).toEqual(
       OrderStatus.Cancelled
     );
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
   });
 
   it(`returns ${ResponseStatusCode.BAD_REQUEST} if order already cancelled`, async () => {
