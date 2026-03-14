@@ -1,6 +1,7 @@
 import { Message, Stan } from "node-nats-streaming";
 
 import { Event } from "@/types/event";
+import { logger } from "@/core/Logger";
 
 export abstract class Listener<T extends Event> {
   abstract subject: T["subject"];
@@ -32,6 +33,7 @@ export abstract class Listener<T extends Event> {
 
     subscription.on("message", (msg: Message) => {
       const parsedData = this.parseData(msg);
+      logger.info(`Message recieved: "${this.subject}"`)
       this.onMessage(parsedData, msg);
     });
   }
