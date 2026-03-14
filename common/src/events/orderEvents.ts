@@ -18,6 +18,7 @@ interface OrderCancelled {
   ticket: {
     id: string;
   };
+  version: number;
 }
 
 export interface OrderCreatedEvent {
