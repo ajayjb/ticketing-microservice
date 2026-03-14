@@ -6,6 +6,7 @@ export const DOCUMENT_NAME = "Ticket";
 export const COLLECTION_NAME = "tickets";
 
 export interface TicketAttr {
+  id: string;
   name: string;
   slug: string;
   price: number;
@@ -42,7 +43,13 @@ const schema = new Schema<TicketDoc, TicketModel>(
   }
 );
 
-schema.statics.build = (attr: TicketAttr) => new Ticket(attr);
+schema.statics.build = (attr: TicketAttr) =>
+  new Ticket({
+    _id: attr.id,
+    name: attr.name,
+    slug: attr.slug,
+    price: attr.price,
+  });
 schema.methods.isReserved = async function (userId: Types.ObjectId) {
   return await Order.exists({
     userId: userId,

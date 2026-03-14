@@ -8,5 +8,6 @@ export const MESSAGES = {
     UPDATED: "Ticket updated successfully",
     REMOVED: "Ticket removed successfully",
     NOT_FOUND: "Ticket not found",
+    TICKET_NAME_EXISTS : "Ticket name already exists"
   },
 };

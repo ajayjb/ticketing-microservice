@@ -22,17 +22,24 @@ class TicketsController {
     const { name, price } = req.body as { name: string; price: number };
     const user = req.user as JwtPayload;
 
+    const ticketNameExists = await Ticket.exists({ name });
+
+    if (ticketNameExists) {
+      throw new BadRequestError(MESSAGES.TICKETS.TICKET_NAME_EXISTS);
+    }
+
     const ticket = await Ticket.build({
       name,
       price,
-      userId: user.id,
+      createdBy: user.id,
     }).save();
 
     await new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket._id.toString(),
       name: ticket.name,
+      slug: ticket.slug,
       price: ticket.price,
-      userId: ticket.userId.toString(),
+      createdBy: ticket.createdBy.toString(),
     });
 
     new SuccessResponse(
@@ -61,7 +68,7 @@ class TicketsController {
       throw new BadRequestError(MESSAGES.TICKETS.NOT_FOUND);
     }
 
-    if (ticket.userId.toString() !== user.id) {
+    if (ticket.createdBy.toString() !== user.id) {
       throw new ForbiddenError();
     }
 
@@ -78,8 +85,9 @@ class TicketsController {
       await new TicketUpdatedPublisher(natsWrapper.client).publish({
         id: updatedTicket?._id.toString(),
         name: updatedTicket.name,
+        slug: ticket.slug,
         price: updatedTicket.price,
-        userId: updatedTicket.userId.toString(),
+        createdBy: updatedTicket.createdBy.toString(),
       });
     }
 
@@ -162,7 +170,7 @@ class TicketsController {
       throw new BadRequestError(MESSAGES.TICKETS.NOT_FOUND);
     }
 
-    if (ticket.userId.toString() !== user.id) {
+    if (ticket.createdBy.toString() !== user.id) {
       throw new ForbiddenError();
     }
 

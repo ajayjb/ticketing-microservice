@@ -7,14 +7,14 @@ export const COLLECTION_NAME = "tickets";
 export interface TicketAttr {
   name: string;
   price: number;
-  userId: string;
+  createdBy: string;
 }
 
 export interface TicketDoc extends Document {
   name: string;
   slug: string;
   price: number;
-  userId: Types.ObjectId;
+  createdBy: Types.ObjectId;
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
@@ -29,7 +29,7 @@ const schema = new Schema<TicketDoc, TicketModel>(
     name: { type: Schema.Types.String, required: true, unique: true },
     slug: { type: Schema.Types.String, unique: true },
     price: { type: Schema.Types.Number, required: true },
-    userId: { type: Schema.Types.ObjectId, required: true },
+    createdBy: { type: Schema.Types.ObjectId, required: true },
     isDeleted: { type: Schema.Types.Boolean, default: false },
   },
   {
