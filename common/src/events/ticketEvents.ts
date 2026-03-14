@@ -3,8 +3,9 @@ import { Subjects } from "./subjects";
 interface Ticket {
   id: string;
   name: string;
+  slug: string;
   price: number;
-  userId: string;
+  createdBy: string;
 }
 
 export interface TicketCreatedEvent {
