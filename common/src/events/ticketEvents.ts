@@ -6,6 +6,7 @@ interface Ticket {
   slug: string;
   price: number;
   createdBy: string;
+  version: number;
 }
 
 export interface TicketCreatedEvent {

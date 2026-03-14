@@ -10,6 +10,7 @@ interface OrderCreated {
     id: string;
     price: number;
   };
+  version: number;
 }
 
 interface OrderCancelled {
