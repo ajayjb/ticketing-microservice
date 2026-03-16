@@ -7,6 +7,7 @@ interface Ticket {
   price: number;
   createdBy: string;
   version: number;
+  orderId?: string
 }
 
 export interface TicketCreatedEvent {
