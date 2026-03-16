@@ -1,17 +1,16 @@
 import { Message } from "node-nats-streaming";
 import { Types } from "mongoose";
-import { OrderCreatedListener } from "../orderCreatedListener";
 import { natsWrapper } from "@/services/nats.service";
 import Ticket from "@/database/models/Ticket.model";
 import {
-  OrderCreatedEvent,
-  OrderStatus,
+  OrderCancelledEvent,
   TicketUpdatedEvent,
 } from "@ajayjbtickets/common";
+import { OrderCancelledListener } from "../orderCancelledListener";
 
 const setup = async () => {
   // Create listener instance
-  const listener = new OrderCreatedListener(natsWrapper.client);
+  const listener = new OrderCancelledListener(natsWrapper.client);
 
   // Create and save a ticket
   const ticket = Ticket.build({
@@ -23,15 +22,11 @@ const setup = async () => {
   await ticket.save();
 
   // Fake OrderCreated event
-  const data: OrderCreatedEvent["data"] = {
+  const data: OrderCancelledEvent["data"] = {
     id: new Types.ObjectId().toString(),
     version: 0,
-    status: OrderStatus.Created,
-    userId: new Types.ObjectId().toString(),
-    expiresAt: new Date().toISOString(),
     ticket: {
       id: ticket.id,
-      price: ticket.price,
     },
   };
 
@@ -44,16 +39,16 @@ const setup = async () => {
   return { listener, ticket, data, msg };
 };
 
-describe("OrderCreatedListener", () => {
+describe("OrderCancelledListener", () => {
   describe("onMessage", () => {
-    it("sets the orderId on the ticket when an order is created", async () => {
+    it("sets the orderId as null on the ticket when an order is cancelled", async () => {
       const { listener, ticket, data, msg } = await setup();
 
       await listener.onMessage(data, msg);
 
       const updatedTicket = await Ticket.findById(ticket.id);
 
-      expect(updatedTicket!.orderId?.toString()).toEqual(data.id);
+      expect(updatedTicket!.orderId).toEqual(null);
     });
 
     it("acknowledges the message after successfully processing the event", async () => {
@@ -74,7 +69,7 @@ describe("OrderCreatedListener", () => {
         (natsWrapper.client.publish as jest.Mock).mock.calls[2][1]
       ) as TicketUpdatedEvent["data"];
 
-      expect(parsedTicketData.orderId).toEqual(data.id);
+      expect(parsedTicketData.orderId).toEqual(null);
     });
   });
 });

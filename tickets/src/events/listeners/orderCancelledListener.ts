@@ -1,27 +1,23 @@
 import { Message } from "node-nats-streaming";
-import { Types } from "mongoose";
 
 import { QUEUE_GROUP_NAME } from "@/constants/queueGroupName";
-import { Subjects, Listener, OrderCreatedEvent } from "@ajayjbtickets/common";
-import Ticket from "@/database/models/Ticket.model";
+import { Listener, OrderCancelledEvent, Subjects } from "@ajayjbtickets/common";
 import { MESSAGES } from "@/constants/messages";
+import Ticket from "@/database/models/Ticket.model";
 import { TicketUpdatedPublisher } from "../publishers/ticketUpdatedPublisher";
 
-export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
-  subject: Subjects.OrderCreated = Subjects.OrderCreated;
+export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
+  subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
   queueGroupName = QUEUE_GROUP_NAME;
 
-  async onMessage(
-    data: OrderCreatedEvent["data"],
-    msg: Message
-  ): Promise<void> {
+  async onMessage(data: OrderCancelledEvent["data"], msg: Message) {
     const ticket = await Ticket.findById(data.ticket.id);
 
     if (!ticket) {
       throw new Error(MESSAGES.TICKETS.NOT_FOUND);
     }
 
-    ticket.orderId = new Types.ObjectId(data.id);
+    ticket.orderId = null;
 
     await ticket.save();
 
@@ -32,7 +28,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
       price: ticket.price,
       createdBy: ticket.createdBy.toString(),
       version: ticket.version,
-      orderId: ticket.orderId.toString(),
+      orderId: ticket.orderId,
     });
 
     msg.ack();

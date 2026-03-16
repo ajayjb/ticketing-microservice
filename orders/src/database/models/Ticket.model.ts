@@ -68,9 +68,8 @@ schema.statics.findByEvent = async function (data: TicketUpdatedEvent["data"]) {
   return ticket;
 };
 
-schema.methods.isReserved = async function (userId: Types.ObjectId) {
+schema.methods.isReserved = async function () {
   return await Order.exists({
-    userId: userId,
     ticket: this._id,
     status: {
       $in: [

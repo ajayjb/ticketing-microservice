@@ -79,7 +79,7 @@ describe("Create Order", () => {
     expect(response.status).toBe(ResponseStatusCode.BAD_REQUEST);
   });
 
-  it(`returns ${ResponseStatusCode.SUCCESS} if ticket reserved by another user`, async () => {
+  it(`returns ${ResponseStatusCode.BAD_REQUEST} if ticket reserved by another user`, async () => {
     const userOne = signin();
     const userTwo = signin();
 
@@ -89,7 +89,7 @@ describe("Create Order", () => {
 
     const response = await createOrder(userTwo, ticket._id.toString());
 
-    expect(response.status).toBe(ResponseStatusCode.SUCCESS);
+    expect(response.status).toBe(ResponseStatusCode.BAD_REQUEST);
   });
 
   it(`returns ${ResponseStatusCode.SUCCESS} with valid inputs`, async () => {
