@@ -4,8 +4,15 @@ import { random } from "lodash";
 import { randomUUID } from "crypto";
 import app from "@/app";
 import ROUTES from "@/config/routes";
-import { ResponseStatusCode } from "@ajayjbtickets/common";
+import {
+  OrderCreatedEvent,
+  OrderStatus,
+  ResponseStatusCode,
+} from "@ajayjbtickets/common";
 import { natsWrapper } from "@/services/nats.service";
+import { OrderCreatedListener } from "@/events/listeners/orderCreatedListener";
+import { Message } from "node-nats-streaming";
+import Ticket from "@/database/models/Ticket.model";
 
 const server = app.server;
 
@@ -158,6 +165,46 @@ describe("Update Ticket", () => {
 
     expect(updateResponse.body.data.name).toBe(updatedName);
     expect(updateResponse.body.data.price).toBe(updatedPrice);
+  });
+
+  it(`returns ${ResponseStatusCode.BAD_REQUEST} if user tries to edit reserved ticket`, async () => {
+    const cookie = global.signin();
+
+    const response = await createTicket(cookie, "Original", 15);
+    expect(response.status).toBe(ResponseStatusCode.CREATED);
+
+    const ticket = response.body.data;
+
+    const orderData: OrderCreatedEvent["data"] = {
+      id: new Types.ObjectId().toString(),
+      version: 0,
+      status: OrderStatus.Created,
+      userId: new Types.ObjectId().toString(),
+      expiresAt: new Date().toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      },
+    };
+
+    // @ts-ignore
+    const msg: Message = {
+      ack: jest.fn(),
+    };
+
+    await new OrderCreatedListener(natsWrapper.client).onMessage(
+      orderData,
+      msg
+    );
+
+    const updatedName = "Updated Event";
+    const updatedPrice = 25;
+
+    await request(server)
+      .put(`${ROUTES.TICKETS.UPDATE}/${ticket.id}`)
+      .set("Cookie", cookie)
+      .send({ name: updatedName, price: updatedPrice })
+      .expect(ResponseStatusCode.BAD_REQUEST);
   });
 });
 

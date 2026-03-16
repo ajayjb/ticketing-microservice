@@ -69,6 +69,10 @@ class TicketsController {
       throw new BadRequestError(MESSAGES.TICKETS.NOT_FOUND);
     }
 
+    if (ticket.orderId) {
+      throw new BadRequestError(MESSAGES.TICKETS.CANNOT_EDIT_RESERVED_TICKET);
+    }
+
     if (ticket.createdBy.toString() !== user.id) {
       throw new ForbiddenError();
     }
