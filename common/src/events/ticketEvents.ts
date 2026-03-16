@@ -7,7 +7,7 @@ interface Ticket {
   price: number;
   createdBy: string;
   version: number;
-  orderId?: string
+  orderId?: string | null;
 }
 
 export interface TicketCreatedEvent {
