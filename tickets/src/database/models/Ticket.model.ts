@@ -1,5 +1,6 @@
 import { Document, Model, Query, Schema, Types, model } from "mongoose";
 import slugify from "slugify";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export const DOCUMENT_NAME = "Ticket";
 export const COLLECTION_NAME = "tickets";
@@ -11,13 +12,16 @@ export interface TicketAttr {
 }
 
 export interface TicketDoc extends Document {
+  _id: Types.ObjectId;
   name: string;
   slug: string;
   price: number;
   createdBy: Types.ObjectId;
   isDeleted: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
+  version: number;
+  orderId: Types.ObjectId | null;
 }
 
 export interface TicketModel extends Model<TicketDoc> {
@@ -31,6 +35,7 @@ const schema = new Schema<TicketDoc, TicketModel>(
     price: { type: Schema.Types.Number, required: true },
     createdBy: { type: Schema.Types.ObjectId, required: true },
     isDeleted: { type: Schema.Types.Boolean, default: false },
+    orderId: { type: Schema.Types.ObjectId, default: null },
   },
   {
     timestamps: true,
@@ -45,6 +50,9 @@ const schema = new Schema<TicketDoc, TicketModel>(
     },
   }
 );
+
+schema.plugin(updateIfCurrentPlugin as any);
+schema.set("versionKey", "version");
 
 schema.statics.build = (attr: TicketAttr) => new Ticket(attr);
 

@@ -11,13 +11,15 @@ export interface OrderAttr {
 }
 
 export interface OrderDoc extends Document {
+  _id: Types.ObjectId; 
   userId: Types.ObjectId;
   status: OrderStatus;
   expiresAt: Date;
   ticket: Types.ObjectId;
   isDeleted: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
+  version: number
 }
 
 export interface OrderModel extends Model<OrderDoc> {

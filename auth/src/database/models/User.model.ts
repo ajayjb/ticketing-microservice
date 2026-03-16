@@ -13,13 +13,14 @@ export type UserAttr = {
 };
 
 export interface UserDoc extends Document {
+  _id: Types.ObjectId; 
   firstName: string;
   middleName?: string;
   lastName?: string;
   email: string;
   password: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface UserModel extends Model<UserDoc> {

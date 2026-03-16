@@ -1,6 +1,8 @@
 import { Document, Model, Schema, model, Types } from "mongoose";
-import Order from "./Order.model";
-import { OrderStatus } from "@ajayjbtickets/common";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
+
+import Order from "@/database/models/Order.model";
+import { OrderStatus, TicketUpdatedEvent } from "@ajayjbtickets/common";
 
 export const DOCUMENT_NAME = "Ticket";
 export const COLLECTION_NAME = "tickets";
@@ -13,14 +15,17 @@ export interface TicketAttr {
 }
 
 export interface TicketDoc extends Document {
+  _id: Types.ObjectId;
   name: string;
   slug: string;
   price: number;
   isReserved: (userId: Types.ObjectId) => Promise<boolean>;
+  version: number;
 }
 
 export interface TicketModel extends Model<TicketDoc> {
   build: (attr: TicketAttr) => TicketDoc;
+  findByEvent: (data: TicketUpdatedEvent["data"]) => Promise<TicketDoc | null>;
 }
 
 const schema = new Schema<TicketDoc, TicketModel>(
@@ -43,6 +48,9 @@ const schema = new Schema<TicketDoc, TicketModel>(
   }
 );
 
+schema.plugin(updateIfCurrentPlugin as any);
+schema.set("versionKey", "version");
+
 schema.statics.build = (attr: TicketAttr) =>
   new Ticket({
     _id: attr.id,
@@ -50,6 +58,16 @@ schema.statics.build = (attr: TicketAttr) =>
     slug: attr.slug,
     price: attr.price,
   });
+
+schema.statics.findByEvent = async function (data: TicketUpdatedEvent["data"]) {
+  const ticket = await this.findOne({
+    _id: new Types.ObjectId(data.id),
+    version: data.version - 1,
+  });
+
+  return ticket;
+};
+
 schema.methods.isReserved = async function (userId: Types.ObjectId) {
   return await Order.exists({
     userId: userId,

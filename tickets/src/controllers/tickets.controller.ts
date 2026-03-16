@@ -40,6 +40,7 @@ class TicketsController {
       slug: ticket.slug,
       price: ticket.price,
       createdBy: ticket.createdBy.toString(),
+      version: ticket.version,
     });
 
     new SuccessResponse(
@@ -72,14 +73,14 @@ class TicketsController {
       throw new ForbiddenError();
     }
 
-    const updatedTicket = await Ticket.findByIdAndUpdate(
-      ticket._id,
+    ticket.set(
       sanitizeObject({
         name,
         price,
-      }),
-      { new: true }
-    ).lean();
+      })
+    );
+
+    const updatedTicket = await ticket.save();
 
     if (updatedTicket) {
       await new TicketUpdatedPublisher(natsWrapper.client).publish({
@@ -88,6 +89,7 @@ class TicketsController {
         slug: ticket.slug,
         price: updatedTicket.price,
         createdBy: updatedTicket.createdBy.toString(),
+        version: ticket.version,
       });
     }
 

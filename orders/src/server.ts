@@ -3,7 +3,7 @@ import { sanitizedConfig } from "@/config/config";
 import app from "@/app";
 import { natsWrapper } from "./services/nats.service";
 import { TicketCreatedListener } from "./events/listeners/ticketCreatedListner";
-import { ticketUpdatedListner } from "./events/listeners/ticketUpdatedListner";
+import { TicketUpdatedListner } from "./events/listeners/ticketUpdatedListner";
 
 const startApp = async () => {
   await natsWrapper.connect(
@@ -13,7 +13,7 @@ const startApp = async () => {
   );
 
   new TicketCreatedListener(natsWrapper.client).listen();
-  new ticketUpdatedListner(natsWrapper.client).listen();
+  new TicketUpdatedListner(natsWrapper.client).listen();
 
   natsWrapper.client.on("close", () => {
     console.log("STAN connection closed");

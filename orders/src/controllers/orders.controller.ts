@@ -55,6 +55,7 @@ class OrdersController {
         id: ticket._id.toString(),
         price: ticket.price,
       },
+      version: order.version,
     });
 
     new SuccessResponse(
@@ -125,6 +126,7 @@ class OrdersController {
       ticket: {
         id: order.ticket.toString(),
       },
+      version: order.version,
     });
 
     new SuccessResponse(

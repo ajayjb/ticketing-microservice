@@ -70,7 +70,7 @@ class App {
   }
 
   private registerRoutes() {
-    this.server.get(`${this.apiPrefix}/health`, this.healthCheck);
+    this.server.get(`${this.apiPrefix}/v1/tickets/health`, this.healthCheck);
     this.server.use(
       `${this.apiPrefix}/v1/tickets`,
       ticketsRouter

@@ -1,11 +1,12 @@
 import { Message, Stan } from "node-nats-streaming";
+import { Types } from "mongoose";
 
 import { QUEUE_GROUP_NAME } from "@/constants/queueGroupName";
 import { Listener, Subjects, TicketUpdatedEvent } from "@ajayjbtickets/common";
 import Ticket from "@/database/models/Ticket.model";
 import { MESSAGES } from "@/constants/messages";
 
-export class ticketUpdatedListner extends Listener<TicketUpdatedEvent> {
+export class TicketUpdatedListner extends Listener<TicketUpdatedEvent> {
   subject: Subjects.TicketUpdated = Subjects.TicketUpdated;
   queueGroupName = QUEUE_GROUP_NAME;
 
@@ -13,7 +14,8 @@ export class ticketUpdatedListner extends Listener<TicketUpdatedEvent> {
     data: TicketUpdatedEvent["data"],
     msg: Message
   ): Promise<void> {
-    const ticket = await Ticket.findById(data.id);
+
+    const ticket = await Ticket.findByEvent(data);
 
     if (!ticket) {
       throw new Error(MESSAGES.TICKETS.NOT_FOUND);

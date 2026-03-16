@@ -21,6 +21,7 @@ const createOrder = (cookie: string[], ticketId: string): Promise<any> => {
 
 const createTicket = (name: string): Promise<TicketDoc> => {
   const ticket = Ticket.build({
+    id: new Types.ObjectId().toString(),
     name,
     slug: slugify(name),
     price: 30,
