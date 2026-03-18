@@ -21,7 +21,6 @@
     // Strict
     "strict": true,
     "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
 
     // Paths
     "baseUrl": "./",
