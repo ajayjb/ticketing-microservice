@@ -112,7 +112,7 @@ describe("Create Order", () => {
     const orders = await Order.find({ ticket });
 
     expect(orders.length).toBe(1);
-    expect(orders[0].ticket.toString()).toBe(ticket._id.toString());
+    expect(orders[0]!.ticket.toString()).toBe(ticket._id.toString());
 
     expect(natsWrapper.client.publish).toHaveBeenCalled();
   });

@@ -5,7 +5,7 @@ manifests:
     - ./infra/k8s/*
 build:
   local:
-    push: true
+    push: false
   artifacts:
     - image: ajayjb/ticketing-auth
       context: ./auth

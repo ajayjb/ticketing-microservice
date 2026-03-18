@@ -13,14 +13,14 @@
   "author": "Ajay J B",
   "license": "ISC",
   "dependencies": {
-    "@ajayjbtickets/common": "1.0.48",
+    "@ajayjbtickets/common": "1.0.52",
+    "bullmq": "5.71.0",
     "dotenv": "16.5.0",
     "morgan": "1.10.0",
     "node-nats-streaming": "0.3.2",
     "tsx": "4.21.0"
   },
   "devDependencies": {
-    "@tsconfig/node22": "22.0.5",
     "@types/jest": "29.5.14",
     "@types/node": "22",
     "del-cli": "6.0.0",

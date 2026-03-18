@@ -5,7 +5,7 @@ import { Message } from "node-nats-streaming";
 import { natsWrapper } from "@/services/nats.service";
 import { TicketUpdatedEvent } from "@ajayjbtickets/common";
 import Ticket from "@/database/models/Ticket.model";
-import { TicketUpdatedListner } from "../ticketUpdatedListner";
+import { TicketUpdatedListner } from "../ticketUpdatedListener";
 
 const setup = async () => {
   // Create listener instance

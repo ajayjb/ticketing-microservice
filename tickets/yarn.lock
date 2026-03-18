@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ajayjbtickets/common@1.0.48":
-  version "1.0.48"
-  resolved "https://registry.yarnpkg.com/@ajayjbtickets/common/-/common-1.0.48.tgz#f7faa93c0fb52ae52355ff2e853c75f820fe5066"
-  integrity sha512-kbwC17076kg12muiu8MxKsT1uaRQqlRsgovT69+cv+u52t2/MhyOJP6rVkYEK3TcZXzzCEJH4wRW3oSqXwfquQ==
+"@ajayjbtickets/common@1.0.52":
+  version "1.0.52"
+  resolved "https://registry.yarnpkg.com/@ajayjbtickets/common/-/common-1.0.52.tgz#9e1954150259b291a8c8a99ac39fcb9a060ce60d"
+  integrity sha512-vwB6C3Ym+jLTLs+37I7r1u3hPvDkvuA/sled9t85VXfXT0/OpOKafBdBiyadqivMFh/j4XEjtRN5NPgOz4fVqg==
   dependencies:
     bcrypt "6.0.0"
     cookie-session "2.1.0"
@@ -998,16 +998,6 @@
   dependencies:
     color "^5.0.2"
     text-hex "1.0.x"
-
-"@tsconfig/node20@20.1.8":
-  version "20.1.8"
-  resolved "https://registry.npmjs.org/@tsconfig/node20/-/node20-20.1.8.tgz"
-  integrity sha512-Em+IdPfByIzWRRpqWL4Z7ArLHZGxmc36BxE3jCz9nBFSm+5aLaPMZyjwu4yetvyKXeogWcxik4L1jB5JTWfw7A==
-
-"@tsconfig/node22@^22.0.5":
-  version "22.0.5"
-  resolved "https://registry.yarnpkg.com/@tsconfig/node22/-/node22-22.0.5.tgz#56be9f34ccffd3aa85f9cc7365ad9765d5829adb"
-  integrity sha512-hLf2ld+sYN/BtOJjHUWOk568dvjFQkHnLNa6zce25GIH+vxKfvTgm3qpaH6ToF5tu/NN0IH66s+Bb5wElHrLcw==
 
 "@types/babel__core@^7.1.14":
   version "7.20.5"

@@ -10,12 +10,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@tsconfig/node22": "22.0.5",
-    "@types/node": "22",
-    "tsx": "4.21.0"
-  },
   "dependencies": {
     "node-nats-streaming": "0.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "22",
+    "tsx": "4.21.0"
   }
 }

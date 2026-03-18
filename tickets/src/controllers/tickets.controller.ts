@@ -117,8 +117,7 @@ class TicketsController {
     const [tickets, totalItems] = await Promise.all([
       Ticket.find(baseMatch)
         .skip((currentPage - 1) * itemsPerPage)
-        .limit(itemsPerPage)
-        .lean(),
+        .limit(itemsPerPage),
       Ticket.countDocuments(baseMatch),
     ]);
 
@@ -146,7 +145,7 @@ class TicketsController {
     const ticket = await Ticket.findOne({
       _id: new Types.ObjectId(id),
       isDeleted: false,
-    }).lean();
+    });
 
     if (!ticket) {
       throw new BadRequestError(MESSAGES.TICKETS.NOT_FOUND);

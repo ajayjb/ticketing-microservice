@@ -3,7 +3,7 @@ import slugify from "slugify";
 import { Message } from "node-nats-streaming";
 
 import { natsWrapper } from "@/services/nats.service";
-import { TicketCreatedListener } from "../ticketCreatedListner";
+import { TicketCreatedListener } from "../ticketCreatedListener";
 import { TicketCreatedEvent } from "@ajayjbtickets/common";
 import Ticket from "@/database/models/Ticket.model";
 

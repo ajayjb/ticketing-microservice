@@ -4,7 +4,7 @@ import { TicketCreatedListener } from "./events/ticketCreatedListner";
 console.clear();
 
 const stan = nats.connect("tickets", `listener-${process.pid}`, {
-  url: "http://localhost:4222",
+  url: "nats://localhost:4222",
 });
 
 stan.on("connect", () => {
