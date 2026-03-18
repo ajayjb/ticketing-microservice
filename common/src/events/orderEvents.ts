@@ -36,6 +36,6 @@ export interface OrderCancelledEvent {
 }
 
 export interface OrderExpirationCompleteEvent {
-  subject: Subjects.ExpirationComplete;
+  subject: Subjects.OrderExpirationComplete;
   data: OrderExpired;
 }
