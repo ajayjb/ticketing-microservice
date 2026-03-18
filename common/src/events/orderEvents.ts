@@ -21,6 +21,10 @@ interface OrderCancelled {
   version: number;
 }
 
+interface OrderExpired {
+  orderId: string;
+}
+
 export interface OrderCreatedEvent {
   subject: Subjects.OrderCreated;
   data: OrderCreated;
@@ -29,4 +33,9 @@ export interface OrderCreatedEvent {
 export interface OrderCancelledEvent {
   subject: Subjects.OrderCancelled;
   data: OrderCancelled;
+}
+
+export interface OrderExpirationCompleteEvent {
+  subject: Subjects.ExpirationComplete;
+  data: OrderExpired;
 }
