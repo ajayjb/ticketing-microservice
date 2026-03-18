@@ -1,10 +1,12 @@
 {
-  "extends": "@tsconfig/node20/tsconfig.json",
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
     "lib": ["es2023"],
     "module": "CommonJS",
     "target": "es2022",
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "moduleResolution": "node",
@@ -16,5 +18,5 @@
     }
   },
   "include": ["./src/**/*.ts", "./src/types/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }

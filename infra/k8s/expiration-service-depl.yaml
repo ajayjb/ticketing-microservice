@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expiration-service-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expiration-service
+  template:
+    metadata:
+      labels:
+        app: expiration-service
+    spec:
+      containers:
+        - name: expiration-service
+          image: ajayjb/expiration-service:latest
+          env:
+            - name: NATS_CLUSTER_ID
+              value: "tickets"
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name

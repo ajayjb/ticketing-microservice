@@ -5,7 +5,7 @@ manifests:
     - ./infra/k8s/*
 build:
   local:
-    push: false
+    push: true
   artifacts:
     - image: ajayjb/ticketing-auth
       context: ./auth
@@ -39,6 +39,14 @@ build:
             dest: ./
     - image: ajayjb/ticketing-orders
       context: ./orders
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: src/**/*.ts
+            dest: ./
+    - image: ajayjb/expiration-service
+      context: ./expiration-service
       docker:
         dockerfile: Dockerfile
       sync:
