@@ -42,5 +42,5 @@ spec:
   ports:
     - name: ticketing-tickets-srv-port
       protocol: TCP
-      port: 6001
-      targetPort: 6001
+      port: 6000
+      targetPort: 6000

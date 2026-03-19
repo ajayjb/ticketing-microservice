@@ -28,5 +28,5 @@ spec:
   ports:
     - name: mongo-orders-srv-port
       protocol: TCP
-      port: 27019
+      port: 27017
       targetPort: 27017

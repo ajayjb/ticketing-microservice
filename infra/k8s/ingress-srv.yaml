@@ -23,14 +23,21 @@ spec:
               service:
                 name: ticketing-tickets-srv
                 port:
-                  number: 6001
+                  number: 6000
           - path: "/api/v1/orders"
             pathType: Prefix
             backend:
               service:
                 name: ticketing-orders-srv
                 port:
-                  number: 6002
+                  number: 6000
+          - path: "/api/v1/payments"
+            pathType: Prefix
+            backend:
+              service:
+                name: ticketing-payments-srv
+                port:
+                  number: 6000
           - path: "/"
             pathType: Prefix
             backend:
