@@ -21,10 +21,10 @@ const setup = async () => {
 
   await ticket.save();
 
-  // Fake OrderCreated event
+  // Fake OrderCancelled event
   const data: OrderCancelledEvent["data"] = {
     id: new Types.ObjectId().toString(),
-    version: 0,
+    version: 1,
     ticket: {
       id: ticket.id,
     },

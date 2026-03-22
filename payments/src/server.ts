@@ -2,6 +2,8 @@ import "@/database/index";
 import { sanitizedConfig } from "@/config/config";
 import app from "@/app";
 import { natsWrapper } from "./services/nats.service";
+import { OrderCancelledListener } from "./events/listeners/orderCancelledListener";
+import { OrderCreatedListener } from "./events/listeners/orderCreatedListener";
 
 const startApp = async () => {
   await natsWrapper.connect(
@@ -9,6 +11,9 @@ const startApp = async () => {
     sanitizedConfig.NATS_CLIENT_ID,
     sanitizedConfig.NATS_URL
   );
+
+  new OrderCreatedListener(natsWrapper.client).listen();
+  new OrderCancelledListener(natsWrapper.client).listen();
 
   natsWrapper.client.on("close", () => {
     console.log("STAN connection closed");

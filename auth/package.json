@@ -21,6 +21,7 @@
     "express": "4.21.2",
     "lodash": "4.17.21",
     "mongoose": "8.13.2",
+    "mongoose-update-if-current": "^1.4.0",
     "morgan": "1.10.0",
     "tsx": "4.21.0",
     "zod": "3.24.2"

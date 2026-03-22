@@ -1,5 +1,6 @@
 import { OrderStatus } from "@ajayjbtickets/common";
 import { Document, Model, Schema, Types, model } from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export const DOCUMENT_NAME = "Order";
 export const COLLECTION_NAME = "orders";
@@ -52,6 +53,9 @@ const schema = new Schema<OrderDoc, OrderModel>(
     },
   }
 );
+
+schema.plugin(updateIfCurrentPlugin as any);
+schema.set("versionKey", "version");
 
 schema.statics.build = (attr: OrderAttr) => new Order(attr);
 

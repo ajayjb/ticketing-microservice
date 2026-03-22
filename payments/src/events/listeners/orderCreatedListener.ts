@@ -2,8 +2,7 @@ import { Message } from "node-nats-streaming";
 
 import { QUEUE_GROUP_NAME } from "@/constants/queueGroupName";
 import { Subjects, Listener, OrderCreatedEvent } from "@ajayjbtickets/common";
-import { orderExpirationQueue } from "@/queues/orderExpirationQueue";
-import { JOBS } from "@/constants/queue";
+import Order from "@/database/models/Order.model";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
@@ -13,16 +12,12 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     data: OrderCreatedEvent["data"],
     msg: Message
   ): Promise<void> {
-    await orderExpirationQueue.add(
-      JOBS.ORDER.EXPIRE,
-      { orderId: data.id },
-      {
-        delay: Math.max(
-          0,
-          new Date(data.expiresAt).getTime() - new Date().getTime()
-        ),
-      }
-    );
+    await Order.build({
+      id: data.id,
+      status: data.status,
+      userId: data.userId,
+      price: data.ticket.price,
+    }).save();
 
     msg.ack();
   }

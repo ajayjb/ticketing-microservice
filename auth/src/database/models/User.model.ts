@@ -1,5 +1,6 @@
 import { Password } from "@ajayjbtickets/common";
 import { Document, Model, Schema, Types, model } from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export const DOCUMENT_NAME = "User";
 export const COLLECTION_NAME = "users";
@@ -13,7 +14,7 @@ export type UserAttr = {
 };
 
 export interface UserDoc extends Document {
-  _id: Types.ObjectId; 
+  _id: Types.ObjectId;
   firstName: string;
   middleName?: string;
   lastName?: string;
@@ -59,6 +60,9 @@ const schema = new Schema<UserDoc, UserModel>(
     },
   }
 );
+
+schema.plugin(updateIfCurrentPlugin as any);
+schema.set("versionKey", "version");
 
 schema.statics.build = (attrs: UserAttr) => new User(attrs);
 
