@@ -8,6 +8,7 @@ interface Ticket {
   createdBy: string;
   version: number;
   orderId?: string | null;
+  isDeleted: boolean;
 }
 
 export interface TicketCreatedEvent {
