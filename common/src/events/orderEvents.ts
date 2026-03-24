@@ -13,6 +13,12 @@ interface OrderCreated {
   version: number;
 }
 
+interface OrderUpdated {
+  id: string;
+  status: OrderStatus;
+  version: number;
+}
+
 interface OrderCancelled {
   id: string;
   ticket: {
@@ -38,4 +44,9 @@ export interface OrderCancelledEvent {
 export interface OrderExpirationCompleteEvent {
   subject: Subjects.OrderExpirationComplete;
   data: OrderExpired;
+}
+
+export interface OrderUpdatedEvent {
+  subject: Subjects.OrderUpdated;
+  data: OrderUpdated;
 }
