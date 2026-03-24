@@ -5,6 +5,7 @@ import { natsWrapper } from "./services/nats.service";
 import { TicketCreatedListener } from "./events/listeners/ticketCreatedListener";
 import { TicketUpdatedListner } from "./events/listeners/ticketUpdatedListener";
 import { OrderExpirationCompleteListener } from "./events/listeners/orderExpirationCompleteListener";
+import { PaymentCapturedListener } from "./events/listeners/paymentCapturedListener";
 
 const startApp = async () => {
   await natsWrapper.connect(
@@ -16,6 +17,7 @@ const startApp = async () => {
   new TicketCreatedListener(natsWrapper.client).listen();
   new TicketUpdatedListner(natsWrapper.client).listen();
   new OrderExpirationCompleteListener(natsWrapper.client).listen();
+  new PaymentCapturedListener(natsWrapper.client).listen();
 
   natsWrapper.client.on("close", () => {
     console.log("STAN connection closed");

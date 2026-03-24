@@ -17,6 +17,8 @@ declare global {
       NATS_CLUSTER_ID: string;
       NATS_CLIENT_ID: string;
       NATS_URL: string;
+      STRIPE_API_KEY: string;
+      STRIPE_WEBHOOK_SECRET: string
     }
   }
 }

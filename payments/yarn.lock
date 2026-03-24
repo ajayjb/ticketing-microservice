@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@ajayjbtickets/common@1.0.52":
-  version "1.0.52"
-  resolved "https://registry.yarnpkg.com/@ajayjbtickets/common/-/common-1.0.52.tgz#9e1954150259b291a8c8a99ac39fcb9a060ce60d"
-  integrity sha512-vwB6C3Ym+jLTLs+37I7r1u3hPvDkvuA/sled9t85VXfXT0/OpOKafBdBiyadqivMFh/j4XEjtRN5NPgOz4fVqg==
+"@ajayjbtickets/common@1.0.56":
+  version "1.0.56"
+  resolved "https://registry.yarnpkg.com/@ajayjbtickets/common/-/common-1.0.56.tgz#b7d079c71bbc3e2a35dfc895c5b6a227cc4fcbd1"
+  integrity sha512-uq0L+oR/Ww5a2R2RsezTvZaKktEkiTlZ084ODQiQpVXT9U9OOq1XKNFl1lMZzCRzNRTwXUS0eEH1Q7lIATf2vA==
   dependencies:
     bcrypt "6.0.0"
     cookie-session "2.1.0"
@@ -4117,6 +4117,11 @@ strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
+
+stripe@20.4.1:
+  version "20.4.1"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-20.4.1.tgz#547d8a22a97e85a239895f0ffe14de21d96f060a"
+  integrity sha512-axCguHItc8Sxt0HC6aSkdVRPffjYPV7EQqZRb2GkIa8FzWDycE7nHJM19C6xAIynH1Qp1/BHiopSi96jGBxT0w==
 
 sucrase@^3.35.0:
   version "3.35.1"

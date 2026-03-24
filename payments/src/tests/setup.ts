@@ -4,6 +4,7 @@ import mongoose, { Types } from "mongoose";
 import { JwtService } from "@ajayjbtickets/common";
 
 jest.mock("@/services/nats.service");
+jest.mock("@/services/stripe.service");
 
 let mongo: MongoMemoryServer;
 
@@ -23,6 +24,10 @@ beforeEach(async () => {
   }
 });
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 afterAll(async () => {
   if (mongo) {
     await mongo.stop();
@@ -31,12 +36,12 @@ afterAll(async () => {
 });
 
 declare global {
-  var signin: () => string[]; // or function signin(): string[];
+  var signin: (id?: string) => string[]; // or function signin(): string[];
 }
 
-global.signin = () => {
+global.signin = (id) => {
   const payload = JwtService.generatePayload({
-    id: new Types.ObjectId().toString(),
+    id: id || new Types.ObjectId().toString(),
     email: "ajayjb11@gmail.com",
   });
 

@@ -1,6 +1,5 @@
 import request from "supertest";
 import { Types } from "mongoose";
-import { random } from "lodash";
 import { randomUUID } from "crypto";
 import app from "@/app";
 import ROUTES from "@/config/routes";

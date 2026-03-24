@@ -3,38 +3,33 @@ import { Message, Stan } from "node-nats-streaming";
 import { QUEUE_GROUP_NAME } from "@/constants/queueGroupName";
 import {
   Listener,
-  OrderExpirationCompleteEvent,
   OrderStatus,
+  PaymentCapturedEvent,
   Subjects,
 } from "@ajayjbtickets/common";
 import Order from "@/database/models/Order.model";
 import { MESSAGES } from "@/constants/messages";
-import { OrderCancelledPublisher } from "../publishers/orderCancelledPublisher";
+import { OrderUpdatedPublisher } from "../publishers/orderUpdatedPublisher";
 
-export class OrderExpirationCompleteListener extends Listener<OrderExpirationCompleteEvent> {
-  subject: Subjects.OrderExpirationComplete = Subjects.OrderExpirationComplete;
+export class PaymentCapturedListener extends Listener<PaymentCapturedEvent> {
+  subject: Subjects.PaymentCaptured = Subjects.PaymentCaptured;
   queueGroupName = QUEUE_GROUP_NAME;
 
   async onMessage(
-    data: OrderExpirationCompleteEvent["data"],
+    data: PaymentCapturedEvent["data"],
     msg: Message
   ): Promise<void> {
     const order = await Order.findById(data.orderId);
 
     if (!order) throw new Error(MESSAGES.ORDERS.NOT_FOUND);
 
-    if (order.status === OrderStatus.Complete) {
-      msg.ack();
-    }
+    order.status = OrderStatus.Complete;
 
-    order.status = OrderStatus.Cancelled;
     await order.save();
 
-    await new OrderCancelledPublisher(this.client).publish({
+    await new OrderUpdatedPublisher(this.client).publish({
       id: order._id.toString(),
-      ticket: {
-        id: order.ticket.toString(),
-      },
+      status: order.status,
       version: order.version,
     });
 

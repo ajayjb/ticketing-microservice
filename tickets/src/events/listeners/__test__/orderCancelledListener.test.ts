@@ -66,7 +66,7 @@ describe("OrderCancelledListener", () => {
       expect(natsWrapper.client.publish).toHaveBeenCalled();
 
       const parsedTicketData = JSON.parse(
-        (natsWrapper.client.publish as jest.Mock).mock.calls[2][1]
+        (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
       ) as TicketUpdatedEvent["data"];
 
       expect(parsedTicketData.orderId).toEqual(null);

@@ -20,6 +20,8 @@ interface Env extends Db {
   NATS_CLUSTER_ID: string;
   NATS_CLIENT_ID: string;
   NATS_URL: string;
+  STRIPE_API_KEY: string;
+  STRIPE_WEBHOOK_SECRET: string;
 }
 
 const getConfig = (): Env => {
@@ -40,6 +42,8 @@ const getConfig = (): Env => {
     NATS_CLUSTER_ID: process.env.NATS_CLUSTER_ID,
     NATS_CLIENT_ID: process.env.NATS_CLIENT_ID,
     NATS_URL: process.env.NATS_URL,
+    STRIPE_API_KEY: process.env.STRIPE_API_KEY,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   };
 };
 

@@ -4,17 +4,17 @@ import { Message } from "node-nats-streaming";
 
 import { natsWrapper } from "@/services/nats.service";
 import {
-  OrderCancelledEvent,
-  OrderExpirationCompleteEvent,
   OrderStatus,
+  OrderUpdatedEvent,
+  PaymentCapturedEvent,
 } from "@ajayjbtickets/common";
 import Ticket from "@/database/models/Ticket.model";
-import { OrderExpirationCompleteListener } from "../orderExpirationCompleteListener";
 import Order from "@/database/models/Order.model";
+import { PaymentCapturedListener } from "../paymentCapturedListener";
 
 const setup = async () => {
   // Create listener instance
-  const listener = new OrderExpirationCompleteListener(natsWrapper.client);
+  const listener = new PaymentCapturedListener(natsWrapper.client);
 
   // Create and save a ticket
   const ticket = Ticket.build({
@@ -33,8 +33,10 @@ const setup = async () => {
     ticket: ticket._id,
   }).save();
 
-  const data: OrderExpirationCompleteEvent["data"] = {
+  const data: PaymentCapturedEvent["data"] = {
     orderId: order._id.toString(),
+    intentId: "pi-test-123",
+    chargeId: "ch-test-123",
   };
 
   // Fake NATS message
@@ -46,16 +48,16 @@ const setup = async () => {
   return { msg, data, ticket, listener };
 };
 
-describe("OrderExpirationCompleteListener", () => {
+describe("PaymentCapturedListener", () => {
   describe("onMessage", () => {
-    it("cancels order when a OrderExpirationCompleteListener event is received", async () => {
+    it("completes order when a PaymentCapturedListener event is received", async () => {
       const { listener, data, msg } = await setup();
 
       await listener.onMessage(data, msg);
 
       const order = await Order.findById(data.orderId);
 
-      expect(order?.status).toEqual(OrderStatus.Cancelled);
+      expect(order?.status).toEqual(OrderStatus.Complete);
     });
 
     it("acknowledges the message after successfully cancelling the order", async () => {
@@ -66,7 +68,7 @@ describe("OrderExpirationCompleteListener", () => {
       expect(msg.ack).toHaveBeenCalled();
     });
 
-    it("published order cancelled event", async () => {
+    it("published order updated event", async () => {
       const { listener, data, msg } = await setup();
       await listener.onMessage(data, msg);
 
@@ -74,7 +76,7 @@ describe("OrderExpirationCompleteListener", () => {
 
       const parsedData = JSON.parse(
         (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
-      ) as OrderCancelledEvent["data"];
+      ) as OrderUpdatedEvent["data"];
 
       expect(parsedData.id).toEqual(data.orderId);
     });

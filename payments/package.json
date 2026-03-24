@@ -13,7 +13,7 @@
   "author": "Ajay J B",
   "license": "ISC",
   "dependencies": {
-    "@ajayjbtickets/common": "1.0.52",
+    "@ajayjbtickets/common": "1.0.56",
     "cookie-parser": "1.4.7",
     "cookie-session": "2.1.0",
     "cors": "2.8.5",
@@ -25,6 +25,7 @@
     "morgan": "1.10.0",
     "node-nats-streaming": "0.3.2",
     "slugify": "1.6.6",
+    "stripe": "20.4.1",
     "tsx": "4.21.0",
     "zod": "3.24.2"
   },

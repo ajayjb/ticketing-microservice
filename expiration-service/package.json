@@ -13,7 +13,7 @@
   "author": "Ajay J B",
   "license": "ISC",
   "dependencies": {
-    "@ajayjbtickets/common": "1.0.52",
+    "@ajayjbtickets/common": "1.0.56",
     "bullmq": "5.71.0",
     "dotenv": "16.5.0",
     "morgan": "1.10.0",
