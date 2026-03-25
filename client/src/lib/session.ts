@@ -1,10 +1,9 @@
 import { cookies, headers } from "next/headers";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 import { User } from "@/types/user";
 import { API_ENDPOINT } from "@/constants/apiEndpoint";
 import { buildClient } from "@/lib/buildClient";
-import { Response } from "@/types/response";
 import { ResponseStatusCode } from "@/constants/responseStatusCodes";
 
 export const getSession = async (): Promise<string | undefined> => {
@@ -22,10 +21,13 @@ export const checkAuth = async (): Promise<User | null> => {
   }
 
   try {
-    const res = await buildClient<Response<User>>(
+    const client = await buildClient();
+
+    const res = await client.get<AxiosResponse<User>>(
       API_ENDPOINT.USER.CURRENT_USER,
-      forwardedHeaders
+      forwardedHeaders,
     );
+
     user = res.data.data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -34,7 +36,7 @@ export const checkAuth = async (): Promise<User | null> => {
         console.log(
           "Authentication error:",
           error.response?.status,
-          error.response?.data
+          error.response?.data,
         );
       } else {
         console.log(error.response?.status, error.response?.data);

@@ -29,6 +29,7 @@ const setup = async () => {
     slug: slugify("John Wick III"),
     price: 999,
     createdBy: new Types.ObjectId().toString(),
+    isDeleted: false,
   };
 
   // Fake NATS message

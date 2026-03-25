@@ -33,13 +33,13 @@ class OrdersRouter {
     );
 
     this.router.get(
-      "/:id",
+      "/findById/:id",
       verifyToken,
       asyncHandler(this.ordersController.findById)
     );
 
     this.router.delete(
-      "/:id",
+      "/cancel/:id",
       verifyToken,
       asyncHandler(this.ordersController.delete)
     );

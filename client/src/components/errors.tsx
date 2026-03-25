@@ -1,4 +1,4 @@
-import { ErrorMessage } from "@/types/apiError";
+import { ErrorMessage } from "@/types/api";
 import { formatErrorMessage } from "@/utils/formatErrorMessage";
 import React from "react";
 

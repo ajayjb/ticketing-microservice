@@ -43,6 +43,12 @@ class TicketsRouter {
       verifyToken,
       asyncHandler(this.ticketController.findById)
     );
+    this.router.get(
+      "/findOne",
+      verifyToken,
+      schemaValidator(ValidationSource.QUERY, TicketsValidators.findOne()),
+      asyncHandler(this.ticketController.findOne)
+    );
     this.router.delete(
       "/remove/:id",
       verifyToken,

@@ -15,10 +15,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import useRequest, { RequestMethod } from "@/hooks/useRequest";
+import useRequest from "@/hooks/useRequest";
 import Errors from "@/components/errors";
 import { ROUTES } from "@/constants/routes";
 import { API_ENDPOINT } from "@/constants/apiEndpoint";
+import { RequestMethod } from "@/types/api";
 
 type IFormInput = {
   email: string;

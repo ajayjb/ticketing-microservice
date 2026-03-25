@@ -29,6 +29,7 @@ export class OrderCancelledListener extends Listener<OrderCancelledEvent> {
       createdBy: ticket.createdBy.toString(),
       version: ticket.version,
       orderId: ticket.orderId,
+      isDeleted: ticket.isDeleted,
     });
 
     msg.ack();

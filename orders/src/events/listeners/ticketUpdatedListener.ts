@@ -12,9 +12,8 @@ export class TicketUpdatedListner extends Listener<TicketUpdatedEvent> {
 
   async onMessage(
     data: TicketUpdatedEvent["data"],
-    msg: Message
+    msg: Message,
   ): Promise<void> {
-
     const ticket = await Ticket.findByEvent(data);
 
     if (!ticket) {
@@ -24,6 +23,7 @@ export class TicketUpdatedListner extends Listener<TicketUpdatedEvent> {
     ticket.name = data.name;
     ticket.slug = data.slug;
     ticket.price = data.price;
+    ticket.isDeleted = data.isDeleted;
 
     await ticket.save();
 

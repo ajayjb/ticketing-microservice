@@ -21,6 +21,7 @@ export interface TicketDoc extends Document {
   price: number;
   isReserved: (userId: Types.ObjectId) => Promise<boolean>;
   version: number;
+  isDeleted: boolean;
 }
 
 export interface TicketModel extends Model<TicketDoc> {
@@ -33,6 +34,7 @@ const schema = new Schema<TicketDoc, TicketModel>(
     name: { type: Schema.Types.String, required: true, unique: true },
     slug: { type: Schema.Types.String, unique: true },
     price: { type: Schema.Types.Number, required: true },
+    isDeleted: { type: Schema.Types.Boolean, default: false },
   },
   {
     timestamps: true,
@@ -45,7 +47,7 @@ const schema = new Schema<TicketDoc, TicketModel>(
         return ret;
       },
     },
-  }
+  },
 );
 
 schema.plugin(updateIfCurrentPlugin as any);
@@ -84,7 +86,7 @@ schema.methods.isReserved = async function () {
 const Ticket = model<TicketDoc, TicketModel>(
   DOCUMENT_NAME,
   schema,
-  COLLECTION_NAME
+  COLLECTION_NAME,
 );
 
 export default Ticket;

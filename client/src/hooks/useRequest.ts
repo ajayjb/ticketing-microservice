@@ -1,16 +1,8 @@
 import api from "@/lib/axios";
-import { ErrorMessage } from "@/types/apiError";
+import { ErrorMessage, RequestMethod } from "@/types/api";
 import { AxiosError } from "axios";
 import { isEmpty } from "lodash";
 import React from "react";
-
-export enum RequestMethod {
-  GET = "get",
-  POST = "post",
-  PUT = "put",
-  PATCH = "patch",
-  DELETE = "delete",
-}
 
 interface RequestParams {
   url: string;

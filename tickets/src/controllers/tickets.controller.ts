@@ -22,7 +22,7 @@ class TicketsController {
     const { name, price } = req.body as { name: string; price: number };
     const user = req.user as JwtPayload;
 
-    const ticketNameExists = await Ticket.exists({ name });
+    const ticketNameExists = await Ticket.exists({ name, isDeleted: false });
 
     if (ticketNameExists) {
       throw new BadRequestError(MESSAGES.TICKETS.TICKET_NAME_EXISTS);
@@ -41,12 +41,13 @@ class TicketsController {
       price: ticket.price,
       createdBy: ticket.createdBy.toString(),
       version: ticket.version,
+      isDeleted: ticket.isDeleted,
     });
 
     new SuccessResponse(
       ResponseStatusCode.CREATED,
       MESSAGES.TICKETS.CREATED,
-      ticket
+      ticket,
     ).send(res);
   }
 
@@ -81,26 +82,25 @@ class TicketsController {
       sanitizeObject({
         name,
         price,
-      })
+      }),
     );
 
-    const updatedTicket = await ticket.save();
+    await ticket.save();
 
-    if (updatedTicket) {
-      await new TicketUpdatedPublisher(natsWrapper.client).publish({
-        id: updatedTicket?._id.toString(),
-        name: updatedTicket.name,
-        slug: ticket.slug,
-        price: updatedTicket.price,
-        createdBy: updatedTicket.createdBy.toString(),
-        version: ticket.version,
-      });
-    }
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket?._id.toString(),
+      name: ticket.name,
+      slug: ticket.slug,
+      price: ticket.price,
+      createdBy: ticket.createdBy.toString(),
+      version: ticket.version,
+      isDeleted: ticket.isDeleted,
+    });
 
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.TICKETS.UPDATED,
-      updatedTicket
+      ticket,
     ).send(res);
   }
 
@@ -131,7 +131,7 @@ class TicketsController {
       ResponseStatusCode.SUCCESS,
       MESSAGES.GENERAL.SUCCESS,
       tickets,
-      pagination
+      pagination,
     ).send(res);
   }
 
@@ -154,7 +154,26 @@ class TicketsController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.GENERAL.SUCCESS,
-      ticket
+      ticket,
+    ).send(res);
+  }
+
+  async findOne(req: Request, res: Response) {
+    const { slug } = req.query as { slug: string };
+
+    const ticket = await Ticket.findOne({
+      slug,
+      isDeleted: false,
+    });
+
+    if (!ticket) {
+      throw new BadRequestError(MESSAGES.TICKETS.NOT_FOUND);
+    }
+
+    new SuccessResponse(
+      ResponseStatusCode.SUCCESS,
+      MESSAGES.GENERAL.SUCCESS,
+      ticket,
     ).send(res);
   }
 
@@ -182,10 +201,20 @@ class TicketsController {
     ticket.isDeleted = true;
     await ticket.save();
 
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket?._id.toString(),
+      name: ticket.name,
+      slug: ticket.slug,
+      price: ticket.price,
+      createdBy: ticket.createdBy.toString(),
+      version: ticket.version,
+      isDeleted: ticket.isDeleted,
+    });
+
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.TICKETS.REMOVED,
-      null
+      null,
     ).send(res);
   }
 }

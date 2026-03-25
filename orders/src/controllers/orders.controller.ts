@@ -24,12 +24,15 @@ class OrdersController {
     const { ticketId } = req.body as { ticketId: string };
     const userId = req.user.id as string;
 
-    const ticket = await Ticket.findById(ticketId);
+    const ticket = await Ticket.findOne({
+      _id: new Types.ObjectId(ticketId),
+      isDeleted: false,
+    });
 
     if (!ticket) throw new NotFoundError(MESSAGES.TICKETS.NOT_FOUND);
 
     const existingOrder = await ticket.isReserved(
-      new Types.ObjectId(userId as string)
+      new Types.ObjectId(userId as string),
     );
 
     if (existingOrder)
@@ -37,7 +40,7 @@ class OrdersController {
 
     const expiresAt = new Date();
     expiresAt.setSeconds(
-      expiresAt.getSeconds() + ORDER_EXPIRATION_WINDOW_SECONDS
+      expiresAt.getSeconds() + ORDER_EXPIRATION_WINDOW_SECONDS,
     );
 
     const order = await Order.build({
@@ -61,7 +64,7 @@ class OrdersController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.ORDERS.CREATED,
-      order
+      order,
     ).send(res);
   }
 
@@ -77,7 +80,7 @@ class OrdersController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.ORDERS.FETCHED,
-      orders
+      orders,
     ).send(res);
   }
 
@@ -97,7 +100,7 @@ class OrdersController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.ORDERS.FETCHED,
-      order
+      order,
     ).send(res);
   }
 
@@ -132,7 +135,7 @@ class OrdersController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.ORDERS.CANCELLED,
-      null
+      null,
     ).send(res);
   }
 }

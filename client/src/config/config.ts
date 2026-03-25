@@ -1,10 +1,15 @@
 interface Env {
   NEXT_PUBLIC_API_URL: string | undefined;
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: string;
+  NEXT_PUBLIC_DOMAIN: string;
 }
 
 const getConfig = (): Env => {
   return {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
+      NEXT_PUBLIC_DOMAIN: process.env.NEXT_PUBLIC_DOMAIN!,
   };
 };
 

@@ -35,12 +35,17 @@ class PaymentsController {
       throw new BadRequestError(MESSAGES.ORDERS.ORDER_CANCELLED);
     }
 
+    if (order.status === OrderStatus.Complete) {
+      throw new BadRequestError(MESSAGES.ORDERS.ORDER_ALREADY_PAID);
+    }
+
     const currency = "inr";
     const amount = order.price * 100;
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency,
+      description: `Payment for order ${orderId}`,
       automatic_payment_methods: {
         enabled: true,
       },
@@ -59,18 +64,23 @@ class PaymentsController {
       MESSAGES.PAYMENTS.INTENT_CREATED,
       {
         clientSecret: paymentIntent.client_secret,
-      }
+      },
     ).send(res);
   }
 
   handleStripeWebhook = async (req: Request, res: Response) => {
     const sig = req.headers["stripe-signature"] as string;
 
-    const event = stripe.webhooks.constructEvent(
-      req.body,
-      sig,
-      sanitizedConfig.STRIPE_WEBHOOK_SECRET
-    );
+    let event: any;
+    try {
+      event = stripe.webhooks.constructEvent(
+        req.body,
+        sig,
+        sanitizedConfig.STRIPE_WEBHOOK_SECRET,
+      );
+    } catch (err) {
+      console.log(err);
+    }
 
     const data = event.data.object as any;
 
@@ -82,7 +92,7 @@ class PaymentsController {
       return new SuccessResponse(
         ResponseStatusCode.SUCCESS,
         MESSAGES.PAYMENTS.INTENT_NOT_OUND,
-        null
+        null,
       ).send(res);
     }
 
@@ -92,7 +102,7 @@ class PaymentsController {
       return new SuccessResponse(
         ResponseStatusCode.SUCCESS,
         MESSAGES.ORDERS.NOT_FOUND,
-        null
+        null,
       ).send(res);
     }
 
@@ -136,7 +146,7 @@ class PaymentsController {
       MESSAGES.PAYMENTS.CAPTURED,
       {
         received: true,
-      }
+      },
     ).send(res);
   };
 }

@@ -33,6 +33,7 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
       createdBy: ticket.createdBy.toString(),
       version: ticket.version,
       orderId: ticket.orderId.toString(),
+      isDeleted: ticket.isDeleted,
     });
 
     msg.ack();

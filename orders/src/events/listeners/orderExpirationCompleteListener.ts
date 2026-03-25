@@ -17,14 +17,14 @@ export class OrderExpirationCompleteListener extends Listener<OrderExpirationCom
 
   async onMessage(
     data: OrderExpirationCompleteEvent["data"],
-    msg: Message
+    msg: Message,
   ): Promise<void> {
     const order = await Order.findById(data.orderId);
 
     if (!order) throw new Error(MESSAGES.ORDERS.NOT_FOUND);
 
     if (order.status === OrderStatus.Complete) {
-      msg.ack();
+      return msg.ack();
     }
 
     order.status = OrderStatus.Cancelled;

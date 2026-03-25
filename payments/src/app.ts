@@ -30,9 +30,8 @@ class App {
         secure: sanitizedConfig.ENVIRONMENT === ENVIRONMENTS.production,
         httpOnly: true,
         signed: false,
-      })
+      }),
     );
-    this.server.use(express.json());
 
     this.registerRoutes();
     this.server.all("/*", (req: Request, res: Response) => {
@@ -58,7 +57,7 @@ class App {
     return new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       "Payments service is alive!",
-      null
+      null,
     ).send(res);
   }
 
@@ -70,8 +69,10 @@ class App {
   }
 
   private registerRoutes() {
-    this.server.get(`${this.apiPrefix}/v1/payments/health`, this.healthCheck);
     this.server.use(`${this.apiPrefix}/v1/payments`, paymentsRouter);
+
+    this.server.use(express.json());
+    this.server.get(`${this.apiPrefix}/v1/payments/health`, this.healthCheck);
   }
 }
 

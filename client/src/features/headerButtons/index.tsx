@@ -7,7 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { API_ENDPOINT } from "@/constants/apiEndpoint";
 import { ROUTES } from "@/constants/routes";
-import useRequest, { RequestMethod } from "@/hooks/useRequest";
+import useRequest from "@/hooks/useRequest";
+import { RequestMethod } from "@/types/api";
 
 const HeaderButtons = () => {
   const router = useRouter();

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import express from "express";
 import PaymentsController from "@/controllers/payments.controller";
 import {
   ValidationSource,
@@ -20,15 +21,18 @@ class PaymentsRouter {
 
   private init() {
     this.router.post(
+      "/webhooks/stripe",
+      express.raw({ type: "application/json" }),
+      asyncHandler(this.paymentsController.handleStripeWebhook),
+    );
+
+    this.router.use(express.json());
+
+    this.router.post(
       "/create",
       verifyToken,
       schemaValidator(ValidationSource.BODY, PaymentsValidators.create()),
-      asyncHandler(this.paymentsController.create)
-    );
-
-    this.router.post(
-      "/webhooks/stripe",
-      asyncHandler(this.paymentsController.handleStripeWebhook)
+      asyncHandler(this.paymentsController.create),
     );
   }
 }

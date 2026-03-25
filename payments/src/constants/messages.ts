@@ -7,6 +7,7 @@ export const MESSAGES = {
     NOT_FOUND: "Order not found",
     ORDER_NOT_OWNED: "Order does not belong to this user",
     ORDER_CANCELLED: "Order is cancelled",
+    ORDER_ALREADY_PAID: "Order is already paid",
   },
   PAYMENTS: {
     INTENT_CREATED: "Payment intent created successfully",

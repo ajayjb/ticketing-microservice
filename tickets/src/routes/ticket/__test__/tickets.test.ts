@@ -12,14 +12,13 @@ import {
 import { natsWrapper } from "@/services/nats.service";
 import { OrderCreatedListener } from "@/events/listeners/orderCreatedListener";
 import { Message } from "node-nats-streaming";
-import Ticket from "@/database/models/Ticket.model";
 
 const server = app.server;
 
 const createTicket = (
   cookie: string[],
   name: string,
-  price: number
+  price: number,
 ): Promise<any> => {
   return request(server)
     .post(ROUTES.TICKETS.CREATE)
@@ -194,7 +193,7 @@ describe("Update Ticket", () => {
 
     await new OrderCreatedListener(natsWrapper.client).onMessage(
       orderData,
-      msg
+      msg,
     );
 
     const updatedName = "Updated Event";
@@ -305,6 +304,47 @@ describe("Get Ticket By ID", () => {
   });
 });
 
+describe("Get Ticket By Slug", () => {
+  it(`returns ${ResponseStatusCode.UNAUTHORIZED} if user is not signed in`, async () => {
+    await request(server)
+      .get(`${ROUTES.TICKETS.FIND_BY_ID}/${new Types.ObjectId()}`)
+      .send()
+      .expect(ResponseStatusCode.UNAUTHORIZED);
+  });
+
+  it(`returns ${ResponseStatusCode.BAD_REQUEST} if ticket not found`, async () => {
+    const cookie = global.signin();
+
+    await request(server)
+      .get(`${ROUTES.TICKETS.FIND_ONE}?slug=${new Types.ObjectId()}`)
+      .set("Cookie", cookie)
+      .send()
+      .expect(ResponseStatusCode.BAD_REQUEST);
+  });
+
+  it(`returns ${ResponseStatusCode.SUCCESS} if ticket found`, async () => {
+    const cookie = global.signin();
+
+    const name = "Mission Impossible";
+    const price = 10;
+
+    const response = await createTicket(cookie, name, price);
+
+    expect(response.status).toBe(ResponseStatusCode.CREATED);
+
+    const ticketResponse = await request(server)
+      .get(`${ROUTES.TICKETS.FIND_ONE}?slug=${response.body.data.slug}`)
+      .set("Cookie", cookie)
+      .send()
+      .expect(ResponseStatusCode.SUCCESS);
+
+    const { name: nameRes, price: priceRes } = ticketResponse.body.data;
+
+    expect(nameRes).toBe(name);
+    expect(priceRes).toBe(price);
+  });
+});
+
 describe("Get Tickets", () => {
   it(`returns ${ResponseStatusCode.UNAUTHORIZED} if user is not signed in`, async () => {
     await request(server)
@@ -359,14 +399,14 @@ describe("Get Tickets", () => {
       const response = await createTicket(
         cookie,
         randomUUID(),
-        random(0, 1000)
+        random(0, 1000),
       );
       expect(response.status).toEqual(ResponseStatusCode.CREATED);
     }
 
     const response = await request(server)
       .get(
-        `${ROUTES.TICKETS.FIND_ALL}?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`
+        `${ROUTES.TICKETS.FIND_ALL}?currentPage=${currentPage}&itemsPerPage=${itemsPerPage}`,
       )
       .set("Cookie", cookie)
       .send()
