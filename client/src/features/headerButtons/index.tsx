@@ -10,7 +10,12 @@ import { ROUTES } from "@/constants/routes";
 import useRequest from "@/hooks/useRequest";
 import { RequestMethod } from "@/types/api";
 
-const HeaderButtons = () => {
+interface IProps {
+  isLoggedIn: boolean;
+}
+
+const HeaderButtons = (props: IProps) => {
+  const { isLoggedIn } = props;
   const router = useRouter();
   const pathname = usePathname();
   const { isLoading, request } = useRequest({
@@ -27,34 +32,39 @@ const HeaderButtons = () => {
   };
 
   return (
-    <>
-      <div>
-        {pathname === ROUTES.SIGNIN && (
-          <Link href={ROUTES.SIGNUP}>
-            <Button
-              type="button"
-              variant="outline"
-              className="w-fit cursor-pointer"
-            >
-              Sign Up
-            </Button>
-          </Link>
-        )}
-      </div>
-      <div>
-        {pathname === ROUTES.SIGNUP && (
-          <Link href={ROUTES.SIGNIN}>
-            <Button
-              type="button"
-              variant="outline"
-              className="w-fit cursor-pointer"
-            >
-              Sign In
-            </Button>
-          </Link>
-        )}
-      </div>
-      {pathname === ROUTES.HOME && (
+    <div className="flex justify-between items-center gap-5">
+      {isLoggedIn && (
+        <>
+          <Link href="/tickets/new">Sell Tickets</Link>
+          <Link href="/orders">My Orders</Link>
+        </>
+      )}
+
+      {pathname === ROUTES.SIGNIN && (
+        <Link href={ROUTES.SIGNUP}>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-fit cursor-pointer"
+          >
+            Sign Up
+          </Button>
+        </Link>
+      )}
+
+      {pathname === ROUTES.SIGNUP && (
+        <Link href={ROUTES.SIGNIN}>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-fit cursor-pointer"
+          >
+            Sign In
+          </Button>
+        </Link>
+      )}
+
+      {isLoggedIn && (
         <Button
           type="button"
           variant="outline"
@@ -65,7 +75,7 @@ const HeaderButtons = () => {
           {isLoading ? "Signing out..." : "Sign Out"}
         </Button>
       )}
-    </>
+    </div>
   );
 };
 

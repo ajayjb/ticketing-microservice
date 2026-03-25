@@ -3,6 +3,7 @@ import Order from "@/database/models/Order.model";
 import Ticket from "@/database/models/Ticket.model";
 import { OrderCancelledPublisher } from "@/events/publishers/orderCancelledPublisher";
 import { OrderCreatedPublisher } from "@/events/publishers/orderCreatedPublisher";
+import { OrderUpdatedPublisher } from "@/events/publishers/orderUpdatedPublisher";
 import { natsWrapper } from "@/services/nats.service";
 import {
   BadRequestError,
@@ -32,7 +33,7 @@ class OrdersController {
     if (!ticket) throw new NotFoundError(MESSAGES.TICKETS.NOT_FOUND);
 
     const existingOrder = await ticket.isReserved(
-      new Types.ObjectId(userId as string),
+      new Types.ObjectId(userId as string)
     );
 
     if (existingOrder)
@@ -40,7 +41,7 @@ class OrdersController {
 
     const expiresAt = new Date();
     expiresAt.setSeconds(
-      expiresAt.getSeconds() + ORDER_EXPIRATION_WINDOW_SECONDS,
+      expiresAt.getSeconds() + ORDER_EXPIRATION_WINDOW_SECONDS
     );
 
     const order = await Order.build({
@@ -61,10 +62,19 @@ class OrdersController {
       version: order.version,
     });
 
+    order.status = OrderStatus.AwaitingPayment;
+    await order.save();
+
+    await new OrderUpdatedPublisher(natsWrapper.client).publish({
+      id: order._id.toString(),
+      status: order.status,
+      version: order.version,
+    });
+
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.ORDERS.CREATED,
-      order,
+      order
     ).send(res);
   }
 
@@ -80,7 +90,7 @@ class OrdersController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.ORDERS.FETCHED,
-      orders,
+      orders
     ).send(res);
   }
 
@@ -100,7 +110,7 @@ class OrdersController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.ORDERS.FETCHED,
-      order,
+      order
     ).send(res);
   }
 
@@ -135,7 +145,7 @@ class OrdersController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.ORDERS.CANCELLED,
-      null,
+      null
     ).send(res);
   }
 }

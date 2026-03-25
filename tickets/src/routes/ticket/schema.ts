@@ -27,12 +27,13 @@ class TicketsValidators {
         .string()
         .refine(
           (item) =>
-            !isNaN(Number(item)) && Number(item) >= 1 && Number(item) <= 100,
+            !isNaN(Number(item)) && Number(item) >= 1 && Number(item) <= 1000,
           {
             message: "Items per page name must be a number and greater than 0",
-          },
+          }
         )
         .optional(),
+      available: z.enum(["true", "false"]).optional(),
     });
   };
 

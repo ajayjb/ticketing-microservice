@@ -148,10 +148,11 @@ const OrderDetailPage = async ({ params }: PageProps) => {
                     {new Date(order.ticket.createdAt).toLocaleDateString(
                       "en-IN",
                       {
+                        timeZone: "Asia/Kolkata",
                         day: "numeric",
                         month: "long",
                         year: "numeric",
-                      },
+                      }
                     )}
                   </dd>
                 </div>
@@ -190,6 +191,7 @@ const OrderDetailPage = async ({ params }: PageProps) => {
                   </dt>
                   <dd className="text-sm text-foreground">
                     {new Date(order.createdAt).toLocaleDateString("en-IN", {
+                      timeZone: "Asia/Kolkata",
                       day: "numeric",
                       month: "long",
                       year: "numeric",
@@ -254,6 +256,7 @@ const OrderDetailPage = async ({ params }: PageProps) => {
                 <p className="text-sm text-amber-700">
                   This order expired on &nbsp;
                   {new Date(order.expiresAt).toLocaleString("en-IN", {
+                    timeZone: "Asia/Kolkata",
                     day: "numeric",
                     month: "long",
                     year: "numeric",
@@ -310,7 +313,9 @@ const OrderDetailPage = async ({ params }: PageProps) => {
             <CardContent className="flex flex-col gap-3">
               {canPay && (
                 <Link href={`/orders/${order.id}/payments`}>
-                  <Button className="w-full cursor-pointer">Complete Payment</Button>
+                  <Button className="w-full cursor-pointer">
+                    Complete Payment
+                  </Button>
                 </Link>
               )}
               <Button variant="outline" asChild>

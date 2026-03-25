@@ -13,12 +13,6 @@ interface IProps {
 const OrderExpirationTimer = ({ canPay, order }: IProps) => {
   const timeRemaining = useCountDown({ expiresAt: order.expiresAt });
 
-  useEffect(() => {
-    if (timeRemaining?.minutes < 0) {
-      window.location.reload();
-    }
-  }, [timeRemaining]);
-
   return (
     <div>
       {canPay && timeRemaining && (

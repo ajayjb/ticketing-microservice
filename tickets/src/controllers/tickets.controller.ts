@@ -47,7 +47,7 @@ class TicketsController {
     new SuccessResponse(
       ResponseStatusCode.CREATED,
       MESSAGES.TICKETS.CREATED,
-      ticket,
+      ticket
     ).send(res);
   }
 
@@ -82,7 +82,7 @@ class TicketsController {
       sanitizeObject({
         name,
         price,
-      }),
+      })
     );
 
     await ticket.save();
@@ -100,24 +100,37 @@ class TicketsController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.TICKETS.UPDATED,
-      ticket,
+      ticket
     ).send(res);
   }
 
   async findAll(req: Request, res: Response) {
-    const { currentPage = 1, itemsPerPage = 10 } = req.query as unknown as {
+    const {
+      currentPage = 1,
+      itemsPerPage = 10,
+      available = null,
+    } = req.query as unknown as {
       currentPage: number;
       itemsPerPage: number;
+      available: "true" | "false";
     };
 
     const baseMatch: Record<string, any> = {
       isDeleted: false,
     };
 
+    if (available === "true") {
+      baseMatch.orderId = null;
+    } else if (available === "false") {
+      baseMatch.orderId = {
+        $ne: null,
+      };
+    }
+
     const [tickets, totalItems] = await Promise.all([
       Ticket.find(baseMatch)
-        .skip((currentPage - 1) * itemsPerPage)
-        .limit(itemsPerPage),
+        .skip((Number(currentPage) - 1) * Number(itemsPerPage))
+        .limit(Number(itemsPerPage)),
       Ticket.countDocuments(baseMatch),
     ]);
 
@@ -131,7 +144,7 @@ class TicketsController {
       ResponseStatusCode.SUCCESS,
       MESSAGES.GENERAL.SUCCESS,
       tickets,
-      pagination,
+      pagination
     ).send(res);
   }
 
@@ -154,7 +167,7 @@ class TicketsController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.GENERAL.SUCCESS,
-      ticket,
+      ticket
     ).send(res);
   }
 
@@ -173,7 +186,7 @@ class TicketsController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.GENERAL.SUCCESS,
-      ticket,
+      ticket
     ).send(res);
   }
 
@@ -214,7 +227,7 @@ class TicketsController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.TICKETS.REMOVED,
-      null,
+      null
     ).send(res);
   }
 }

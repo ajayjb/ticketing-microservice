@@ -12,6 +12,12 @@ const useCountDown = ({ expiresAt }: { expiresAt: string }) => {
     const interval = setInterval(() => {
       const diff = new Date(expiresAt).getTime() - new Date().getTime();
 
+      if (diff < 0) {
+        clearInterval(interval);
+        setTimeRemaining({ minutes: 0, seconds: 0 });
+        return;
+      }
+
       const totalSeconds = Math.floor(diff / 1000);
       const minutes = Math.floor(totalSeconds / 60);
       const seconds = totalSeconds % 60;

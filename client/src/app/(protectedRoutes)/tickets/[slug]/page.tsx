@@ -108,6 +108,7 @@ const TicketDetailPage = async ({ params }: PageProps) => {
                   </dt>
                   <dd className="text-sm text-foreground">
                     {new Date(ticket.createdAt).toLocaleDateString("en-IN", {
+                      timeZone: "Asia/Kolkata",
                       day: "numeric",
                       month: "long",
                       year: "numeric",

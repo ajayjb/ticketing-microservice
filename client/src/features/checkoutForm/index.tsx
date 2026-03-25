@@ -43,7 +43,7 @@ export default function CheckoutForm({ id }: IProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4 p-4 border rounded-md max-w-[400px] mx-auto shadow-sm mb-10">
+    <div className="flex flex-col gap-4 p-4 border rounded-md max-w-100 mx-auto shadow-sm mb-10">
       <AddressElement options={{ mode: "billing" }} />
       <PaymentElement />
       <Button
