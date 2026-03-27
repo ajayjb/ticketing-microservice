@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Tickets",
+  description: "Ticket booking platform"
 };
 
 export default async function RootLayout({
