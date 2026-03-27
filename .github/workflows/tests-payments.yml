@@ -45,3 +45,4 @@ jobs:
           NATS_URL: "nats://localhost:4222"
           NATS_CLIENT_ID: "3"
           STRIPE_API_KEY: "test_stripe_api_key"
+          STRIPE_WEBHOOK_SECRET: "test_stripe_webhook_secret"
