@@ -31,7 +31,7 @@ jobs:
           LOG_LEVEL: "info"
           LOG_DIR: "logs"
           VERSION: "v1"
-          DB_NAME: "auth-test"
+          DB_NAME: "test"
           DB_HOST: "localhost"
           DB_PORT: "27017"
           DB_USER: "test_user"
