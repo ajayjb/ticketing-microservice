@@ -17,10 +17,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { API_ENDPOINT } from "@/constants/apiEndpoint";
-import { ROUTES } from "@/constants/routes";
 import useRequest from "@/hooks/useRequest";
 import { RequestMethod } from "@/types/api";
-
 
 type IFormInput = {
   firstName: string;
@@ -35,7 +33,7 @@ const Signup = () => {
   const { register, handleSubmit } = useForm<IFormInput>();
   const { isLoading, error, isError, request } = useRequest({
     onSuccess: () => {
-      router.push(ROUTES.HOME);
+      router.refresh();
     },
   });
 
@@ -116,7 +114,11 @@ const Signup = () => {
               {...register("password", { required: true })}
             />
           </div>
-          <Button type="submit" className="w-full cursor-pointer" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full cursor-pointer"
+            disabled={isLoading}
+          >
             {isLoading ? "Signing in..." : "Sign Up"}
           </Button>
         </form>

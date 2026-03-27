@@ -28,7 +28,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="max-w-[var(--max-content-width)] mx-auto px-5 sm:px-12">
+        <div className="max-w-(--max-content-width) mx-auto px-5 sm:px-12">
           <Header />
           {children}
         </div>

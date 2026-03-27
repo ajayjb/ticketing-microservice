@@ -20,7 +20,7 @@ const HeaderButtons = (props: IProps) => {
   const pathname = usePathname();
   const { isLoading, request } = useRequest({
     onSuccess: () => {
-      router.push(ROUTES.SIGNIN);
+      router.refresh();
     },
   });
 
@@ -40,28 +40,31 @@ const HeaderButtons = (props: IProps) => {
         </>
       )}
 
-      {pathname === ROUTES.SIGNIN && (
-        <Link href={ROUTES.SIGNUP}>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-fit cursor-pointer"
-          >
-            Sign Up
-          </Button>
-        </Link>
-      )}
-
-      {pathname === ROUTES.SIGNUP && (
-        <Link href={ROUTES.SIGNIN}>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-fit cursor-pointer"
-          >
-            Sign In
-          </Button>
-        </Link>
+      {!isLoggedIn && (
+        <>
+          {pathname === ROUTES.SIGNIN && (
+            <Link href={ROUTES.SIGNUP}>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-fit cursor-pointer"
+              >
+                Sign Up
+              </Button>
+            </Link>
+          )}
+          {pathname === ROUTES.SIGNUP && (
+            <Link href={ROUTES.SIGNIN}>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-fit cursor-pointer"
+              >
+                Sign In
+              </Button>
+            </Link>
+          )}
+        </>
       )}
 
       {isLoggedIn && (

@@ -14,8 +14,9 @@ const Home = async () => {
   }
 
   const tickets = await TicketsService.fetchTickets();
+  const availabelTickets = tickets.filter((ticket) => !ticket.orderId);
 
-  const available = tickets.filter((t: Ticket) => !t.orderId).length;
+  const available = availabelTickets.length;
   const booked = tickets.filter((t: Ticket) => !!t.orderId).length;
 
   return (
@@ -57,14 +58,12 @@ const Home = async () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {tickets
-          .filter((ticket) => !ticket.orderId)
-          .map((ticket: Ticket) => (
-            <TicketCard ticket={ticket} key={ticket.id} />
-          ))}
+        {availabelTickets.map((ticket: Ticket) => (
+          <TicketCard ticket={ticket} key={ticket.id} />
+        ))}
       </div>
 
-      {tickets.length === 0 && (
+      {availabelTickets.length === 0 && (
         <div className="flex flex-col items-center justify-center py-32 text-center">
           <p className="text-muted-foreground text-sm">No tickets found.</p>
         </div>
