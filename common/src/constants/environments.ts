@@ -1,5 +1,7 @@
 export const ENVIRONMENTS = {
   production: "production",
   development: "development",
-  testing: "testing",
+  testing: "test",
+  qa: "qa",
+  uat: "uat",
 };
