@@ -8,7 +8,8 @@
     "start": "node dist/server.js",
     "test": "jest --watchAll --no-cache",
     "clean": "del dist/*",
-    "build": "npm run clean && tsup"
+    "build": "npm run clean && tsup",
+    "test:ci": "jest"
   },
   "author": "Ajay J B",
   "license": "ISC",
