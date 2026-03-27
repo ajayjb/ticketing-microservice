@@ -27,7 +27,7 @@ class TicketsValidators {
         .string()
         .refine(
           (item) =>
-            !isNaN(Number(item)) && Number(item) >= 1 && Number(item) <= 1000,
+            !isNaN(Number(item)) && Number(item) >= 1 && Number(item) <= 100,
           {
             message: "Items per page name must be a number and greater than 0",
           }
