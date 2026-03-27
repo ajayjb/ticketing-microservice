@@ -8,9 +8,9 @@ export const MESSAGES = {
     UPDATED: "Order updated successfully",
     CANCELLED: "Order cancelled successfully",
     NOT_FOUND: "Order not found",
-    ALREADY_EXISTS: "Order already exists.",
+    ALREADY_EXISTS: "An order with this ID already exists",
     FETCHED: "Orders fetched successfully",
-    ALREADY_CANCELLED: "Order already cancelled.",
+    ALREADY_CANCELLED: "This order has already been cancelled",
   },
   TICKETS: {
     NOT_FOUND: "Ticket not found",
