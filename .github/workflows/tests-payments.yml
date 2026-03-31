@@ -3,7 +3,7 @@ name: tests
 on:
   pull_request:
     paths:
-      - "auth/**/*"
+      - "payments/**/*"
     branches:
       - main
 
@@ -20,15 +20,15 @@ jobs:
         with:
           node-version: 22
           cache: yarn
-          cache-dependency-path: auth/yarn.lock
+          cache-dependency-path: payments/yarn.lock
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-        working-directory: auth
+        working-directory: payments
 
       - name: Run tests
         run: yarn test:ci
-        working-directory: auth
+        working-directory: payments
         env:
           PORT: "6000"
           ENVIRONMENT: "test"
@@ -44,3 +44,8 @@ jobs:
           DB_MAX_POOL_SIZE: "10"
           SALT_ROUNDS: "10"
           JWT_KEY: "test_jwt_key_dummy_secret_12345"
+          NATS_CLUSTER_ID: "tickets"
+          NATS_URL: "nats://localhost:4222"
+          NATS_CLIENT_ID: "3"
+          STRIPE_API_KEY: "test_stripe_api_key"
+          STRIPE_WEBHOOK_SECRET: "test_stripe_webhook_secret"
