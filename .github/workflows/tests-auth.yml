@@ -2,8 +2,8 @@ name: tests
 
 on:
   pull_request:
-    paths:
-      - "auth/**"
+    # paths:
+    #   - "auth/**"
     branches:
       - main
 
