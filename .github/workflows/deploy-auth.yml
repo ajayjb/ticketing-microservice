@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - auth/**/*
+      - .github/workflows/tests-auth.yml
+      - .github/workflows/deploy-auth.yml
 
 env:
   IMAGE_TAG: ajayjb/ticketing-auth
