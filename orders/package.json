@@ -8,12 +8,13 @@
     "start": "node dist/server.js",
     "test": "jest --watchAll --no-cache",
     "clean": "del dist/*",
-    "build": "npm run clean && tsup"
+    "build": "npm run clean && tsup",
+    "test:ci": "jest"
   },
   "author": "Ajay J B",
   "license": "ISC",
   "dependencies": {
-    "@ajayjbtickets/common": "1.0.57",
+    "@ajayjbtickets/common": "1.0.59",
     "cookie-parser": "1.4.7",
     "cookie-session": "2.1.0",
     "cors": "2.8.5",

@@ -34,10 +34,11 @@ class App {
     );
     this.server.use(express.json());
 
-    this.registerRoutes();
+    this.registerRoutes(); 
     this.server.all("/*", (req: Request, res: Response) => {
       throw new NotFoundError("Not found", []);
     });
+    
     this.server.use(this.errorHandler);
   }
 

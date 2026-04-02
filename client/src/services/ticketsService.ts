@@ -14,7 +14,7 @@ export class TicketsService {
         {
           params: {
             currentPage: "1",
-            itemsPerPage: "1000",
+            itemsPerPage: "100",
           },
         }
       );

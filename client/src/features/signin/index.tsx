@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/card";
 import useRequest from "@/hooks/useRequest";
 import Errors from "@/components/errors";
-import { ROUTES } from "@/constants/routes";
 import { API_ENDPOINT } from "@/constants/apiEndpoint";
 import { RequestMethod } from "@/types/api";
 
@@ -31,7 +30,7 @@ const Signin = () => {
   const { register, handleSubmit } = useForm<IFormInput>();
   const { isLoading, error, isError, request } = useRequest({
     onSuccess: () => {
-      router.push(ROUTES.HOME);
+      router.refresh();
     },
   });
 
@@ -79,7 +78,11 @@ const Signin = () => {
               disabled={isLoading}
             />
           </div>
-          <Button type="submit" className="w-full cursor-pointer" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full cursor-pointer"
+            disabled={isLoading}
+          >
             {isLoading ? "Signing in..." : "Sign In"}
           </Button>
         </form>

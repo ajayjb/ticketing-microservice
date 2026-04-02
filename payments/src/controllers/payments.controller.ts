@@ -91,7 +91,7 @@ class PaymentsController {
     if (!payment) {
       return new SuccessResponse(
         ResponseStatusCode.SUCCESS,
-        MESSAGES.PAYMENTS.INTENT_NOT_OUND,
+        MESSAGES.PAYMENTS.INTENT_NOT_FOUND,
         null,
       ).send(res);
     }

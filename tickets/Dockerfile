@@ -8,4 +8,4 @@ RUN yarn install --omit=dev
 
 COPY  . .
 
-CMD ["npm", "run", "dev"]
+CMD ["yarn", "dev"]
