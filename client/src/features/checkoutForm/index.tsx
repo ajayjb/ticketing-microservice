@@ -36,7 +36,7 @@ export default function CheckoutForm({ id }: IProps) {
     if (result.error) {
       setMessage(result.error.message || "Payment failed");
     } else {
-      setMessage("Payment successful!");
+      setMessage("✅ Payment successful!");
     }
 
     setLoading(false);

@@ -6,8 +6,6 @@ import { OrderCreatedListener } from "./events/listeners/orderCreatedListener";
 import { OrderCancelledListener } from "./events/listeners/orderCancelledListener";
 
 const startApp = async () => {
-  console.log("Starting tickets service...");
-
   await natsWrapper.connect(
     sanitizedConfig.NATS_CLUSTER_ID,
     sanitizedConfig.NATS_CLIENT_ID,
