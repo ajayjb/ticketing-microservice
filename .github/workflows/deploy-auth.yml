@@ -34,6 +34,8 @@ jobs:
       - name: Push image to Docker Hub
         run: docker push ${{ env.IMAGE_TAG }}
 
+      - run: echo ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
