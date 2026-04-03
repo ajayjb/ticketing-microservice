@@ -40,7 +40,7 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Save DigitalOcean kubeconfig with short-lived credentials
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ticketing-production
+        run: doctl kubernetes cluster kubeconfig save ticketing-production
 
       - name: Restart deployment
         run: kubectl rollout restart deployment ticketing-auth-depl
