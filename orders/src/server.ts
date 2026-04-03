@@ -8,6 +8,8 @@ import { OrderExpirationCompleteListener } from "./events/listeners/orderExpirat
 import { PaymentCapturedListener } from "./events/listeners/paymentCapturedListener";
 
 const startApp = async () => {
+  console.log("Starting orders service...");
+
   await natsWrapper.connect(
     sanitizedConfig.NATS_CLUSTER_ID,
     sanitizedConfig.NATS_CLIENT_ID,

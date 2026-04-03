@@ -7,6 +7,8 @@ import { OrderCreatedListener } from "./events/listeners/orderCreatedListener";
 import { OrderUpdatedListener } from "./events/listeners/orderUpdatedListener";
 
 const startApp = async () => {
+  console.log("Starting payments service...");
+
   await natsWrapper.connect(
     sanitizedConfig.NATS_CLUSTER_ID,
     sanitizedConfig.NATS_CLIENT_ID,
