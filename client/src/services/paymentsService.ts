@@ -1,16 +1,12 @@
-import { AxiosResponse } from "axios";
-
 import { API_ENDPOINT } from "@/constants/apiEndpoint";
 import api from "@/lib/axios";
 
 export class PaymentsService {
   static async createPaymentIntent({ orderId }: { orderId: string }) {
     try {
-      const { data } = await api.post<
-        AxiosResponse<{
-          clientSecret: string;
-        }>
-      >(API_ENDPOINT.PAYMENTS.CREATE, {
+      const { data } = await api.post<{
+        data: { clientSecret: string };
+      }>(API_ENDPOINT.PAYMENTS.CREATE, {
         orderId,
       });
 

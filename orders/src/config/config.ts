@@ -15,7 +15,6 @@ interface Env extends Db {
   ENVIRONMENT: string;
   LOG_DIR: string;
   LOG_LEVEL: string;
-  SALT_ROUNDS: number;
   JWT_KEY: string;
   NATS_CLUSTER_ID: string;
   NATS_CLIENT_ID: string;
@@ -35,7 +34,6 @@ const getConfig = (): Env => {
     DB_USER_PWD: process.env.DB_USER_PWD,
     DB_MIN_POOL_SIZE: parseInt(process.env.DB_MIN_POOL_SIZE),
     DB_MAX_POOL_SIZE: parseInt(process.env.DB_MAX_POOL_SIZE),
-    SALT_ROUNDS: parseInt(process.env.SALT_ROUNDS),
     JWT_KEY: process.env.JWT_KEY,
     NATS_CLUSTER_ID: process.env.NATS_CLUSTER_ID,
     NATS_CLIENT_ID: process.env.NATS_CLIENT_ID,

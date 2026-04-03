@@ -4,6 +4,10 @@
 kubectl create secret generic jwt-secret \
   --from-literal=JWT_KEY=tbs8263AGSHLyndgdye \
   --from-literal=KEY_2=key2
+
+kubectl create secret generic environment-secret \
+  --from-literal=ENVIRONMENT=development \
+  --from-literal=JWT_KEY=tbs8263AGSHLyndgdye
 ```
 
 ### Viewing secrets in k8s

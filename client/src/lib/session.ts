@@ -1,5 +1,5 @@
 import { cookies, headers } from "next/headers";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 
 import { User } from "@/types/user";
 import { API_ENDPOINT } from "@/constants/apiEndpoint";
@@ -23,7 +23,7 @@ export const checkAuth = async (): Promise<User | null> => {
   try {
     const client = await buildClient();
 
-    const res = await client.get<AxiosResponse<User>>(
+    const res = await client.get<{ data: User }>(
       API_ENDPOINT.USER.CURRENT_USER,
       forwardedHeaders,
     );

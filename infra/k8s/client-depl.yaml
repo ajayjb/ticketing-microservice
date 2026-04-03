@@ -15,6 +15,27 @@ spec:
       containers:
         - name: ticketing-client
           image: ajayjb/ticketing-client:latest
+          env:
+            - name: ENVIRONMENT
+              valueFrom:
+                secretKeyRef:
+                  name: environment-secret
+                  key: ENVIRONMENT
+            - name: NEXT_PUBLIC_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ticketing-client-secret
+                  key: NEXT_PUBLIC_API_URL
+            - name: NEXT_PUBLIC_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: ticketing-client-secret
+                  key: NEXT_PUBLIC_DOMAIN
+            - name: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret
+                  key: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 
 ---
 apiVersion: v1

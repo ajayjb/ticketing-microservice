@@ -14,6 +14,7 @@ declare global {
       DB_MAX_POOL_SIZE: string;
       SALT_ROUNDS: string;
       JWT_KEY: string;
+      JWT_EXPIRES_IN: string;
     }
   }
 }

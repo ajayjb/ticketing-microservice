@@ -1,5 +1,3 @@
-import { AxiosResponse } from "axios";
-
 import { API_ENDPOINT } from "@/constants/apiEndpoint";
 import { buildClient } from "@/lib/buildClient";
 import { Order } from "@/types/order";
@@ -9,7 +7,7 @@ export class OrdersService {
     try {
       const client = await buildClient();
 
-      const { data } = await client.get<AxiosResponse<Order[]>>(
+      const { data } = await client.get<{ data: Order[] }>(
         API_ENDPOINT.ORDERS.FIND_BY_USER,
       );
 
@@ -29,7 +27,7 @@ export class OrdersService {
     try {
       const client = await buildClient();
 
-      const { data } = await client.get<AxiosResponse<Order>>(
+      const { data } = await client.get<{ data: Order }>(
         `${API_ENDPOINT.ORDERS.FIND_BY_ID}/${id}`,
       );
 

@@ -10,6 +10,7 @@ import {
 
 import User from "@/database/models/User.model";
 import { MESSAGES } from "@/constants/messages";
+import { sanitizedConfig } from "@/config/config";
 
 class UserController {
   constructor() {}
@@ -35,7 +36,9 @@ class UserController {
       id: user._id.toString(),
       email: user.email,
     });
-    const token = JwtService.sign(payload);
+    const token = JwtService.sign(payload, {
+      expiresIn: sanitizedConfig.JWT_EXPIRES_IN,
+    });
 
     req.session = {
       token: token,
@@ -44,7 +47,7 @@ class UserController {
     new SuccessResponse(
       ResponseStatusCode.CREATED,
       MESSAGES.USER.USER_SIGNUP_SUCCESS,
-      user
+      user,
     ).send(res);
   }
 
@@ -71,7 +74,7 @@ class UserController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.USER.USER_SIGNIN_SUCCESS,
-      user
+      user,
     ).send(res);
   }
 
@@ -82,7 +85,7 @@ class UserController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.USER.USER_SIGN_OUT_SUCCESS,
-      null
+      null,
     ).send(res);
   }
 
@@ -90,7 +93,7 @@ class UserController {
     new SuccessResponse(
       ResponseStatusCode.SUCCESS,
       MESSAGES.GENERAL.SUCCESS,
-      req.user
+      req.user,
     ).send(res);
   }
 }

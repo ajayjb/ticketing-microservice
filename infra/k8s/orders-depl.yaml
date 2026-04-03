@@ -1,3 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ticketing-orders-config
+data:
+  PORT: "6000"
+  LOG_LEVEL: "info"
+  LOG_DIR: "logs"
+  DB_NAME: "orders"
+  DB_HOST: "mongo-orders-srv"
+  DB_PORT: "27017"
+  DB_MIN_POOL_SIZE: "5"
+  DB_MAX_POOL_SIZE: "10"
+  NATS_CLUSTER_ID: "tickets"
+  NATS_URL: "nats://nats-srv:4222"
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,20 +32,34 @@ spec:
       containers:
         - name: ticketing-orders
           image: ajayjb/ticketing-orders:latest
+          envFrom:
+            - configMapRef:
+                name: ticketing-orders-config
           env:
+            - name: ENVIRONMENT
+              valueFrom:
+                secretKeyRef:
+                  name: environment-secret
+                  key: ENVIRONMENT
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
-                  name: jwt-secret
+                  name: environment-secret
                   key: JWT_KEY
-            - name: NATS_CLUSTER_ID
-              value: "tickets"
-            - name: NATS_URL
-              value: "nats://nats-srv:4222"
             - name: NATS_CLIENT_ID
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: ticketing-orders-secret
+                  key: DB_USER
+            - name: DB_USER_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: ticketing-orders-secret
+                  key: DB_USER_PWD
 
 ---
 apiVersion: v1
