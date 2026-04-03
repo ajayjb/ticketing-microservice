@@ -25,4 +25,4 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 ticketing-production
 
       - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f $GITHUB_WORKSPACE/infra/k8s/*
+        run: kubectl apply -f $GITHUB_WORKSPACE/infra/k8s/* && kubectl apply -f $GITHUB_WORKSPACE/infra/k8s-production/*
