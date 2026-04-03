@@ -94,8 +94,8 @@ const OrderCard = ({ order }: IProps) => {
             </div>
 
             <div className="text-lg font-mono font-bold text-amber-700 tracking-widest">
-              {String(timeRemaining.minutes).padStart(2, "0")}:
-              {String(timeRemaining.seconds).padStart(2, "0")}
+              {String(timeRemaining.minutes)?.padStart(2, "0")}:
+              {String(timeRemaining.seconds)?.padStart(2, "0")}
             </div>
           </div>
         )}
