@@ -3,8 +3,6 @@ import { natsWrapper } from "./services/nats.service";
 import { OrderCreatedListener } from "./events/listeners/orderCreatedListener";
 
 const startApp = async () => {
-  console.log("Starting expiration service...");
-
   await natsWrapper.connect(
     sanitizedConfig.NATS_CLUSTER_ID,
     sanitizedConfig.NATS_CLIENT_ID,
