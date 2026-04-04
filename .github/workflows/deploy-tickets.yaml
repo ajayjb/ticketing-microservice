@@ -6,8 +6,8 @@ on:
       - main
     paths:
       - "tickets/**/*"
-      - ".github/workflows/tests-tickets.yml"
-      - ".github/workflows/deploy-tickets.yml"
+      - ".github/workflows/tests-tickets.yaml"
+      - ".github/workflows/deploy-tickets.yaml"
 
 env:
   IMAGE_TAG: ajayjb/ticketing-tickets:latest

@@ -6,8 +6,8 @@ on:
       - main
     paths:
       - "payments/**/*"
-      - ".github/workflows/tests-payments.yml"
-      - ".github/workflows/deploy-payments.yml"
+      - ".github/workflows/tests-payments.yaml"
+      - ".github/workflows/deploy-payments.yaml"
 
 env:
   IMAGE_TAG: ajayjb/ticketing-payments:latest

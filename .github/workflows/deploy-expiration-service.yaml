@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "expiration-service/**/*"
+      - ".github/workflows/deploy-expiration-service.yaml"
 
 env:
   IMAGE_TAG: ajayjb/expiration-service:latest

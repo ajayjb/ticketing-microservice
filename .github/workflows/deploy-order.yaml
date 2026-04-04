@@ -6,8 +6,8 @@ on:
       - main
     paths:
       - "orders/**/*"
-      - ".github/workflows/tests-orders.yml"
-      - ".github/workflows/deploy-orders.yml"
+      - ".github/workflows/tests-orders.yaml"
+      - ".github/workflows/deploy-orders.yaml"
 
 env:
   IMAGE_TAG: ajayjb/ticketing-orders:latest
