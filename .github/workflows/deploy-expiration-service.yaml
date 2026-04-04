@@ -8,7 +8,7 @@ on:
       - "expiration-service/**/*"
 
 env:
-  IMAGE_TAG: ajayjb/expiration-service:production-${{ github.sha }}
+  IMAGE_TAG: ajayjb/expiration-service:latest
 
 jobs:
   build:

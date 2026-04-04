@@ -8,7 +8,7 @@ on:
       - "client/**/*"
 
 env:
-  IMAGE_TAG: ajayjb/ticketing-client:production-${{ github.sha }}
+  IMAGE_TAG: ajayjb/ticketing-client:latest
 
 jobs:
   build:

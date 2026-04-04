@@ -10,7 +10,7 @@ on:
       - ".github/workflows/deploy-tickets.yml"
 
 env:
-  IMAGE_TAG: ajayjb/ticketing-tickets:production-${{ github.sha }}
+  IMAGE_TAG: ajayjb/ticketing-tickets:latest
 
 jobs:
   build:
