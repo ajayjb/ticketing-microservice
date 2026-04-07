@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { headers } from "next/headers";
 import { INGRESS_NGINX_CONTROLLER_SVC_URL } from "@/constants/apiEndpoint";
+import { getHostName } from "@/utils/getHostName";
 
 export const buildClient = async (): Promise<AxiosInstance> => {
   const incomingHeaders = await headers();
@@ -12,7 +13,7 @@ export const buildClient = async (): Promise<AxiosInstance> => {
 
   const client = axios.create({
     baseURL: INGRESS_NGINX_CONTROLLER_SVC_URL,
-    headers: { ...forwardedHeaders, host: "tickets.com" },
+    headers: { ...forwardedHeaders, host: getHostName() },
   });
 
   return client;
