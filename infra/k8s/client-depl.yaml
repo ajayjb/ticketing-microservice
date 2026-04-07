@@ -16,7 +16,7 @@ spec:
         - name: ticketing-client
           image: ajayjb/ticketing-client:latest
           env:
-            - name: ENVIRONMENT
+            - name: NEXT_PUBLIC_ENVIRONMENT
               valueFrom:
                 secretKeyRef:
                   name: environment-secret
