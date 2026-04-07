@@ -27,7 +27,8 @@ class App {
     this.server.set("trust proxy", 1); // Trust first proxy
     this.server.use(
       cookieSession({
-        secure: sanitizedConfig.ENVIRONMENT === ENVIRONMENTS.production,
+        // secure: sanitizedConfig.ENVIRONMENT === ENVIRONMENTS.production,
+        secure: false, // only for testing
         httpOnly: true,
         signed: false,
       })
