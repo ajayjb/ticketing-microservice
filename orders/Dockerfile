@@ -1,5 +1,5 @@
 # Build stage
-FROM node:22-alpine as builder
+FROM node:22-alpine AS builder
 
 WORKDIR /usr/app
 
@@ -12,7 +12,7 @@ COPY . .
 RUN yarn build
 
 # Production stage
-FROM node:22-alpine
+FROM node:22-alpine AS runner
 
 WORKDIR /usr/app
 
