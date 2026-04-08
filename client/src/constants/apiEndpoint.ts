@@ -24,5 +24,7 @@ export const API_ENDPOINT = {
   },
 };
 
-export const INGRESS_NGINX_CONTROLLER_SVC_URL =
-  "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local";
+// export const INGRESS_NGINX_CONTROLLER_SVC_URL =
+//   "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local";
+
+export const INGRESS_NGINX_CONTROLLER_SVC_URL = "http://tix.ajayjb.shop"
