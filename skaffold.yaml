@@ -11,7 +11,7 @@ build:
     - image: ajayjb/ticketing-auth
       context: ./auth
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: src/**/*.ts
@@ -19,7 +19,7 @@ build:
     - image: ajayjb/ticketing-tickets
       context: ./tickets
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: src/**/*.ts
@@ -27,7 +27,11 @@ build:
     - image: ajayjb/ticketing-client
       context: ./client
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
+        buildArgs:
+          NEXT_PUBLIC_ENVIRONMENT: "development"
+          NEXT_PUBLIC_DOMAIN: "http://tickets.com"
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "pk_test_51LCOrSSBLPrtDVWN0Vzn7ebH0VoyAiKKJi0afxYvcQItFTW0uIjT54IQpu0fkVLvmQqSVGUeB3TGZwBGxTkjqo2M007k1MKEmg"
       sync:
         manual:
           - src: src/**/*.tsx
@@ -41,7 +45,7 @@ build:
     - image: ajayjb/ticketing-orders
       context: ./orders
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: src/**/*.ts
@@ -49,7 +53,7 @@ build:
     - image: ajayjb/expiration-service
       context: ./expiration-service
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: src/**/*.ts
@@ -57,7 +61,7 @@ build:
     - image: ajayjb/ticketing-payments
       context: ./payments
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: src/**/*.ts

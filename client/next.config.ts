@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
+const hostname = new URL(process.env.NEXT_PUBLIC_DOMAIN as string).hostname;
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  allowedDevOrigins: [
-    new URL(process.env.NEXT_PUBLIC_DOMAIN as string).hostname,
-  ],
+  allowedDevOrigins: [hostname],
   webpack: (config) => {
     return {
       ...config,
