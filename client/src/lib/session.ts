@@ -1,4 +1,3 @@
-import { cookies, headers } from "next/headers";
 import { AxiosError } from "axios";
 
 import { User } from "@/types/user";
@@ -6,26 +5,14 @@ import { API_ENDPOINT } from "@/constants/apiEndpoint";
 import { buildClient } from "@/lib/buildClient";
 import { ResponseStatusCode } from "@/constants/responseStatusCodes";
 
-export const getSession = async (): Promise<string | undefined> => {
-  const cookieStore = await cookies();
-  return cookieStore.get("session")?.value;
-};
-
 export const checkAuth = async (): Promise<User | null> => {
-  const incomingHeaders = await headers();
   let user: User | null = null;
-
-  const forwardedHeaders: Record<string, string> = {};
-  for (const [key, value] of incomingHeaders.entries()) {
-    forwardedHeaders[key] = value;
-  }
 
   try {
     const client = await buildClient();
 
     const res = await client.get<{ data: User }>(
-      API_ENDPOINT.USER.CURRENT_USER,
-      forwardedHeaders,
+      API_ENDPOINT.USER.CURRENT_USER
     );
 
     user = res.data.data;
@@ -36,7 +23,7 @@ export const checkAuth = async (): Promise<User | null> => {
         console.log(
           "Authentication error:",
           error.response?.status,
-          error.response?.data,
+          error.response?.data
         );
       } else {
         console.log(error.response?.status, error.response?.data);
