@@ -11,8 +11,6 @@ export const checkAuth = async (): Promise<User | null> => {
   try {
     const client = await buildClient();
 
-    console.log(client.defaults.baseURL, client.defaults.headers, "Request");
-
     const res = await client.get<{ data: User }>(
       API_ENDPOINT.USER.CURRENT_USER
     );
@@ -28,10 +26,10 @@ export const checkAuth = async (): Promise<User | null> => {
           error.response?.data
         );
       } else {
-        console.log(error.response?.status, error.response?.data, "Error");
+        console.log("Error", error.response?.status, error.response?.data);
       }
     } else {
-      console.log(error, "Error");
+      console.log("Error", error);
     }
   }
   return user;

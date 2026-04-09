@@ -9,8 +9,6 @@ import TicketCard from "@/features/ticketCard";
 const Home = async () => {
   const auth = await checkAuth();
 
-  console.log("authauthauth", auth)
-
   if (!auth) {
     redirect(ROUTES.SIGNIN);
   }
