@@ -26,10 +26,10 @@ export const checkAuth = async (): Promise<User | null> => {
           error.response?.data
         );
       } else {
-        console.log(error.response?.status, error.response?.data);
+        console.log("Error", error.response?.status, error.response?.data);
       }
     } else {
-      console.log(error);
+      console.log("Error", error);
     }
   }
   return user;
