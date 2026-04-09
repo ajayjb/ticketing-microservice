@@ -24,6 +24,4 @@ const getSanitizedConfig = (config: Env): Env => {
 const config = getConfig();
 const sanitizedConfig = getSanitizedConfig(config);
 
-console.log("sanitizedConfig", sanitizedConfig)
-
 export { sanitizedConfig };

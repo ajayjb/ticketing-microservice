@@ -11,8 +11,6 @@ export default async function PublicLayout({
 }>) {
   const auth = await checkAuth();
 
-  console.log("auth", auth)
-
   if (!auth) {
     redirect(ROUTES.SIGNIN);
   }
