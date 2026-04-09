@@ -17,6 +17,8 @@ export const buildClient = async (
     forwardedHeaders[key] = value;
   }
 
+  console.log("getHostName()", getHostName())
+
   const client = axios.create({
     baseURL: INGRESS_NGINX_CONTROLLER_SVC_URL,
     headers: { ...forwardedHeaders, ...otherHeaders, host: getHostName() },
